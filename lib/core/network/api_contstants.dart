@@ -1,0 +1,5 @@
+class ApiConstants {
+  static const Duration timeout= Duration(seconds: 30);
+  static const String publishable="x-publishable-api-key";
+  static const String apiKey="pk_ecbf59591d859787be74acff3df180060ed990228d9dba0e95bfdc25182a23e6";
+}
