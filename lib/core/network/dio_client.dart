@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:my_store/core/network/api_contstants.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class DioClient {
   DioClient._();
@@ -17,6 +19,26 @@ class DioClient {
         }
       ),
     );
+    _addInterceptors();
     return _dio!;
+  }
+
+ static void _addInterceptors(){
+   _dio?.interceptors.add(
+     InterceptorsWrapper(
+       onError: (error, handler) {
+         if (kDebugMode) {
+           print("Error Dio: ${error.message}");
+         }
+         return handler.next(error);
+       },
+     ),
+   );
+    _dio?.interceptors.add(PrettyDioLogger(
+      requestHeader: true,
+      requestBody: true,
+      responseBody: true,
+      responseHeader: false,
+    ));
   }
 }
