@@ -6,7 +6,7 @@ class RemoteDataSourceImpl implements RemoteDataSource{
   final RestClient restClient;
   RemoteDataSourceImpl({required this.restClient});
   @override
-  Future<ProductModels> getProducts()async {
-  return  restClient.getProduct();
+  Future<ProductResponseModel> getProducts()async {
+  return  restClient.getProduct("id,title,thumbnail",);
   }
  }
