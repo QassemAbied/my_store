@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:my_store/core/network/dio_client.dart';
-import 'package:my_store/core/utils/use_case.dart';
+import 'package:my_store/core/network/use_case.dart';
 import 'package:my_store/features/home/data/data_source/remote_data_source.dart';
 import 'package:my_store/features/home/data/data_source/remote_data_source_impl.dart';
 import 'package:my_store/features/home/domain/repositories/home_repositories.dart';
