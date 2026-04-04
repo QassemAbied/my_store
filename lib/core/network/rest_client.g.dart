@@ -22,9 +22,17 @@ class _RestClient implements RestClient {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<ProductResponseModel> getProduct(String fields) async {
+  Future<ProductResponseModel> getProduct(
+    String fields,
+    int limit,
+    int offset,
+  ) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'fields': fields};
+    final queryParameters = <String, dynamic>{
+      r'fields': fields,
+      r'limit': limit,
+      r'offset': offset,
+    };
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<ProductResponseModel>(
