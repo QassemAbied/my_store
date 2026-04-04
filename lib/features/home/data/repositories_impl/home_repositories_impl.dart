@@ -4,6 +4,7 @@ import 'package:my_store/features/home/data/data_source/remote_data_source.dart'
 import 'package:my_store/features/home/domain/entities/product_entities.dart';
 import 'package:my_store/features/home/domain/repositories/home_repositories.dart';
 
+import '../../domain/entities/product_param.dart';
 import '../../domain/mappers/product_mapper.dart';
 
 class HomeRepositoriesImpl implements HomeRepositories{
@@ -11,9 +12,9 @@ class HomeRepositoriesImpl implements HomeRepositories{
 
   HomeRepositoriesImpl(this.remoteDataSource);
   @override
-  Future<ApiResult<ProductResponseEntity>> getProducts() async{
+  Future<ApiResult<ProductResponseEntity>> getProducts(ProductParams params) async{
     try {
-      final result = await remoteDataSource.getProducts();
+      final result = await remoteDataSource.getProducts(params);
       final productEntities = ProductMapper.productResponseItemEntity(result);
       return ApiResult.success(productEntities);
     } catch (e) {
