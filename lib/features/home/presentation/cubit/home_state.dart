@@ -6,9 +6,11 @@ class HomeState {}
 final class HomeInitial extends HomeState {}
 final class ProductLoading extends HomeState {}
 final class ProductSuccess extends HomeState {
-  final ProductResponseEntity productEntities;
+  final List<ProductItemEntity> product;
 
-  ProductSuccess(this.productEntities);
+
+
+  ProductSuccess({required this.product});
 }
 final class ProductFailure extends HomeState {
   final String err;
