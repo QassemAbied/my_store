@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:my_store/core/error/failures.dart';
+import 'package:my_store/features/cart/domain/entities/add_cart_request.dart';
 import 'package:my_store/features/cart/domain/entities/cart_item.dart';
 import 'package:my_store/features/cart/domain/repository.dart';
 import '../../../core/network/api_result.dart';
@@ -41,6 +42,16 @@ class CartRepositoryImpl implements CartRepository {
       final res = await _cartRemoteDataSource.getCartItems(id);
       final cartResponseEntity = CartMapper.toResponseEntity(res);
       return ApiResult.success(cartResponseEntity);
+    } catch (failure) {
+      return ApiResult.failure(ServerFailure());
+    }
+  }
+
+  @override
+  Future<ApiResult<void>> addToCart(AddCartRequest request) async{
+    try {
+      final res = await _cartRemoteDataSource.addToCart(request);
+      return ApiResult.success(res);
     } catch (failure) {
       return ApiResult.failure(ServerFailure());
     }
