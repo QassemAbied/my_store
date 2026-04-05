@@ -16,3 +16,13 @@ class CartItemsError extends CartState {
   final String message;
   CartItemsError(this.message);
 }
+
+
+class AddCartLoading extends CartState {}
+
+class AddCartSuccess extends CartState {}
+
+class AddCartError extends CartState {
+  final String message;
+  AddCartError(this.message);
+}
