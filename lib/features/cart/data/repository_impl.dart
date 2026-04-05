@@ -97,4 +97,24 @@ class CartRepositoryImpl implements CartRepository {
       return ApiResult.failure(ServerFailure());
     }
   }
+
+  @override
+  Future<ApiResult<void>> addShippingOptions(AddShippingOptionParams params)async {
+    try {
+      final res =await _cartRemoteDataSource.addShippingOptions(params);
+      return ApiResult.success(res);
+    } catch (failure) {
+      return ApiResult.failure(ServerFailure());
+    }
+  }
+
+  @override
+  Future<ApiResult<void>> completeCart(String cartId) async {
+    try {
+      await _cartRemoteDataSource.completeCart(cartId);
+      return ApiResult.success(null);
+    } catch (e) {
+      return ApiResult.failure(ServerFailure());
+    }
+  }
 }

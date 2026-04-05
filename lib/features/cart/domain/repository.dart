@@ -13,5 +13,6 @@ abstract class CartRepository {
   Future<ApiResult<void>> deleteCartItem(DeleteCartParams params);
   Future<ApiResult<void>> updateCartItem(UpdateCartParams params);
   Future<ApiResult<ShippingEntity>> getShippingOptions(String cartId);
-
+  Future<ApiResult<void>> addShippingOptions(AddShippingOptionParams params);
+  Future<ApiResult<void>> completeCart(String cartId);
 }
