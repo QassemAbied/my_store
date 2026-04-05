@@ -7,40 +7,32 @@ abstract class CartState {}
 class CartInitial extends CartState {}
 
 class CartItemsLoading extends CartState {}
-
 class CartItemsSuccess extends CartState {
   final CartResponseEntity cartResponseEntity;
 
   CartItemsSuccess(this.cartResponseEntity);
 }
-
 class CartItemsError extends CartState {
   final String message;
   CartItemsError(this.message);
 }
 
 class AddCartLoading extends CartState {}
-
 class AddCartSuccess extends CartState {}
-
 class AddCartError extends CartState {
   final String message;
   AddCartError(this.message);
 }
 
 class DeleteCartLoading extends CartState {}
-
 class DeleteCartSuccess extends CartState {}
-
 class DeleteCartError extends CartState {
   final String message;
   DeleteCartError(this.message);
 }
 
 class UpdateCartLoading extends CartState {}
-
 class UpdateCartSuccess extends CartState {}
-
 class UpdateCartError extends CartState {
   final String message;
   UpdateCartError(this.message);
@@ -48,13 +40,33 @@ class UpdateCartError extends CartState {
 
 
 class ShippingLoading extends CartState {}
-
 class ShippingSuccess extends CartState {
   final ShippingEntity shippingEntity;
   ShippingSuccess(this.shippingEntity);
 }
-
 class ShippingError extends CartState {
   final String message;
   ShippingError(this.message);
 }
+
+class AddShippingLoading extends CartState {}
+class AddShippingSuccess extends CartState {}
+class AddShippingError extends CartState {
+  final String message;
+  AddShippingError(this.message);
+}
+
+
+
+class CheckoutLoading extends CartState {}
+
+class CheckoutSuccess extends CartState {}
+
+class CheckoutError extends CartState {
+  final String message;
+  CheckoutError(this.message);
+}
+
+
+
+

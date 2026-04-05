@@ -4,7 +4,9 @@ import 'package:my_store/features/cart/domain/usecases/update_cart_use_case.dart
 import '../../../../core/network/use_case.dart';
 import '../../domain/entities/params.dart';
 import '../../domain/usecases/add_cart_use_case.dart';
+import '../../domain/usecases/add_shipping_use_cas.dart';
 import '../../domain/usecases/cart_item_use_case.dart';
+import '../../domain/usecases/complete_cart_use_case.dart';
 import '../../domain/usecases/create_cart_use_case.dart';
 import '../../domain/usecases/delete_cart_use_case.dart';
 import '../../domain/usecases/regions_use_case.dart';
@@ -19,6 +21,10 @@ class CartCubit extends Cubit<CartState> {
   final DeleteCartUseCase deleteCartUseCase;
   final UpdateCartUseCase updateCartUseCase;
   final ShippingUseCase shippingUseCase;
+   final AddShippingUseCas addShippingUseCas;
+   final CompleteCartUseCase completeCartUseCase;
+
+
 
 
   CartCubit(
@@ -29,6 +35,8 @@ class CartCubit extends Cubit<CartState> {
     this.deleteCartUseCase,
     this.updateCartUseCase,
       this.shippingUseCase,
+      this.addShippingUseCas,
+      this.completeCartUseCase
   ) : super(CartInitial());
 
   String? cartId;
@@ -166,4 +174,55 @@ class CartCubit extends Cubit<CartState> {
     );
 
   }
+
+  Future<void> addShippingOptions({
+    required String shippingOptionId,
+  }) async {
+    emit(AddShippingLoading());
+
+    await ensureCartId();
+
+    if (cartId == null) {
+      emit(AddShippingError("Cart Id is null"));
+      return;
+    }
+
+    final result = await addShippingUseCas(
+      AddShippingOptionParams(cartId!,
+          {"option_id": shippingOptionId}));
+    result.result.fold((failure) =>
+        emit(AddShippingError(failure.toString())), (
+        _,
+        ) async {
+      // await getCartItems();
+      emit(AddShippingSuccess());
+    });
+  }
+
+
+  Future<void> checkout() async {
+    emit(CheckoutLoading());
+
+    await ensureCartId();
+
+    if (cartId == null) {
+      emit(CheckoutError("Cart Id is null"));
+      return;
+    }
+
+    final result = await completeCartUseCase(cartId!);
+
+    result.result.fold(
+          (failure) => emit(CheckoutError("Checkout failed")),
+          (_) async {
+        // 🧹 ممكن تمسح الكارت بعد النجاح
+        cartId = null;
+        await SharedPrefHelper.removeData( 'cartId');
+
+        emit(CheckoutSuccess());
+      },
+    );
+  }
+
+
 }
