@@ -8,5 +8,5 @@ abstract class CartRemoteDataSource {
   Future<String> createCart(Map<String, dynamic> body);
 
   Future<CartResponseModel> getCartItems(String id);
-  // Future<void> addToCart(AddCartRequest request);
+  Future<void> addToCart(AddCartRequest request);
 }

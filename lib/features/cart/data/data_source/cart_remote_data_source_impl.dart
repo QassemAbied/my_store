@@ -26,8 +26,8 @@ class CartRemoteDataSourceImpl  implements CartRemoteDataSource {
 
   }
 
-  // @override
-  // Future<void> addToCart(AddCartRequest request)async {
-  //   return await _restClient.addCart(request.cartId, request.body);
-  // }
+  @override
+  Future<void> addToCart(AddCartRequest request)async {
+    return await _restClient.addCart(request.cartId, request.body);
+  }
 }
