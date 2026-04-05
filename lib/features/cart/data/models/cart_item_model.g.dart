@@ -44,5 +44,6 @@ Map<String, dynamic> _$CartItemModelToJson(CartItemModel instance) =>
       'id': instance.id,
       'product_title': instance.title,
       'quantity': instance.quantity,
+      'thumbnail': instance.thumbnail,
       'unit_price': instance.price,
     };
