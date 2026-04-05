@@ -7,8 +7,14 @@ import 'package:my_store/features/home/data/data_source/remote_data_source_impl.
 import 'package:my_store/features/home/domain/repositories/home_repositories.dart';
 import 'package:my_store/features/home/domain/usecases/product_usecase.dart';
 import 'package:my_store/features/home/presentation/cubit/home_cubit.dart';
+import 'package:my_store/features/products/domain/repository.dart';
+import 'package:my_store/features/products/domain/usecases/get_products_details.dart';
+import 'package:my_store/features/products/presentation/cubit/product_details_cubit.dart';
 import 'core/network/rest_client.dart';
 import 'features/home/data/repositories_impl/home_repositories_impl.dart';
+import 'features/products/data/data_source/product_details_remote_data_source.dart';
+import 'features/products/data/data_source/product_details_remote_data_source_impl.dart';
+import 'features/products/data/repository_impl.dart';
 
 final sl = GetIt.instance;
 
@@ -16,9 +22,18 @@ Future<void> init() async {
   sl.registerLazySingleton<Dio>(() => DioClient.getDio());
   sl.registerLazySingleton<RestClient>(() => RestClient(sl()));
 
-  sl.registerLazySingleton<RemoteDataSource>(()=>RemoteDataSourceImpl(restClient: sl()));
- sl.registerLazySingleton<HomeRepositories>(()=>HomeRepositoriesImpl(sl()));
+  sl.registerLazySingleton<RemoteDataSource>(
+    () => RemoteDataSourceImpl(restClient: sl()),
+  );
+  sl.registerLazySingleton<HomeRepositories>(() => HomeRepositoriesImpl(sl()));
   sl.registerLazySingleton<ProductUseCase>(() => ProductUseCase(sl()));
+  sl.registerFactory(() => HomeCubit(sl()));
 
- sl.registerFactory(()=>HomeCubit(sl()));
+
+  sl.registerLazySingleton<ProductDetailsRemoteDataSource>(
+        () => ProductDetailsRemoteDataSourceImpl( sl()),
+  );
+  sl.registerLazySingleton<ProductDetailsRepository>(() => ProductDetailsRepositoryImpl(sl()));
+  sl.registerLazySingleton<GetProductsDetailsUseCase>(() => GetProductsDetailsUseCase(sl()));
+  sl.registerFactory(() => ProductDetailsCubit(sl()));
 }
