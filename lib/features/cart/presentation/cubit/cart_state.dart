@@ -17,7 +17,6 @@ class CartItemsError extends CartState {
   CartItemsError(this.message);
 }
 
-
 class AddCartLoading extends CartState {}
 
 class AddCartSuccess extends CartState {}
@@ -25,4 +24,22 @@ class AddCartSuccess extends CartState {}
 class AddCartError extends CartState {
   final String message;
   AddCartError(this.message);
+}
+
+class DeleteCartLoading extends CartState {}
+
+class DeleteCartSuccess extends CartState {}
+
+class DeleteCartError extends CartState {
+  final String message;
+  DeleteCartError(this.message);
+}
+
+class UpdateCartLoading extends CartState {}
+
+class UpdateCartSuccess extends CartState {}
+
+class UpdateCartError extends CartState {
+  final String message;
+  UpdateCartError(this.message);
 }
