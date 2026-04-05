@@ -1,5 +1,6 @@
 import 'package:my_store/core/network/rest_client.dart';
 import 'package:my_store/features/cart/data/models/cart_item_model.dart';
+import 'package:my_store/features/cart/data/models/shipping_model.dart';
 import 'package:my_store/features/cart/domain/entities/params.dart';
 import 'cart_remote_data_source.dart';
 
@@ -40,5 +41,10 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
       params.lineId,
       params.body,
     );
+  }
+
+  @override
+  Future<ShippingResponseModel> getShippingOptions(String cartId)async {
+    return await _restClient.getShippingOptions(cartId);
   }
 }
