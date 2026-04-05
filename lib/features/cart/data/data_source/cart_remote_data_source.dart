@@ -11,4 +11,6 @@ abstract class CartRemoteDataSource {
   Future<void> deleteCartItem(DeleteCartParams params);
   Future<void> updateCartItem(UpdateCartParams params);
   Future<ShippingResponseModel> getShippingOptions(String cartId);
+  Future<void> addShippingOptions(AddShippingOptionParams params);
+  Future<void> completeCart(String cartId);
 }

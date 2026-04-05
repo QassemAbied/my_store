@@ -44,7 +44,16 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
   }
 
   @override
-  Future<ShippingResponseModel> getShippingOptions(String cartId)async {
+  Future<ShippingResponseModel> getShippingOptions(String cartId) async {
     return await _restClient.getShippingOptions(cartId);
+  }
+
+  @override
+  Future<void> addShippingOptions(AddShippingOptionParams params) async {
+    return await _restClient.addShippingMethod(params.cartId, params.body);
+  }
+  @override
+  Future<void> completeCart(String cartId) async {
+    await _restClient.completeCart(cartId);
   }
 }
