@@ -1,5 +1,7 @@
 import 'package:my_store/features/cart/domain/entities/cart_item.dart';
 
+import '../../domain/entities/shipping_entites.dart';
+
 abstract class CartState {}
 
 class CartInitial extends CartState {}
@@ -42,4 +44,17 @@ class UpdateCartSuccess extends CartState {}
 class UpdateCartError extends CartState {
   final String message;
   UpdateCartError(this.message);
+}
+
+
+class ShippingLoading extends CartState {}
+
+class ShippingSuccess extends CartState {
+  final ShippingEntity shippingEntity;
+  ShippingSuccess(this.shippingEntity);
+}
+
+class ShippingError extends CartState {
+  final String message;
+  ShippingError(this.message);
 }

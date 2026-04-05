@@ -8,6 +8,7 @@ import '../../domain/usecases/cart_item_use_case.dart';
 import '../../domain/usecases/create_cart_use_case.dart';
 import '../../domain/usecases/delete_cart_use_case.dart';
 import '../../domain/usecases/regions_use_case.dart';
+import '../../domain/usecases/shipping_use_case.dart';
 import 'cart_state.dart';
 
 class CartCubit extends Cubit<CartState> {
@@ -17,6 +18,8 @@ class CartCubit extends Cubit<CartState> {
   final AddCartUseCase addCartUseCase;
   final DeleteCartUseCase deleteCartUseCase;
   final UpdateCartUseCase updateCartUseCase;
+  final ShippingUseCase shippingUseCase;
+
 
   CartCubit(
     this.regionsUseCase,
@@ -25,6 +28,7 @@ class CartCubit extends Cubit<CartState> {
     this.addCartUseCase,
     this.deleteCartUseCase,
     this.updateCartUseCase,
+      this.shippingUseCase,
   ) : super(CartInitial());
 
   String? cartId;
@@ -143,5 +147,23 @@ class CartCubit extends Cubit<CartState> {
       //await getCartItems();
       emit(UpdateCartSuccess());
     });
+  }
+
+
+  Future<void> getShippingOptions() async {
+    emit(ShippingLoading());
+    await ensureCartId();
+    if (cartId == null) {
+      emit(ShippingError("Cart Id is null"));
+      return;
+    }
+    final result = await shippingUseCase(
+      cartId!,
+    );
+    result.result.fold(
+      (failure) => emit(ShippingError("Get Shipping Error")),
+      (shippingData) => emit(ShippingSuccess(shippingData)),
+    );
+
   }
 }
