@@ -5,7 +5,9 @@ import 'package:my_store/core/network/use_case.dart';
 import 'package:my_store/features/cart/data/data_source/cart_remote_data_source.dart';
 import 'package:my_store/features/cart/domain/repository.dart';
 import 'package:my_store/features/cart/domain/usecases/add_cart_use_case.dart';
+import 'package:my_store/features/cart/domain/usecases/add_shipping_use_cas.dart';
 import 'package:my_store/features/cart/domain/usecases/cart_item_use_case.dart';
+import 'package:my_store/features/cart/domain/usecases/complete_cart_use_case.dart';
 import 'package:my_store/features/cart/domain/usecases/create_cart_use_case.dart';
 import 'package:my_store/features/cart/domain/usecases/regions_use_case.dart';
 import 'package:my_store/features/cart/domain/usecases/shipping_use_case.dart';
@@ -64,7 +66,9 @@ Future<void> init() async {
   sl.registerLazySingleton<DeleteCartUseCase>(() => DeleteCartUseCase(sl()));
   sl.registerLazySingleton<UpdateCartUseCase>(() => UpdateCartUseCase(sl()));
   sl.registerLazySingleton<ShippingUseCase>(() => ShippingUseCase(sl()));
+  sl.registerLazySingleton<AddShippingUseCas>(() => AddShippingUseCas(sl()));
+  sl.registerLazySingleton<CompleteCartUseCase>(() => CompleteCartUseCase(sl()));
 
 
-  sl.registerFactory(() => CartCubit(sl(), sl(), sl(), sl(),sl(), sl(), sl()));
+  sl.registerFactory(() => CartCubit(sl(), sl(), sl(), sl(),sl(),sl(),sl(), sl(), sl()));
 }
