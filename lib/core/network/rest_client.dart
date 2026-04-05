@@ -3,6 +3,7 @@ import 'package:my_store/core/network/api_contstants.dart';
 import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
 import '../../features/cart/data/models/cart_item_model.dart';
+import '../../features/cart/data/models/shipping_model.dart';
 import '../../features/home/data/models/product_models.dart';
 import '../../features/products/data/models/product_details_model.dart';
 part 'rest_client.g.dart';
@@ -59,4 +60,9 @@ abstract class RestClient {
     @Path("lineId") String lineId,
     @Body() Map<String, dynamic> body,
   );
+
+  @GET("/store/shipping-options")
+  Future<ShippingResponseModel> getShippingOptions(
+      @Query("cart_id") String cartId,
+      );
 }
