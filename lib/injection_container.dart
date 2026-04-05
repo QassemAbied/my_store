@@ -4,6 +4,7 @@ import 'package:my_store/core/network/dio_client.dart';
 import 'package:my_store/core/network/use_case.dart';
 import 'package:my_store/features/cart/data/data_source/cart_remote_data_source.dart';
 import 'package:my_store/features/cart/domain/repository.dart';
+import 'package:my_store/features/cart/domain/usecases/add_cart_use_case.dart';
 import 'package:my_store/features/cart/domain/usecases/cart_item_use_case.dart';
 import 'package:my_store/features/cart/domain/usecases/create_cart_use_case.dart';
 import 'package:my_store/features/cart/domain/usecases/regions_use_case.dart';
@@ -53,5 +54,6 @@ Future<void> init() async {
   sl.registerLazySingleton<CreateCartUseCase>(() => CreateCartUseCase(sl()));
   sl.registerLazySingleton<CartItemUseCase>(() => CartItemUseCase(sl()));
   sl.registerLazySingleton<RegionsUseCase>(() => RegionsUseCase(sl()));
-  sl.registerFactory(() => CartCubit(sl(),sl(),sl(),));
+  sl.registerLazySingleton<AddCartUseCase>(() => AddCartUseCase(sl()));
+  sl.registerFactory(() => CartCubit(sl(),sl(),sl(),sl(),));
 }
