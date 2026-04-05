@@ -65,4 +65,15 @@ abstract class RestClient {
   Future<ShippingResponseModel> getShippingOptions(
       @Query("cart_id") String cartId,
       );
+
+  @POST("${ApiConstants.carts}/{id}/shipping-methods")
+  Future<void> addShippingMethod(
+      @Path("id") String cartId,
+      @Body() Map<String, dynamic> body,
+      );
+
+  @POST("${ApiConstants.carts}/{id}/complete")
+  Future<void> completeCart(
+      @Path("id") String cartId,
+      );
 }
