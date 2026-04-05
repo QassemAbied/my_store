@@ -8,6 +8,7 @@ import 'package:my_store/features/cart/domain/usecases/add_cart_use_case.dart';
 import 'package:my_store/features/cart/domain/usecases/cart_item_use_case.dart';
 import 'package:my_store/features/cart/domain/usecases/create_cart_use_case.dart';
 import 'package:my_store/features/cart/domain/usecases/regions_use_case.dart';
+import 'package:my_store/features/cart/domain/usecases/shipping_use_case.dart';
 import 'package:my_store/features/cart/domain/usecases/update_cart_use_case.dart';
 import 'package:my_store/features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:my_store/features/cart/presentation/cubit/cart_state.dart';
@@ -62,6 +63,8 @@ Future<void> init() async {
   sl.registerLazySingleton<AddCartUseCase>(() => AddCartUseCase(sl()));
   sl.registerLazySingleton<DeleteCartUseCase>(() => DeleteCartUseCase(sl()));
   sl.registerLazySingleton<UpdateCartUseCase>(() => UpdateCartUseCase(sl()));
+  sl.registerLazySingleton<ShippingUseCase>(() => ShippingUseCase(sl()));
 
-  sl.registerFactory(() => CartCubit(sl(), sl(), sl(), sl(), sl(), sl()));
+
+  sl.registerFactory(() => CartCubit(sl(), sl(), sl(), sl(),sl(), sl(), sl()));
 }
