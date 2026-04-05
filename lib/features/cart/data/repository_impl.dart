@@ -3,9 +3,11 @@ import 'package:my_store/core/error/failures.dart';
 import 'package:my_store/core/services/shared_pref.dart';
 import 'package:my_store/features/cart/domain/entities/cart_item.dart';
 import 'package:my_store/features/cart/domain/entities/params.dart';
+import 'package:my_store/features/cart/domain/entities/shipping_entites.dart';
 import 'package:my_store/features/cart/domain/repository.dart';
 import '../../../core/network/api_result.dart';
 import '../domain/mappers/cart_item_mapper.dart';
+import '../domain/mappers/shipping_mapper.dart';
 import 'data_source/cart_remote_data_source.dart';
 import 'models/cart_id_model.dart';
 import 'models/regions_model.dart';
@@ -80,6 +82,17 @@ class CartRepositoryImpl implements CartRepository {
     try {
       final res = await _cartRemoteDataSource.updateCartItem(params);
       return ApiResult.success(res);
+    } catch (failure) {
+      return ApiResult.failure(ServerFailure());
+    }
+  }
+
+  @override
+  Future<ApiResult<ShippingEntity>> getShippingOptions(String cartId)async {
+    try {
+      final res = await _cartRemoteDataSource.getShippingOptions(cartId);
+      final shippingEntity = ShippingMapper.toEntity(res);
+      return ApiResult.success(shippingEntity);
     } catch (failure) {
       return ApiResult.failure(ServerFailure());
     }
