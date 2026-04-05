@@ -20,3 +20,9 @@ class UpdateCartParams {
 
   UpdateCartParams(this.cartId, this.lineId,  this.body);
 }
+
+class AddShippingOptionParams {
+  final String cartId;
+  final Map<String, dynamic> body;
+  AddShippingOptionParams(this.cartId, this.body);
+}
