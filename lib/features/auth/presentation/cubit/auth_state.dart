@@ -1,4 +1,5 @@
 import 'package:my_store/features/auth/domain/entities/auth_entity.dart';
+import 'package:my_store/features/auth/domain/entities/customer_entity.dart';
 
 abstract class AuthState {}
 
@@ -15,4 +16,19 @@ class RegisterAuthSuccess extends AuthState {
 class RegisterAuthError extends AuthState {
   final String message;
   RegisterAuthError(this.message);
+}
+
+
+
+class RegisterLoading extends AuthState {}
+
+class RegisterSuccess extends AuthState {
+  final CustomerEntity customerEntity;
+
+  RegisterSuccess(this.customerEntity);
+}
+
+class RegisterError extends AuthState {
+  final String message;
+  RegisterError(this.message);
 }
