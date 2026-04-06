@@ -1,0 +1,26 @@
+import 'package:my_store/core/error/failures.dart';
+
+import '../../../core/network/api_result.dart';
+import '../domain/entities/auth_entity.dart';
+import '../domain/entities/requests.dart';
+import '../domain/mapper/auth_mapper.dart';
+import '../domain/repository.dart';
+import 'data_source/auth_remote_data_source.dart';
+
+class AuthRepositoryImpl implements AuthRepository {
+  final AuthRemoteDataSource remoteDataSource;
+
+  AuthRepositoryImpl({required this.remoteDataSource});
+
+  @override
+  Future<ApiResult<AuthEntity>> registerAuth(LoginRequest request)
+  async {
+    try {
+      final result = await remoteDataSource.registerAuth(request);
+
+      return ApiResult.success(result.toEntity());
+    } catch (e) {
+      return ApiResult.failure(ServerFailure());
+    }
+  }
+}
