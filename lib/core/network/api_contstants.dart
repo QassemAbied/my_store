@@ -12,4 +12,7 @@ class ApiConstants {
   static const String categories = "/store/product-categories";
   static const String carts = "/store/carts";
   static const String regions = "/store/regions";
+  static const String authRegister = "/auth/customer/emailpass/register";
+  static const String profileRegister = "/store/register";
+  static const String login = "/auth/customer/emailpass";
 }
