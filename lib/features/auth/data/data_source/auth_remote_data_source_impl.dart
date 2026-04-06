@@ -28,4 +28,12 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource{
        "country": request.country,
      });
   }
+
+  @override
+  Future<AuthResponseModel> login(LoginRequest request)async {
+    return await _restClient.login({
+      "email": request.email,
+      "password": request.password,
+    });
+  }
 }
