@@ -5,6 +5,7 @@ import 'package:my_store/core/network/use_case.dart';
 import 'package:my_store/features/auth/data/data_source/auth_remote_data_source.dart';
 import 'package:my_store/features/auth/data/data_source/auth_remote_data_source_impl.dart';
 import 'package:my_store/features/auth/domain/repository.dart';
+import 'package:my_store/features/auth/domain/usecases/login_user_use_case.dart';
 import 'package:my_store/features/auth/domain/usecases/register_auth_use_case.dart';
 import 'package:my_store/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:my_store/features/cart/data/data_source/cart_remote_data_source.dart';
@@ -90,5 +91,7 @@ Future<void> init() async {
       RegisterAuthUseCase(sl()));
   sl.registerLazySingleton<RegisterUseCase>(() =>
       RegisterUseCase(sl()));
-  sl.registerFactory(() => AuthCubit(sl(), sl(),));
+  sl.registerLazySingleton<LoginUserUseCase>(() =>
+      LoginUserUseCase(sl()));
+  sl.registerFactory(() => AuthCubit(sl(), sl(),sl(),));
 }
