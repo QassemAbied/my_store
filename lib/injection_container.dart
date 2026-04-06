@@ -2,6 +2,11 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:my_store/core/network/dio_client.dart';
 import 'package:my_store/core/network/use_case.dart';
+import 'package:my_store/features/auth/data/data_source/auth_remote_data_source.dart';
+import 'package:my_store/features/auth/data/data_source/auth_remote_data_source_impl.dart';
+import 'package:my_store/features/auth/domain/repository.dart';
+import 'package:my_store/features/auth/domain/usecases/register_auth_use_case.dart';
+import 'package:my_store/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:my_store/features/cart/data/data_source/cart_remote_data_source.dart';
 import 'package:my_store/features/cart/domain/repository.dart';
 import 'package:my_store/features/cart/domain/usecases/add_cart_use_case.dart';
@@ -23,6 +28,7 @@ import 'package:my_store/features/products/domain/repository.dart';
 import 'package:my_store/features/products/domain/usecases/get_products_details.dart';
 import 'package:my_store/features/products/presentation/cubit/product_details_cubit.dart';
 import 'core/network/rest_client.dart';
+import 'features/auth/data/repository_impl.dart';
 import 'features/cart/data/data_source/cart_remote_data_source_impl.dart';
 import 'features/cart/data/repository_impl.dart';
 import 'features/cart/domain/usecases/delete_cart_use_case.dart';
@@ -69,6 +75,23 @@ Future<void> init() async {
   sl.registerLazySingleton<AddShippingUseCas>(() => AddShippingUseCas(sl()));
   sl.registerLazySingleton<CompleteCartUseCase>(() => CompleteCartUseCase(sl()));
 
+  sl.registerLazySingleton<AuthRemoteDataSource>(
+        () => AuthRemoteDataSourceImpl(sl()),
+  );
+  sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl( remoteDataSource: sl(),));
+  sl.registerFactory(() => CartCubit(sl(), sl(), sl(),
+      sl(),sl(),sl(),sl(), sl(), sl()));
 
-  sl.registerFactory(() => CartCubit(sl(), sl(), sl(), sl(),sl(),sl(),sl(), sl(), sl()));
+
+
+
+
+
+
+
+
+
+
+  sl.registerLazySingleton<RegisterAuthUseCase>(() => RegisterAuthUseCase(sl()));
+  sl.registerFactory(() => AuthCubit(sl(), ));
 }
