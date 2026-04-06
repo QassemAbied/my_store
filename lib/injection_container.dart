@@ -29,6 +29,7 @@ import 'package:my_store/features/products/domain/usecases/get_products_details.
 import 'package:my_store/features/products/presentation/cubit/product_details_cubit.dart';
 import 'core/network/rest_client.dart';
 import 'features/auth/data/repository_impl.dart';
+import 'features/auth/domain/usecases/register_use_case.dart';
 import 'features/cart/data/data_source/cart_remote_data_source_impl.dart';
 import 'features/cart/data/repository_impl.dart';
 import 'features/cart/domain/usecases/delete_cart_use_case.dart';
@@ -74,24 +75,20 @@ Future<void> init() async {
   sl.registerLazySingleton<ShippingUseCase>(() => ShippingUseCase(sl()));
   sl.registerLazySingleton<AddShippingUseCas>(() => AddShippingUseCas(sl()));
   sl.registerLazySingleton<CompleteCartUseCase>(() => CompleteCartUseCase(sl()));
-
-  sl.registerLazySingleton<AuthRemoteDataSource>(
-        () => AuthRemoteDataSourceImpl(sl()),
-  );
-  sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl( remoteDataSource: sl(),));
   sl.registerFactory(() => CartCubit(sl(), sl(), sl(),
       sl(),sl(),sl(),sl(), sl(), sl()));
 
 
 
 
-
-
-
-
-
-
-
-  sl.registerLazySingleton<RegisterAuthUseCase>(() => RegisterAuthUseCase(sl()));
-  sl.registerFactory(() => AuthCubit(sl(), ));
+  sl.registerLazySingleton<AuthRemoteDataSource>(
+        () => AuthRemoteDataSourceImpl(sl()),
+  );
+  sl.registerLazySingleton<AuthRepository>(() =>
+      AuthRepositoryImpl( remoteDataSource: sl(),));
+  sl.registerLazySingleton<RegisterAuthUseCase>(() =>
+      RegisterAuthUseCase(sl()));
+  sl.registerLazySingleton<RegisterUseCase>(() =>
+      RegisterUseCase(sl()));
+  sl.registerFactory(() => AuthCubit(sl(), sl(),));
 }
