@@ -36,4 +36,15 @@ class AuthRepositoryImpl implements AuthRepository {
       return ApiResult.failure(ServerFailure());
     }
   }
+
+  @override
+  Future<ApiResult<AuthEntity>> login(LoginRequest request) async{
+    try {
+      final result = await remoteDataSource.login(request);
+
+      return ApiResult.success(result.toEntity());
+    } catch (e) {
+      return ApiResult.failure(ServerFailure());
+    }
+  }
 }
