@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:my_store/core/network/api_contstants.dart';
 import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
+import '../../features/auth/data/models/auth_model.dart';
+import '../../features/auth/data/models/customer_model.dart';
 import '../../features/cart/data/models/cart_item_model.dart';
 import '../../features/cart/data/models/shipping_model.dart';
 import '../../features/home/data/models/product_models.dart';
@@ -75,5 +77,22 @@ abstract class RestClient {
   @POST("${ApiConstants.carts}/{id}/complete")
   Future<void> completeCart(
       @Path("id") String cartId,
+      );
+
+
+
+  @POST(ApiConstants.authRegister)
+  Future<AuthResponseModel> registerAuth(
+      @Body() Map<String, dynamic> body,
+      );
+
+  @POST(ApiConstants.profileRegister)
+  Future<CustomerModel> registerProfile(
+      @Body() Map<String, dynamic> body,
+      );
+
+  @POST(ApiConstants.login)
+  Future<AuthResponseModel> login(
+      @Body() Map<String, dynamic> body,
       );
 }
