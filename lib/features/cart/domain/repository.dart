@@ -1,6 +1,7 @@
 import 'package:my_store/core/network/api_result.dart';
 import 'package:my_store/features/cart/domain/entities/cart_item.dart';
 
+import 'entities/address_entities.dart';
 import 'entities/params.dart';
 import 'entities/shipping_entites.dart';
 
@@ -15,4 +16,10 @@ abstract class CartRepository {
   Future<ApiResult<ShippingEntity>> getShippingOptions(String cartId);
   Future<ApiResult<void>> addShippingOptions(AddShippingOptionParams params);
   Future<ApiResult<void>> completeCart(String cartId);
+
+
+
+  Future<ApiResult<AddressResponseEntity>> getAddresses();
+  Future<ApiResult<void>> addAddress(CreateAddressParams body);
+  Future<ApiResult<void>> deleteAddress(String addressId);
 }
