@@ -4,6 +4,7 @@ import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
 import '../../features/auth/data/models/auth_model.dart';
 import '../../features/auth/data/models/customer_model.dart';
+import '../../features/cart/data/models/address_model.dart';
 import '../../features/cart/data/models/cart_item_model.dart';
 import '../../features/cart/data/models/shipping_model.dart';
 import '../../features/home/data/models/product_models.dart';
@@ -78,7 +79,18 @@ abstract class RestClient {
   Future<void> completeCart(
       @Path("id") String cartId,
       );
+  @GET(ApiConstants.address)
+  Future<AddressResponseModel> getAddresses();
 
+  @POST(ApiConstants.address)
+  Future<void> addAddress(
+      @Body() Map<String, dynamic> body,
+      );
+
+  @DELETE("${ApiConstants.address}/{id}")
+  Future<void> deleteAddress(
+      @Path("id") String id,
+      );
 
 
   @POST(ApiConstants.authRegister)
