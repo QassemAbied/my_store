@@ -33,7 +33,10 @@ import 'features/auth/data/repository_impl.dart';
 import 'features/auth/domain/usecases/register_use_case.dart';
 import 'features/cart/data/data_source/cart_remote_data_source_impl.dart';
 import 'features/cart/data/repository_impl.dart';
+import 'features/cart/domain/usecases/add_address_use_case.dart';
+import 'features/cart/domain/usecases/delete_address_use_case.dart';
 import 'features/cart/domain/usecases/delete_cart_use_case.dart';
+import 'features/cart/domain/usecases/get_address_use_case.dart';
 import 'features/home/data/repositories_impl/home_repositories_impl.dart';
 import 'features/products/data/data_source/product_details_remote_data_source.dart';
 import 'features/products/data/data_source/product_details_remote_data_source_impl.dart';
@@ -76,8 +79,14 @@ Future<void> init() async {
   sl.registerLazySingleton<ShippingUseCase>(() => ShippingUseCase(sl()));
   sl.registerLazySingleton<AddShippingUseCas>(() => AddShippingUseCas(sl()));
   sl.registerLazySingleton<CompleteCartUseCase>(() => CompleteCartUseCase(sl()));
+  sl.registerLazySingleton<GetAddressUseCase>(() =>
+      GetAddressUseCase(sl()));
+  sl.registerLazySingleton<DeleteAddressUseCase>(() =>
+      DeleteAddressUseCase(sl()));
+  sl.registerLazySingleton<AddAddressUseCase>(() =>
+      AddAddressUseCase(sl()));
   sl.registerFactory(() => CartCubit(sl(), sl(), sl(),
-      sl(),sl(),sl(),sl(), sl(), sl()));
+      sl(),sl(),sl(),sl(), sl(), sl(), sl(), sl(),sl(),));
 
 
 
@@ -93,5 +102,6 @@ Future<void> init() async {
       RegisterUseCase(sl()));
   sl.registerLazySingleton<LoginUserUseCase>(() =>
       LoginUserUseCase(sl()));
+
   sl.registerFactory(() => AuthCubit(sl(), sl(),sl(),));
 }
