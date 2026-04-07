@@ -1,4 +1,5 @@
 import 'package:my_store/core/network/rest_client.dart';
+import 'package:my_store/features/cart/data/models/address_model.dart';
 import 'package:my_store/features/cart/data/models/cart_item_model.dart';
 import 'package:my_store/features/cart/data/models/shipping_model.dart';
 import 'package:my_store/features/cart/domain/entities/params.dart';
@@ -55,5 +56,30 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
   @override
   Future<void> completeCart(String cartId) async {
     await _restClient.completeCart(cartId);
+  }
+
+  @override
+  Future<void> addAddress(CreateAddressParams body)async {
+    return await _restClient.addAddress({
+      "first_name": body.firstName,
+      "last_name": body.lastName,
+      "phone": body.phone,
+      "address_1":  body.address1,
+      "address_2": body.address2,
+      "city": body.city,
+      "country_code": body.countryCode,
+
+
+    });
+  }
+
+  @override
+  Future<void> deleteAddress(String addressId)async {
+    await _restClient.deleteAddress(addressId);
+  }
+
+  @override
+  Future<AddressResponseModel> getAddresses()async {
+    return await _restClient.getAddresses();
   }
 }
