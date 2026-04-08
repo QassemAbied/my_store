@@ -6,6 +6,7 @@ import '../../features/auth/data/models/auth_model.dart';
 import '../../features/auth/data/models/customer_model.dart';
 import '../../features/cart/data/models/address_model.dart';
 import '../../features/cart/data/models/cart_item_model.dart';
+import '../../features/cart/data/models/payment_provider_model.dart';
 import '../../features/cart/data/models/shipping_model.dart';
 import '../../features/home/data/models/product_models.dart';
 import '../../features/products/data/models/product_details_model.dart';
@@ -67,6 +68,10 @@ abstract class RestClient {
   @GET("/store/shipping-options")
   Future<ShippingResponseModel> getShippingOptions(
       @Query("cart_id") String cartId,
+      );
+  @GET("/store/payment-providers")
+  Future<PaymentProvidersResponseModel> getPaymentProviders(
+      @Query("region_id") String regionId,
       );
 
   @POST("${ApiConstants.carts}/{id}/shipping-methods")
