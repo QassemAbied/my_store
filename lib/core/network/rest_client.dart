@@ -74,6 +74,11 @@ abstract class RestClient {
       @Path("id") String cartId,
       @Body() Map<String, dynamic> body,
       );
+  @POST("${ApiConstants.carts}/{id}")
+  Future<CartResponseModel> addShippingAddress(
+      @Path("id") String cartId,
+      @Body() Map<String, dynamic> body,
+      );
 
   @POST("${ApiConstants.carts}/{id}/complete")
   Future<void> completeCart(
