@@ -2,6 +2,7 @@ import 'package:my_store/features/cart/data/models/cart_item_model.dart';
 import 'package:my_store/features/cart/domain/entities/params.dart';
 
 import '../models/address_model.dart';
+import '../models/payment_provider_model.dart';
 import '../models/shipping_model.dart';
 
 abstract class CartRemoteDataSource {
@@ -21,5 +22,8 @@ abstract class CartRemoteDataSource {
 
   Future<CartResponseModel> addShippingAddress(
       ShippingAddressCartRequest request,
+      );
+  Future<PaymentProvidersResponseModel> getPaymentProviders(
+      String regionId,
       );
 }
