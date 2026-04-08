@@ -3,6 +3,7 @@ import 'package:my_store/features/cart/domain/entities/cart_item.dart';
 
 import 'entities/address_entities.dart';
 import 'entities/params.dart';
+import 'entities/payment_provider_entities.dart';
 import 'entities/shipping_entites.dart';
 
 abstract class CartRepository {
@@ -27,4 +28,7 @@ abstract class CartRepository {
   Future<ApiResult<CartResponseEntity>> addShippingAddress(
       ShippingAddressCartRequest request,
       );
+
+  Future<ApiResult<PaymentProvidersResponseEntity>>
+  getPaymentProviders(String regionId);
 }
