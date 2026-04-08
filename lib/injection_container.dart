@@ -34,6 +34,7 @@ import 'features/auth/domain/usecases/register_use_case.dart';
 import 'features/cart/data/data_source/cart_remote_data_source_impl.dart';
 import 'features/cart/data/repository_impl.dart';
 import 'features/cart/domain/usecases/add_address_use_case.dart';
+import 'features/cart/domain/usecases/add_shipping_address_use_case.dart';
 import 'features/cart/domain/usecases/delete_address_use_case.dart';
 import 'features/cart/domain/usecases/delete_cart_use_case.dart';
 import 'features/cart/domain/usecases/get_address_use_case.dart';
@@ -85,8 +86,10 @@ Future<void> init() async {
       DeleteAddressUseCase(sl()));
   sl.registerLazySingleton<AddAddressUseCase>(() =>
       AddAddressUseCase(sl()));
+  sl.registerLazySingleton<AddShippingAddressUseCase>(() =>
+      AddShippingAddressUseCase(sl()));
   sl.registerFactory(() => CartCubit(sl(), sl(), sl(),
-      sl(),sl(),sl(),sl(), sl(), sl(), sl(), sl(),sl(),));
+      sl(),sl(),sl(),sl(), sl(), sl(), sl(), sl(),sl(),sl(),));
 
 
 
