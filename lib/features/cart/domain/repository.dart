@@ -22,4 +22,9 @@ abstract class CartRepository {
   Future<ApiResult<AddressResponseEntity>> getAddresses();
   Future<ApiResult<void>> addAddress(CreateAddressParams body);
   Future<ApiResult<void>> deleteAddress(String addressId);
+
+
+  Future<ApiResult<CartResponseEntity>> addShippingAddress(
+      ShippingAddressCartRequest request,
+      );
 }
