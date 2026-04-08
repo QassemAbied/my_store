@@ -115,4 +115,16 @@ class DeleteAddressError extends CartState {
 
 
 
+class AddShippingAddressSuccess extends CartState {
+  final CartResponseEntity cart;
+  AddShippingAddressSuccess(this.cart);
+}
+
+class AddShippingAddressError extends CartState {
+  final String message;
+  AddShippingAddressError(this.message);
+}
+
+
+
 

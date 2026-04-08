@@ -5,6 +5,7 @@ import '../../../../core/network/use_case.dart';
 import '../../domain/entities/params.dart';
 import '../../domain/usecases/add_address_use_case.dart';
 import '../../domain/usecases/add_cart_use_case.dart';
+import '../../domain/usecases/add_shipping_address_use_case.dart';
 import '../../domain/usecases/add_shipping_use_cas.dart';
 import '../../domain/usecases/cart_item_use_case.dart';
 import '../../domain/usecases/complete_cart_use_case.dart';
@@ -29,6 +30,7 @@ class CartCubit extends Cubit<CartState> {
   final GetAddressUseCase _getAddressUseCase;
   final AddAddressUseCase _addAddressUseCase;
   final DeleteAddressUseCase _deleteAddressUseCase;
+  final AddShippingAddressUseCase _addShippingAddressUseCase;
 
 
 
@@ -45,6 +47,7 @@ class CartCubit extends Cubit<CartState> {
     this._getAddressUseCase,
     this._addAddressUseCase,
     this._deleteAddressUseCase,
+      this._addShippingAddressUseCase
   ) : super(CartInitial());
 
   String? cartId;
@@ -290,4 +293,30 @@ class CartCubit extends Cubit<CartState> {
     );
   }
 
+
+  Future<void> addShippingAddress({
+   required ShippingAddressRequest body
+  }) async {
+    await ensureCartId();
+
+    if (cartId == null) {
+      emit(AddShippingAddressError("Cart Id is null"));
+      return;
+    }
+    final result =
+    await _addShippingAddressUseCase(ShippingAddressCartRequest(
+        cartId: cartId!,
+        body: body)
+    );
+    result.result.fold(
+
+          (error) {
+        emit(AddShippingAddressError(error.toString() ?? "Failed to delete address"));
+      },
+          (data) {
+        emit(AddShippingAddressSuccess(data));
+      },
+    );
+
+  }
 }
