@@ -18,4 +18,8 @@ abstract class CartRemoteDataSource {
   Future<AddressResponseModel> getAddresses();
   Future<void> addAddress(CreateAddressParams body);
   Future<void> deleteAddress(String addressId);
+
+  Future<CartResponseModel> addShippingAddress(
+      ShippingAddressCartRequest request,
+      );
 }

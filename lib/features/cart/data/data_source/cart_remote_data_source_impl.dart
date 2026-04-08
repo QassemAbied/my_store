@@ -82,4 +82,21 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
   Future<AddressResponseModel> getAddresses()async {
     return await _restClient.getAddresses();
   }
+
+  @override
+  Future<CartResponseModel> addShippingAddress(
+      ShippingAddressCartRequest request)async {
+    return await _restClient.addShippingAddress(
+      request.cartId,
+        {
+          "shipping_address": {
+            "first_name": request.body.firstName,
+            "last_name":  request.body.lastName,
+            "address_1":  request.body.address1,
+            "city":  request.body.city,
+            "country_code":  request.body.countryCode,
+          }
+        }
+    );
+  }
 }
