@@ -47,3 +47,8 @@ class LoginError extends AuthState {
   final String message;
   LoginError(this.message);
 }
+
+
+
+class LogoutSuccess extends AuthState {}
+
