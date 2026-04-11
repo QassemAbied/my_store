@@ -27,7 +27,7 @@ class AuthCubit extends Cubit<AuthState> {
     );
   }
 
-  Future<void> register(RegisterRequest request) async {
+  Future<void> createProfile(RegisterRequest request) async {
     emit(RegisterLoading());
     final result = await _registerUseCase(request);
     result.result.fold(
@@ -37,13 +37,12 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
 
-  Future<void> logon(LoginRequest request) async {
+  Future<void> login(LoginRequest request) async {
     emit(LoginLoading());
     final result = await _loginUserUseCase(request);
     result.result.fold(
           (failure) => emit(LoginError(failure.toString())),
           (data) {
-           
             emit(LoginSuccess(data));
           }
     );
