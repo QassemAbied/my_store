@@ -55,7 +55,7 @@ class _LoginBodyState extends State<LoginBody> {
                     text: "Login",
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        context.read<AuthCubit>().logon(
+                        context.read<AuthCubit>().login(
                           LoginRequest(
                             email: emailController.text,
                             password: passwordController.text,
