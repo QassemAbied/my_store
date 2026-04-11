@@ -109,7 +109,7 @@ abstract class RestClient {
       );
 
   @POST(ApiConstants.profileRegister)
-  Future<CustomerModel> registerProfile(
+  Future<CustomerResponseModel> registerProfile(
       @Body() Map<String, dynamic> body,
       );
 

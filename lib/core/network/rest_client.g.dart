@@ -496,13 +496,15 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<CustomerModel> registerProfile(Map<String, dynamic> body) async {
+  Future<CustomerResponseModel> registerProfile(
+    Map<String, dynamic> body,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(body);
-    final _options = _setStreamType<CustomerModel>(
+    final _options = _setStreamType<CustomerResponseModel>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -513,9 +515,9 @@ class _RestClient implements RestClient {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late CustomerModel _value;
+    late CustomerResponseModel _value;
     try {
-      _value = CustomerModel.fromJson(_result.data!);
+      _value = CustomerResponseModel.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
