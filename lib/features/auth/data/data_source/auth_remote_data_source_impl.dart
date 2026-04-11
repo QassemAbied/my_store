@@ -19,18 +19,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource{
       "password": request.password,
     });
   }
-
-  @override
-  Future<CustomerModel> register(RegisterRequest request) async{
-     return await _restClient.registerProfile({
-       "email": request.email,
-       "password": request.password,
-       "first_name": request.firstName,
-       "phone": request.phone,
-       "country": request.country,
-     });
-  }
-
   @override
   Future<AuthResponseModel> login(LoginRequest request)async {
     final response = await _restClient.login({
@@ -38,13 +26,34 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource{
       "password": request.password,
     });
 
-    AppConstants.token== null||AppConstants.token == ''?
-    await SharedPrefHelper.setData(key: AppConstants.tokenKey, value: response.token):null;
+    // AppConstants.token== null||AppConstants.token == ''?
+    // await SharedPrefHelper.setData(key: AppConstants.tokenKey, value: response.token):null;
 
+    await SharedPrefHelper.setData(
+      key: AppConstants.tokenKey,
+      value: response.token,
+    );
+    AppConstants.token = response.token;
 
 
     print("TOKEN: ${response.token}");
 
     return response;
   }
+
+
+
+  @override
+  Future<CustomerModel> register(RegisterRequest request) async{
+    final response= await _restClient.registerProfile({
+       "email": request.email,
+       "last_name": request.lastName,
+       "first_name": request.firstName,
+       "phone": request.phone,
+       "country": request.country,
+     });
+    return response.customer;
+  }
+
+
 }
