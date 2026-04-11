@@ -3,6 +3,9 @@ import 'package:flutter/foundation.dart';
 import 'package:my_store/core/network/api_contstants.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
+import '../services/shared_pref.dart';
+import '../utils/constants.dart';
+
 class DioClient {
   DioClient._();
   static Dio? _dio;
@@ -16,6 +19,8 @@ class DioClient {
         receiveTimeout: ApiConstants.timeout,
         headers: {
           ApiConstants.publishable: ApiConstants.apiKey,
+          'Content-Type':'application/json',
+          'Authorization': 'Bearer ${AppConstants.token}',
         }
       ),
     );
