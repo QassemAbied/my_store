@@ -20,7 +20,6 @@ class DioClient {
         headers: {
           ApiConstants.publishable: ApiConstants.apiKey,
           'Content-Type':'application/json',
-          'Authorization': 'Bearer ${AppConstants.token}',
         }
       ),
     );
@@ -29,6 +28,19 @@ class DioClient {
   }
 
  static void _addInterceptors(){
+   _dio?.interceptors.add(
+     InterceptorsWrapper(
+       onRequest: (options, handler)  {
+         final token =  SharedPrefHelper.getString( key:AppConstants.tokenKey, );
+
+         if (token != null && token.isNotEmpty) {
+           options.headers['Authorization'] = 'Bearer $token';
+         }
+
+         return handler.next(options);
+       },
+     ),
+   );
    _dio?.interceptors.add(
      InterceptorsWrapper(
        onError: (error, handler) {
