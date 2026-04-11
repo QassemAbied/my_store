@@ -29,7 +29,7 @@ class LoginBlocConsumer extends StatelessWidget {
 
             context.pop();
 
-          context.pushNamedAndRemoveUntil(Routers.bottomNav);
+          context.pushNamedAndRemoveUntil(Routers.createProfile);
         } else if (state is LoginError) {
 
             context.pop();
