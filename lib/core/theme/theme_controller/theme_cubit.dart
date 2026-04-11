@@ -7,7 +7,8 @@ import 'package:my_store/core/utils/enum.dart';
 
 
 class ThemeCubit extends Cubit<ThemeState> {
-  ThemeCubit() : super(ThemeInitial()){
+  ThemeCubit() : super(ThemeInitial());
+  void init() {
     saveTheme();
   }
   static ThemeCubit get(BuildContext context) => BlocProvider.of(context);
