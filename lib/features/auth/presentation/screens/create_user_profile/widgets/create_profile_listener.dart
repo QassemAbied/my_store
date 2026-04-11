@@ -7,13 +7,14 @@ import 'package:my_store/features/auth/presentation/cubit/auth_state.dart';
 import '../../../../../../core/utils/routing/routers.dart';
 
 class CreateProfileListener extends StatelessWidget {
-  const CreateProfileListener({super.key});
+  const CreateProfileListener({super.key, required this.child});
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthCubit, AuthState>(
       listenWhen: (previous, current) =>
-      current is RegisterLoading ||
+          current is RegisterLoading ||
           current is RegisterSuccess ||
           current is RegisterError,
       listener: (context, state) {
@@ -21,28 +22,22 @@ class CreateProfileListener extends StatelessWidget {
           showDialog(
             context: context,
             barrierDismissible: false,
-            builder: (_) => const Center(
-              child: CircularProgressIndicator(),
-            ),
+            builder: (_) => const Center(child: CircularProgressIndicator()),
           );
         } else if (state is RegisterSuccess) {
-
           context.pop();
 
           context.pushNamedAndRemoveUntil(Routers.bottomNav);
         } else if (state is RegisterError) {
-
           context.pop();
 
           showDialog(
             context: context,
-            builder: (_) => AlertDialog(
-              content: Text(state.message),
-            ),
+            builder: (_) => AlertDialog(content: Text(state.message)),
           );
         }
       },
-      child: const SizedBox(),
+      child: child,
     );
   }
 }
