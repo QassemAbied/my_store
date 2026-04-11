@@ -7,10 +7,9 @@ extension CustomerMapper on CustomerModel {
     return CustomerEntity(
       email: email,
       firstName: firstName,
+      lastName: lastName,
       phone: phone,
       country: country,
-
-
     );
   }
 }
