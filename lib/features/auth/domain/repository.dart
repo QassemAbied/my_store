@@ -8,6 +8,7 @@ abstract class AuthRepository{
   Future<ApiResult<AuthEntity>> registerAuth( LoginRequest request);
   Future<ApiResult<CustomerEntity>> register( RegisterRequest request);
   Future<ApiResult<AuthEntity>> login( LoginRequest request);
+  Future<ApiResult<CustomerEntity>> getProfile();
 
 
 }

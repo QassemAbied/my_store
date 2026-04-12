@@ -1,6 +1,5 @@
 import 'package:my_store/core/error/failures.dart';
 import 'package:my_store/features/auth/domain/entities/customer_entity.dart';
-
 import '../../../core/network/api_result.dart';
 import '../domain/entities/auth_entity.dart';
 import '../domain/entities/requests.dart';
@@ -41,6 +40,17 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<ApiResult<AuthEntity>> login(LoginRequest request) async{
     try {
       final result = await remoteDataSource.login(request);
+
+      return ApiResult.success(result.toEntity());
+    } catch (e) {
+      return ApiResult.failure(ServerFailure());
+    }
+  }
+
+  @override
+  Future<ApiResult<CustomerEntity>> getProfile() async{
+    try {
+      final result = await remoteDataSource.getProfile();
 
       return ApiResult.success(result.toEntity());
     } catch (e) {
