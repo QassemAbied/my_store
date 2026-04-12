@@ -1,6 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_store/core/network/use_case.dart';
 import 'package:my_store/core/services/shared_pref.dart';
 import 'package:my_store/features/auth/domain/entities/requests.dart';
+import 'package:my_store/features/auth/domain/usecases/get_profile_use_case.dart';
 import 'package:my_store/features/auth/domain/usecases/register_use_case.dart';
 import 'package:my_store/features/auth/presentation/cubit/auth_state.dart';
 import '../../../../core/utils/constants.dart';
@@ -11,10 +13,14 @@ class AuthCubit extends Cubit<AuthState> {
   final RegisterAuthUseCase _registerAuthUseCase;
   final RegisterUseCase _registerUseCase;
   final LoginUserUseCase _loginUserUseCase;
+  final GetProfileUseCase _getProfileUseCase;
 
-  AuthCubit(this._registerAuthUseCase,
-      this._registerUseCase,this._loginUserUseCase)
-    : super(AuthInitial());
+  AuthCubit(
+    this._registerAuthUseCase,
+    this._registerUseCase,
+    this._loginUserUseCase,
+    this._getProfileUseCase,
+  ) : super(AuthInitial());
 
   Future<void> registerAuth(LoginRequest request) async {
     emit(RegisterAuthLoading());
@@ -23,7 +29,7 @@ class AuthCubit extends Cubit<AuthState> {
       (failure) => emit(RegisterAuthError(failure.toString())),
       (data) {
         emit(RegisterAuthSuccess(data));
-      }
+      },
     );
   }
 
@@ -36,16 +42,27 @@ class AuthCubit extends Cubit<AuthState> {
     );
   }
 
+  Future<void> getProfile() async {
+    emit(ProfileLoading());
+    final result = await _getProfileUseCase(NoParams());
+    result.result.fold((failure) => emit(ProfileError(failure.toString())), (
+      data,
+    ) {
+      if (data.email.isEmpty) {
+        emit(ProfileError("No profile"));
+      }
+      return emit(ProfileSuccess(data));
+    });
+  }
 
   Future<void> login(LoginRequest request) async {
     emit(LoginLoading());
     final result = await _loginUserUseCase(request);
-    result.result.fold(
-          (failure) => emit(LoginError(failure.toString())),
-          (data) {
-            emit(LoginSuccess(data));
-          }
-    );
+    result.result.fold((failure) => emit(LoginError(failure.toString())), (
+      data,
+    ) {
+      emit(LoginSuccess(data));
+    });
   }
 
   Future<void> logout() async {
