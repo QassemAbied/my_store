@@ -55,5 +55,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource{
     return response.customer;
   }
 
+  @override
+  Future<CustomerModel> getProfile() async{
+    final response= await _restClient.getProfile();
+    return response.customer;
+  }
+
 
 }
