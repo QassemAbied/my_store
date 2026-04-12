@@ -10,52 +10,54 @@ class DioClient {
   DioClient._();
   static Dio? _dio;
 
-  static Dio getDio(){
-    if(_dio != null) return _dio!;
+  static Dio getDio() {
+    if (_dio != null) return _dio!;
 
-    _dio=Dio(
+    _dio = Dio(
       BaseOptions(
         connectTimeout: ApiConstants.timeout,
         receiveTimeout: ApiConstants.timeout,
         headers: {
           ApiConstants.publishable: ApiConstants.apiKey,
-          'Content-Type':'application/json',
-        }
+          ApiConstants.contentType: ApiConstants.applicationJson,
+        },
       ),
     );
     _addInterceptors();
     return _dio!;
   }
 
- static void _addInterceptors(){
-   _dio?.interceptors.add(
-     InterceptorsWrapper(
-       onRequest: (options, handler)  {
-         final token =  SharedPrefHelper.getString( key:AppConstants.tokenKey, );
+  static void _addInterceptors() {
+    _dio?.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) {
+          final token = SharedPrefHelper.getString(key: AppConstants.tokenKey);
 
-         if (token != null && token.isNotEmpty) {
-           options.headers['Authorization'] = 'Bearer $token';
-         }
+          if (token != null && token.isNotEmpty) {
+            options.headers[ApiConstants.authorization] = 'Bearer $token';
+          }
 
-         return handler.next(options);
-       },
-     ),
-   );
-   _dio?.interceptors.add(
-     InterceptorsWrapper(
-       onError: (error, handler) {
-         if (kDebugMode) {
-           print("Error Dio: ${error.message}");
-         }
-         return handler.next(error);
-       },
-     ),
-   );
-    _dio?.interceptors.add(PrettyDioLogger(
-      requestHeader: true,
-      requestBody: true,
-      responseBody: true,
-      responseHeader: false,
-    ));
+          return handler.next(options);
+        },
+      ),
+    );
+    _dio?.interceptors.add(
+      InterceptorsWrapper(
+        onError: (error, handler) {
+          if (kDebugMode) {
+            print("Error Dio: ${error.message}");
+          }
+          return handler.next(error);
+        },
+      ),
+    );
+    _dio?.interceptors.add(
+      PrettyDioLogger(
+        requestHeader: true,
+        requestBody: true,
+        responseBody: true,
+        responseHeader: false,
+      ),
+    );
   }
 }
