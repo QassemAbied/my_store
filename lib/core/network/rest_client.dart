@@ -40,7 +40,7 @@ abstract class RestClient {
   @POST(ApiConstants.carts)
   Future<String> createCart(@Body() Map<String, dynamic> body);
 
-  @POST("${ApiConstants.carts}/{id}/line-items")
+  @POST(ApiConstants.addCarts)
   Future<void> addCart(
     @Path("id") String id,
     @Body() Map<String, dynamic> body,
@@ -52,69 +52,61 @@ abstract class RestClient {
   @GET(ApiConstants.regions)
   Future<String> getRegions();
 
-  @DELETE("${ApiConstants.carts}/{id}/line-items/{lineId}")
+  @DELETE(ApiConstants.updateCartsItem)
   Future<void> deleteCartItem(
     @Path("id") String cartId,
     @Path("lineId") String lineId,
   );
 
-  @POST("${ApiConstants.carts}/{id}/line-items/{lineId}")
+  @POST(ApiConstants.updateCartsItem)
   Future<void> updateCartItem(
     @Path("id") String cartId,
     @Path("lineId") String lineId,
     @Body() Map<String, dynamic> body,
   );
 
-  @GET("/store/shipping-options")
+  @GET(ApiConstants.shippingOptions)
   Future<ShippingResponseModel> getShippingOptions(
-      @Query("cart_id") String cartId,
-      );
-  @GET("/store/payment-providers")
+    @Query("cart_id") String cartId,
+  );
+  @GET(ApiConstants.paymentProvider)
   Future<PaymentProvidersResponseModel> getPaymentProviders(
-      @Query("region_id") String regionId,
-      );
+    @Query("region_id") String regionId,
+  );
 
-  @POST("${ApiConstants.carts}/{id}/shipping-methods")
+  @POST(ApiConstants.addShippingOptions)
   Future<void> addShippingMethod(
-      @Path("id") String cartId,
-      @Body() Map<String, dynamic> body,
-      );
+    @Path("id") String cartId,
+    @Body() Map<String, dynamic> body,
+  );
   @POST("${ApiConstants.carts}/{id}")
   Future<CartResponseModel> addShippingAddress(
-      @Path("id") String cartId,
-      @Body() Map<String, dynamic> body,
-      );
+    @Path("id") String cartId,
+    @Body() Map<String, dynamic> body,
+  );
 
   @POST("${ApiConstants.carts}/{id}/complete")
-  Future<void> completeCart(
-      @Path("id") String cartId,
-      );
+  Future<void> completeCart(@Path("id") String cartId);
   @GET(ApiConstants.address)
   Future<AddressResponseModel> getAddresses();
 
   @POST(ApiConstants.address)
-  Future<void> addAddress(
-      @Body() Map<String, dynamic> body,
-      );
+  Future<void> addAddress(@Body() Map<String, dynamic> body);
 
   @DELETE("${ApiConstants.address}/{id}")
-  Future<void> deleteAddress(
-      @Path("id") String id,
-      );
-
+  Future<void> deleteAddress(@Path("id") String id);
 
   @POST(ApiConstants.authRegister)
-  Future<AuthResponseModel> registerAuth(
-      @Body() Map<String, dynamic> body,
-      );
+  Future<AuthResponseModel> registerAuth(@Body() Map<String, dynamic> body);
 
   @POST(ApiConstants.profileRegister)
   Future<CustomerResponseModel> registerProfile(
-      @Body() Map<String, dynamic> body,
-      );
+    @Body() Map<String, dynamic> body,
+  );
+
+  @GET(ApiConstants.profile)
+  Future<CustomerResponseModel> getProfile();
 
   @POST(ApiConstants.login)
-  Future<AuthResponseModel> login(
-      @Body() Map<String, dynamic> body,
-      );
+  Future<AuthResponseModel> login(@Body() Map<String, dynamic> body);
 }
