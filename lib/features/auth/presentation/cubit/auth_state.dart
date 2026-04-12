@@ -4,15 +4,12 @@ import 'package:my_store/features/auth/domain/entities/customer_entity.dart';
 abstract class AuthState {}
 
 class AuthInitial extends AuthState {}
-
 class RegisterAuthLoading extends AuthState {}
-
 class RegisterAuthSuccess extends AuthState {
   final AuthEntity authEntity;
 
   RegisterAuthSuccess(this.authEntity);
 }
-
 class RegisterAuthError extends AuthState {
   final String message;
   RegisterAuthError(this.message);
@@ -21,13 +18,11 @@ class RegisterAuthError extends AuthState {
 
 
 class RegisterLoading extends AuthState {}
-
 class RegisterSuccess extends AuthState {
   final CustomerEntity customerEntity;
 
   RegisterSuccess(this.customerEntity);
 }
-
 class RegisterError extends AuthState {
   final String message;
   RegisterError(this.message);
@@ -36,13 +31,11 @@ class RegisterError extends AuthState {
 
 
 class LoginLoading extends AuthState {}
-
 class LoginSuccess extends AuthState {
   final AuthEntity authEntity;
 
   LoginSuccess(this.authEntity);
 }
-
 class LoginError extends AuthState {
   final String message;
   LoginError(this.message);
@@ -51,4 +44,19 @@ class LoginError extends AuthState {
 
 
 class LogoutSuccess extends AuthState {}
+
+
+
+class ProfileLoading extends AuthState {}
+
+class ProfileSuccess extends AuthState {
+  final CustomerEntity customerEntity;
+
+  ProfileSuccess(this.customerEntity);
+}
+
+class ProfileError extends AuthState {
+  final String message;
+  ProfileError(this.message);
+}
 
