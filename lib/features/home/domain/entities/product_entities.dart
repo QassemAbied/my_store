@@ -10,19 +10,63 @@ class ProductResponseEntity {
     required this.offset,
     required this.limit,
   });
-
 }
-class ProductItemEntity{
+
+class VariantEntity {
   final String? id;
-  final  String? title;
+  final String? title;
+  final int? price;
+
+  VariantEntity({
+    this.id,
+    this.title,
+    this.price,
+  });
+}
+
+class ProductItemEntity {
+  final String? id;
+  final String? title;
   final String? subtitle;
-  final  String? description;
+  final String? description;
   final String? thumbnail;
 
-  ProductItemEntity(
-      {this.id, this.title, this.subtitle, this.description, this.thumbnail});
+  final List<VariantEntity>? variants;
 
+  ProductItemEntity({
+    this.id,
+    this.title,
+    this.subtitle,
+    this.description,
+    this.thumbnail,
+    this.variants,
+  });
 }
+// class ProductResponseEntity {
+//   final List<ProductItemEntity>? products;
+//   final int? count;
+//   final int? offset;
+//   final int? limit;
+//
+//   ProductResponseEntity({
+//     required this.products,
+//     required this.count,
+//     required this.offset,
+//     required this.limit,
+//   });
+//
+// }
+// class ProductItemEntity{
+//   final String? id;
+//   final  String? title;
+//   final String? subtitle;
+//   final  String? description;
+//   final String? thumbnail;
+//
+//   ProductItemEntity(
+//       {this.id, this.title, this.subtitle, this.description, this.thumbnail});
+//
+// }
 
 // class ProductEntities {
 //  final List<Products>? products;
