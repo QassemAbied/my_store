@@ -25,19 +25,6 @@ class AddCartError extends CartState {
   AddCartError(this.message);
 }
 
-class DeleteCartLoading extends CartState {}
-class DeleteCartSuccess extends CartState {}
-class DeleteCartError extends CartState {
-  final String message;
-  DeleteCartError(this.message);
-}
-
-class UpdateCartLoading extends CartState {}
-class UpdateCartSuccess extends CartState {}
-class UpdateCartError extends CartState {
-  final String message;
-  UpdateCartError(this.message);
-}
 
 
 class ShippingLoading extends CartState {}
