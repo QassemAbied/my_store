@@ -3,6 +3,7 @@ import 'package:my_store/core/utils/routing/routers.dart';
 import 'package:my_store/features/auth/presentation/screens/create_user_profile/create_user_profile_screen.dart';
 import 'package:my_store/features/auth/presentation/screens/login/login_screen.dart';
 import 'package:my_store/features/bottom_nav_bar/page/bottom_navigation_bar.dart';
+import 'package:my_store/features/cart/presentation/screens/cart_screen.dart';
 import '../../../features/auth/presentation/screens/register/register_screen.dart';
 
 class AppRoute {
@@ -28,6 +29,12 @@ class AppRoute {
         {
           return MaterialPageRoute(
             builder: (_) => const CustomBottomNavigationBar(),
+          );
+        }
+      case Routers.cart:
+        {
+          return MaterialPageRoute(
+            builder: (_) => const CartScreen(),
           );
         }
     }
