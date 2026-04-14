@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_store/core/utils/extension.dart';
 import 'package:my_store/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:my_store/features/auth/presentation/cubit/auth_state.dart';
+import 'package:my_store/features/cart/presentation/cubit/cart_cubit.dart';
 import '../../../../../../core/utils/routing/routers.dart';
 
 class LoginBlocConsumer extends StatelessWidget {
