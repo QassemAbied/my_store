@@ -33,7 +33,7 @@ class CartMapper {
       title: model.title,
       quantity: model.quantity,
       price: model.price,
-      thumbnail: model.thumbnail,
+      thumbnail: model.thumbnail, variantId: model.variantId,
     );
   }
 
