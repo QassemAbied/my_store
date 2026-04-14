@@ -20,7 +20,8 @@ abstract class RestClient {
     @Query("fields") String fields,
     @Query("limit") int limit,
     @Query("offset") int offset,
-  );
+      @Query("region_id") String regionId,
+      );
 
   @GET("${ApiConstants.productUrl}/{id}")
   Future<ProductDetailsModel> getProductDetails(

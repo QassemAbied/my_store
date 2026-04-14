@@ -26,12 +26,14 @@ class _RestClient implements RestClient {
     String fields,
     int limit,
     int offset,
+    String regionId,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'fields': fields,
       r'limit': limit,
       r'offset': offset,
+      r'region_id': regionId,
     };
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
