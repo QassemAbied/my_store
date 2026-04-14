@@ -5,6 +5,8 @@ import 'package:my_store/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:my_store/features/auth/presentation/cubit/auth_state.dart';
 
 import '../../../../../../core/utils/routing/routers.dart';
+import '../../../../../../injection_container.dart';
+import '../../../../../cart/presentation/cubit/cart_cubit.dart';
 
 class CreateProfileListener extends StatelessWidget {
   const CreateProfileListener({super.key, required this.child});
@@ -17,16 +19,18 @@ class CreateProfileListener extends StatelessWidget {
           current is RegisterLoading ||
           current is RegisterSuccess ||
           current is RegisterError,
-      listener: (context, state) {
+      listener: (context, state) async{
         if (state is RegisterLoading) {
           showDialog(
             context: context,
             barrierDismissible: false,
             builder: (_) => const Center(child: CircularProgressIndicator()),
           );
-        } else if (state is RegisterSuccess) {
-          context.pop();
+        } else if (state is RegisterSuccess)  {
 
+          final cartCubit = context.read<CartCubit>();
+          await cartCubit.ensureCartId();
+          context.pop();
           context.pushNamedAndRemoveUntil(Routers.bottomNav);
         } else if (state is RegisterError) {
           context.pop();
