@@ -7,7 +7,7 @@ class CartResponseEntity {
 class CartEntity {
   final String id;
   final String regionId;
-  final int total;
+   int total;
   final int? subtotal;
   final int? shippingTotal;
 
@@ -36,8 +36,9 @@ class CartEntity {
 class CartItemEntity {
   final String id;
   final String thumbnail;
+  final String variantId;
   final String title;
-  final int quantity;
+   int quantity;
   final int price;
 
   CartItemEntity({
@@ -45,7 +46,7 @@ class CartItemEntity {
     required this.title,
     required this.quantity,
     required this.price,
-    required this.thumbnail,
+    required this.thumbnail, required this.variantId,
   });
 }
 
