@@ -5,27 +5,68 @@
 import 'package:my_store/features/home/data/models/product_models.dart' as model;
 import 'package:my_store/features/home/domain/entities/product_entities.dart' as entity;
 
-class ProductMapper {
-  static entity.ProductResponseEntity productResponseItemEntity(model.ProductResponseModel model) {
-    return entity.ProductResponseEntity(
-        products: model.products
-                ?.map((product) => productItemEntity(product))
-                 .toList(),
-        count: model.count,
-        offset: model.offset,
-        limit: model.limit
 
+class ProductMapper {
+
+
+  static entity.ProductResponseEntity productResponseItemEntity(
+      model.ProductResponseModel modelData) {
+    return entity.ProductResponseEntity(
+      products: modelData.products
+          ?.map((product) => productItemEntity(product))
+          .toList(),
+      count: modelData.count,
+      offset: modelData.offset,
+      limit: modelData.limit,
     );
   }
-  static entity.ProductItemEntity productItemEntity(model.ProductItemModels model) {
+
+  static entity.ProductItemEntity productItemEntity(
+      model.ProductItemModels modelData) {
     return entity.ProductItemEntity(
-      id: model.id,
-      title: model.title,
-      subtitle: model.subtitle,
-      description: model.description,
-      thumbnail: model.thumbnail,
+      id: modelData.id,
+      title: modelData.title,
+      subtitle: modelData.subtitle,
+      description: modelData.description,
+      thumbnail: modelData.thumbnail,
+
+      variants: modelData.variants
+          ?.map((variant) => variantEntity(variant))
+          .toList(),
     );
   }
+
+  static entity.VariantEntity variantEntity(
+      model.VariantModel modelData) {
+    return entity.VariantEntity(
+      id: modelData.id,
+      title: modelData.title,
+      price: modelData.calculatedPrice?.calculated_amount,
+    );
+  }
+}
+//
+// class ProductMapper {
+//   static entity.ProductResponseEntity productResponseItemEntity(model.ProductResponseModel model) {
+//     return entity.ProductResponseEntity(
+//         products: model.products
+//                 ?.map((product) => productItemEntity(product))
+//                  .toList(),
+//         count: model.count,
+//         offset: model.offset,
+//         limit: model.limit
+//
+//     );
+//   }
+//   static entity.ProductItemEntity productItemEntity(model.ProductItemModels model) {
+//     return entity.ProductItemEntity(
+//       id: model.id,
+//       title: model.title,
+//       subtitle: model.subtitle,
+//       description: model.description,
+//       thumbnail: model.thumbnail,
+//     );
+//   }
 
   // // Convert ProductModels (Data Layer) to ProductEntities (Domain Layer)
   // static entity.ProductEntities toEntity(model.ProductModels model) {
@@ -167,5 +208,5 @@ class ProductMapper {
   //   );
   // }
 
-}
+
 
