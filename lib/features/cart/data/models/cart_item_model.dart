@@ -67,7 +67,8 @@ class CartItemModel {
 
   @JsonKey(name: 'product_title')
   final String title;
-
+  @JsonKey(name: 'variant_id')
+  final String variantId;
   final int quantity;
 
   final String thumbnail;
@@ -80,7 +81,7 @@ class CartItemModel {
     required this.title,
     required this.quantity,
     required this.price,
-    required this.thumbnail,
+    required this.thumbnail, required this.variantId,
   });
 
   factory CartItemModel.fromJson(Map<String, dynamic> json) =>
