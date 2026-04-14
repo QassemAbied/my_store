@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_store/core/services/shared_pref.dart';
 import 'package:my_store/features/cart/domain/usecases/update_cart_use_case.dart';
 import '../../../../core/network/use_case.dart';
+import '../../domain/entities/cart_item.dart';
 import '../../domain/entities/params.dart';
 import '../../domain/usecases/add_address_use_case.dart';
 import '../../domain/usecases/add_cart_use_case.dart';
@@ -31,9 +32,6 @@ class CartCubit extends Cubit<CartState> {
   final AddAddressUseCase _addAddressUseCase;
   final DeleteAddressUseCase _deleteAddressUseCase;
   final AddShippingAddressUseCase _addShippingAddressUseCase;
-
-
-
   CartCubit(
     this.regionsUseCase,
     this.cartItemUseCase,
@@ -51,35 +49,46 @@ class CartCubit extends Cubit<CartState> {
   ) : super(CartInitial());
 
   String? cartId;
-
+  String? regionId;
+  final Set<String> selectedItems = {};
+    CartResponseEntity? items;
   Future<void> ensureCartId() async {
-    cartId ??= SharedPrefHelper.getString(key: 'cartId');
+    cartId ??=  SharedPrefHelper.getString(key: 'cartId');
 
     if (cartId != null) return;
 
     final regionResult = await regionsUseCase(NoParams());
 
-    await regionResult.result.fold(
-      (failure) async {
-        emit(CartItemsError("Region Error"));
-      },
-      (regionId) async {
-        final createResult = await cartUseCase({"region_id": regionId});
+    if (regionResult.result.isLeft()) {
+      emit(CartItemsError("Region Error"));
+      return;
+    }
 
-        createResult.result.fold(
-          (failure) {
-            emit(CartItemsError("Create Cart Error"));
-          },
-          (newCartId) async {
-            cartId = newCartId;
+    final regionId = regionResult.result.getOrElse(() => "");
 
-            await SharedPrefHelper.setData(key: 'cartId', value: newCartId);
-          },
-        );
-      },
+    await SharedPrefHelper.setData(
+      key: 'region',
+      value: regionId,
+    );
+
+    final createResult = await cartUseCase({
+      "region_id": regionId,
+    });
+
+    if (createResult.result.isLeft()) {
+      emit(CartItemsError("Create Cart Error"));
+      return;
+    }
+
+    final newCartId = createResult.result.getOrElse(() => "");
+
+    cartId = newCartId;
+
+    await SharedPrefHelper.setData(
+      key: 'cartId',
+      value: newCartId,
     );
   }
-
   Future<void> getCartItems() async {
     emit(CartItemsLoading());
 
@@ -94,78 +103,146 @@ class CartCubit extends Cubit<CartState> {
 
     result.result.fold(
       (failure) => emit(CartItemsError("Get Cart Error")),
-      (cartData) => emit(CartItemsSuccess(cartData)),
+      (cartData) {
+        items=cartData;
+        selectedItems.clear();
+
+        selectedItems.addAll(
+          items!.cart.items.map((e) => e.variantId),
+        );
+        emit(CartItemsSuccess(cartData));}
     );
   }
-
-  Future<void> addCart({
-    required String variantId,
-    required int quantity,
-  }) async {
-    emit(AddCartLoading());
+  Future<void> addCart({required String variantId, required int quantity, required CartItemEntity cartItem,})
+  async {
+    regionId ??= SharedPrefHelper.getString(key: 'region');
 
     await ensureCartId();
+    if (cartId == null) return;
 
-    if (cartId == null) {
-      emit(AddCartError("Cart Id is null"));
-      return;
-    }
-
-    final result = await addCartUseCase(
-      AddCartRequest(cartId!, {"variant_id": variantId, "quantity": quantity}),
+    items ??= CartResponseEntity(
+      cart: CartEntity(
+        items: [],
+        total: 0,
+        id: cartId!,
+        regionId: regionId!,
+      ),
     );
 
-    result.result.fold((failure) => emit(AddCartError(failure.toString())), (
-      _,
-    ) async {
-      // await getCartItems();
-      emit(AddCartSuccess());
-    });
-  }
-
-  Future<void> deleteCart({required String lineId}) async {
-    emit(DeleteCartLoading());
-
-    await ensureCartId();
-
-    if (cartId == null) {
-      emit(DeleteCartError("Cart Id is null"));
-      return;
-    }
-
-    final result = await deleteCartUseCase(DeleteCartParams(cartId!, lineId));
-
-    result.result.fold((failure) => emit(DeleteCartError(failure.toString())), (
-      _,
-    ) async {
-      //await getCartItems();
-      emit(DeleteCartSuccess());
-    });
-  }
-
-  Future<void> updateCart({
-    required String lineId,
-    required int quantity,
-  }) async {
-    emit(UpdateCartLoading());
-
-    await ensureCartId();
-
-    if (cartId == null) {
-      emit(UpdateCartError("Cart Id is null"));
-      return;
-    }
-
-    final result = await updateCartUseCase(
-      UpdateCartParams(cartId!, lineId, {"quantity": quantity}),
+    final index = items!.cart.items.indexWhere(
+          (e) => e.variantId == variantId,
     );
 
-    result.result.fold((failure) => emit(UpdateCartError(failure.toString())), (
-      _,
-    ) async {
-      //await getCartItems();
-      emit(UpdateCartSuccess());
-    });
+    if (index != -1) {
+
+      items!.cart.items[index].quantity += quantity;
+    } else {
+
+      items!.cart.items.insert(0, cartItem);
+    }
+
+    items!.cart.total = items!.cart.items.fold<int>(
+      0,
+          (sum, item) => sum + (item.price * item.quantity),
+    );
+
+    emit(CartItemsSuccess(items!));
+    selectedItems.add(variantId);
+
+    try {
+      await addCartUseCase(
+        AddCartRequest(
+          cartId!,
+          {"variant_id": variantId, "quantity": quantity},
+        ),
+      );
+
+      await getCartItems();
+
+    } catch (e) {
+      if (index != -1) {
+        items!.cart.items[index].quantity -= quantity;
+      } else {
+        items!.cart.items.removeWhere(
+              (e) => e.variantId == variantId,
+        );
+      }
+
+      items!.cart.total = items!.cart.items.fold<int>(
+        0,
+            (sum, item) => sum + (item.price * item.quantity),
+      );
+
+      emit(CartItemsSuccess(items!));
+    }
+  }
+  Future<void> deleteCart({required String lineId, required String variantId,})
+  async {
+    if (items == null) return;
+
+    final removedItem =
+    items!.cart.items.firstWhere((e) => e.id == lineId);
+
+    items!.cart.items.removeWhere((e) => e.id == lineId);
+
+    items!.cart.total = items!.cart.items.fold<int>(
+      0,
+          (sum, item) => sum + (item.price * item.quantity),
+    );
+
+    selectedItems.remove(variantId);
+
+    emit(CartItemsSuccess(items!));
+
+    try {
+      await deleteCartUseCase(
+        DeleteCartParams(cartId!, lineId),
+      );
+    } catch (e) {
+      items!.cart.items.insert(0, removedItem);
+
+      items!.cart.total = items!.cart.items.fold<int>(
+        0,
+            (sum, item) => sum + (item.price * item.quantity),
+      );
+
+      selectedItems.add(variantId);
+
+      emit(CartItemsSuccess(items!));
+    }
+  }
+  Future<void> updateCart({required String lineId, required int quantity,})
+  async {
+    if (items == null) return;
+
+    final item =
+    items!.cart.items.firstWhere((e) => e.id == lineId);
+
+    final oldQuantity = item.quantity;
+
+    item.quantity = quantity;
+
+    items!.cart.total = items!.cart.items.fold<int>(
+      0,
+          (sum, item) => sum + (item.price * item.quantity),
+    );
+
+    emit(CartItemsSuccess(items!));
+
+    try {
+      await updateCartUseCase(
+        UpdateCartParams(cartId!, lineId, {"quantity": quantity}),
+      );
+    } catch (e) {
+      item.quantity = oldQuantity;
+
+      items!.cart.total = items!.cart.items.fold<int>(
+        0,
+            (sum, item) => sum + (item.price * item.quantity),
+      );
+
+      emit(CartItemsSuccess(items!));
+    }
   }
 
 
@@ -186,9 +263,7 @@ class CartCubit extends Cubit<CartState> {
 
   }
 
-  Future<void> addShippingOptions({
-    required String shippingOptionId,
-  }) async {
+  Future<void> addShippingOptions({required String shippingOptionId,}) async {
     emit(AddShippingLoading());
 
     await ensureCartId();
@@ -294,9 +369,7 @@ class CartCubit extends Cubit<CartState> {
   }
 
 
-  Future<void> addShippingAddress({
-   required ShippingAddressRequest body
-  }) async {
+  Future<void> addShippingAddress({required ShippingAddressRequest body}) async {
     await ensureCartId();
 
     if (cartId == null) {
