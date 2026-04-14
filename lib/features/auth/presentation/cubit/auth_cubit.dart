@@ -6,6 +6,7 @@ import 'package:my_store/features/auth/domain/usecases/get_profile_use_case.dart
 import 'package:my_store/features/auth/domain/usecases/register_use_case.dart';
 import 'package:my_store/features/auth/presentation/cubit/auth_state.dart';
 import '../../../../core/utils/constants.dart';
+import '../../../cart/presentation/cubit/cart_cubit.dart';
 import '../../domain/usecases/login_user_use_case.dart';
 import '../../domain/usecases/register_auth_use_case.dart';
 
@@ -51,6 +52,7 @@ class AuthCubit extends Cubit<AuthState> {
       if (data.email.isEmpty) {
         emit(ProfileError("No profile"));
       }
+
       return emit(ProfileSuccess(data));
     });
   }
