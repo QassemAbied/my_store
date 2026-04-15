@@ -4,4 +4,5 @@ class Routers {
   static const String createProfile='/createProfile';
   static const String bottomNav='/bottomNav';
   static const String cart='/cart';
+  static const String address='/address';
 }
