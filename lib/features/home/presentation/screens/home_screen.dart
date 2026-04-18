@@ -1,13 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_store/core/common_widgets/custom_app_bar.dart';
+import 'package:my_store/core/common_widgets/custom_cart_icon_widget.dart';
 import 'package:my_store/features/auth/domain/entities/requests.dart';
 import 'package:my_store/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:my_store/features/cart/presentation/cubit/cart_cubit.dart';
 import '../../../../core/network/api_contstants.dart';
+import '../../../../core/services/shared_pref.dart';
 import '../../../../core/utils/extension.dart';
 import '../../../../core/utils/routing/routers.dart';
 import '../../../../injection_container.dart';
+import '../../../cart/domain/entities/cart_item.dart';
+import '../../../cart/presentation/cubit/cart_state.dart';
 import '../../../products/presentation/cubit/product_details_cubit.dart';
 import '../cubit/home_cubit.dart';
 import '../cubit/home_state.dart';
@@ -22,7 +27,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   ScrollController scrollController=ScrollController();
   late HomeCubit _homeCubit;
-
+  final GlobalKey cartKey = GlobalKey();
 
   @override
   void initState() {
@@ -51,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return BlocProvider.value(
       value: _homeCubit,
       child: Scaffold(
-        appBar: AppBar(title: const Text('Home')),
+      appBar:CustomAppBar(title: 'Product', cartKey: cartKey),
         body: BlocBuilder<HomeCubit, HomeState>(
           builder: (context, state) {
             if (state is HomeInitial) {
@@ -63,16 +68,29 @@ class _HomeScreenState extends State<HomeScreen> {
             } else if (state is ProductSuccess) {
               final cubit = context.read<HomeCubit>();
               final products = state.product ?? [];
+
               return ListView.builder(
                 controller: scrollController,
                 itemCount: products.length +(cubit.hasMore?1:0),
                 itemBuilder: (context, index) {
+    final GlobalKey imageKey = GlobalKey();
                   if(index==products.length){
                     return const Center(child: CircularProgressIndicator());
 
                   }
                   final product = products[index];
+                    final cartItem = CartItemEntity(
+                      id: DateTime.now().millisecondsSinceEpoch.toString(),
+                      title: product.title ?? "",
+                      quantity: 1,
+                      price: product.variants?[0].price ?? 0, // ⚠️ حسب عندك السعر فين
+                      thumbnail: product.thumbnail ?? "",
+                      variantId: product.variants?[0].id??'',
+                    );
+                  //final cartCubit = context.watch<CartCubit>();
+                  //final isCart = cartCubit.selectedItems.contains(product.variants![0].id);
                   return Card(
+    key: imageKey,
                     margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 16),
                     child: ListTile(
                       leading: product.thumbnail != null?
@@ -96,6 +114,34 @@ class _HomeScreenState extends State<HomeScreen> {
                           : const Icon(Icons.image),
                       title: Text(product.title ?? 'No Title'),
                       subtitle: Text(product.description ?? 'No Description'),
+                      trailing: CustomCartIconWidget(
+                          variantId: product.variants?[0].id??'',
+                          quantity: 1,
+                          cartItem: cartItem,
+                        cartKey: cartKey,
+                        imageKey: imageKey,
+                      ),
+
+                      // IconButton(onPressed: ()
+                      // {
+                      //
+                      //   final cartItem = CartItemEntity(
+                      //     id: product.id ?? "",
+                      //     title: product.title ?? "",
+                      //     quantity: 1,
+                      //     price: product.variants?[0].price ?? 0, // ⚠️ حسب عندك السعر فين
+                      //     thumbnail: product.thumbnail ?? "",
+                      //     variantId: product.variants?[0].id??'',
+                      //   );
+                      //   context.read<CartCubit>().addCart(
+                      //       variantId:product.variants?[0].id??'',
+                      //       quantity: 1, cartItem: cartItem
+                      //   );
+                      // },
+                      //     icon:isCart ?
+                      //     Icon(Icons.add_shopping_cart,
+                      //       color: Colors.green,)
+                      //         : Icon(Icons.add_shopping_cart)),
                     ),
                   );
                 },
@@ -104,12 +150,15 @@ class _HomeScreenState extends State<HomeScreen> {
             return const SizedBox.shrink();
           },
         ),
-        floatingActionButton: FloatingActionButton(onPressed: (){
+        floatingActionButton: FloatingActionButton(onPressed: ()async{
           // context.read<CartCubit>().addCart(
           //     variantId: 'variant_01KMWC9BKA8SZTM3NE9KXNC6AF',
           //     quantity: 1);
           context.read<AuthCubit>().logout();
           context.pushNamedAndRemoveUntil(Routers.login);
+          await SharedPrefHelper.removeData('region');
+         await SharedPrefHelper.removeData('cartId');
+         // cartId = null;
 
           // context.read<CartCubit>().updateCart(
           //     lineId: 'cali_01KNF46YPMAHY01VAJ1GHSS3ZW',
@@ -144,3 +193,4 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
 }
+
