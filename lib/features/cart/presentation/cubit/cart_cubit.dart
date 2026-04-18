@@ -4,18 +4,12 @@ import 'package:my_store/features/cart/domain/usecases/update_cart_use_case.dart
 import '../../../../core/network/use_case.dart';
 import '../../domain/entities/cart_item.dart';
 import '../../domain/entities/params.dart';
-import '../../domain/usecases/add_address_use_case.dart';
 import '../../domain/usecases/add_cart_use_case.dart';
-import '../../domain/usecases/add_shipping_address_use_case.dart';
-import '../../domain/usecases/add_shipping_use_cas.dart';
 import '../../domain/usecases/cart_item_use_case.dart';
 import '../../domain/usecases/complete_cart_use_case.dart';
 import '../../domain/usecases/create_cart_use_case.dart';
-import '../../domain/usecases/delete_address_use_case.dart';
 import '../../domain/usecases/delete_cart_use_case.dart';
-import '../../domain/usecases/get_address_use_case.dart';
 import '../../domain/usecases/regions_use_case.dart';
-import '../../domain/usecases/shipping_use_case.dart';
 import 'cart_state.dart';
 
 class CartCubit extends Cubit<CartState> {
@@ -25,13 +19,9 @@ class CartCubit extends Cubit<CartState> {
   final AddCartUseCase addCartUseCase;
   final DeleteCartUseCase deleteCartUseCase;
   final UpdateCartUseCase updateCartUseCase;
-  final ShippingUseCase shippingUseCase;
-   final AddShippingUseCas addShippingUseCas;
+
    final CompleteCartUseCase completeCartUseCase;
-  final GetAddressUseCase _getAddressUseCase;
-  final AddAddressUseCase _addAddressUseCase;
-  final DeleteAddressUseCase _deleteAddressUseCase;
-  final AddShippingAddressUseCase _addShippingAddressUseCase;
+
   CartCubit(
     this.regionsUseCase,
     this.cartItemUseCase,
@@ -39,14 +29,8 @@ class CartCubit extends Cubit<CartState> {
     this.addCartUseCase,
     this.deleteCartUseCase,
     this.updateCartUseCase,
-      this.shippingUseCase,
-      this.addShippingUseCas,
       this.completeCartUseCase,
-    this._getAddressUseCase,
-    this._addAddressUseCase,
-    this._deleteAddressUseCase,
-      this._addShippingAddressUseCase
-  ) : super(CartInitial());
+      ) : super(CartInitial());
 
   String? cartId;
   String? regionId;
@@ -246,45 +230,6 @@ class CartCubit extends Cubit<CartState> {
   }
 
 
-  Future<void> getShippingOptions() async {
-    emit(ShippingLoading());
-    await ensureCartId();
-    if (cartId == null) {
-      emit(ShippingError("Cart Id is null"));
-      return;
-    }
-    final result = await shippingUseCase(
-      cartId!,
-    );
-    result.result.fold(
-      (failure) => emit(ShippingError("Get Shipping Error")),
-      (shippingData) => emit(ShippingSuccess(shippingData)),
-    );
-
-  }
-
-  Future<void> addShippingOptions({required String shippingOptionId,}) async {
-    emit(AddShippingLoading());
-
-    await ensureCartId();
-
-    if (cartId == null) {
-      emit(AddShippingError("Cart Id is null"));
-      return;
-    }
-
-    final result = await addShippingUseCas(
-      AddShippingOptionParams(cartId!,
-          {"option_id": shippingOptionId}));
-    result.result.fold((failure) =>
-        emit(AddShippingError(failure.toString())), (
-        _,
-        ) async {
-      // await getCartItems();
-      emit(AddShippingSuccess());
-    });
-  }
-
 
   Future<void> checkout() async {
     emit(CheckoutLoading());
@@ -308,88 +253,5 @@ class CartCubit extends Cubit<CartState> {
         emit(CheckoutSuccess());
       },
     );
-  }
-
-
-
-  Future<void> getAddresses() async {
-    emit(AddressLoading());
-
-    final result = await _getAddressUseCase.call(NoParams());
-
-    result.result.fold(
-
-      (error) {
-        emit(AddressError(error.toString() ?? "Something went wrong"));
-      },
-          (data) {
-        emit(AddressSuccess(data));
-      },
-    );
-  }
-
-  /// ================= ADD =================
-  Future<void> addAddress(CreateAddressParams params) async {
-    emit(AddAddressLoading());
-
-    final result = await _addAddressUseCase.call(params);
-
-    result.result.fold(
-
-      (error) {
-        emit(AddAddressError(error.toString()?? "Failed to add address"));
-      },
-          (_) {
-        emit(AddAddressSuccess());
-
-        /// refresh list بعد الإضافة
-        getAddresses();
-      },
-    );
-  }
-
-  /// ================= DELETE =================
-  Future<void> deleteAddress(String id) async {
-    emit(DeleteAddressLoading());
-
-    final result = await _deleteAddressUseCase.call(id);
-
-    result.result.fold(
-
-       (error) {
-        emit(DeleteAddressError(error.toString() ?? "Failed to delete address"));
-      },
-          (_) {
-        emit(DeleteAddressSuccess());
-
-        /// refresh list بعد الحذف
-        getAddresses();
-      },
-    );
-  }
-
-
-  Future<void> addShippingAddress({required ShippingAddressRequest body}) async {
-    await ensureCartId();
-
-    if (cartId == null) {
-      emit(AddShippingAddressError("Cart Id is null"));
-      return;
-    }
-    final result =
-    await _addShippingAddressUseCase(ShippingAddressCartRequest(
-        cartId: cartId!,
-        body: body)
-    );
-    result.result.fold(
-
-          (error) {
-        emit(AddShippingAddressError(error.toString() ?? "Failed to delete address"));
-      },
-          (data) {
-        emit(AddShippingAddressSuccess(data));
-      },
-    );
-
   }
 }
