@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_store/core/utils/spacing.dart';
-import 'package:my_store/features/cart/presentation/screens/widget/quantity_widget.dart';
-import '../../../../../core/network/api_contstants.dart';
-import '../../../../../core/theme/color_extension.dart';
-import '../../../../../core/utils/app_text_style.dart';
-import '../../cubit/cart_cubit.dart';
+import 'package:my_store/features/cart/presentation/screens/cart/widget/quantity_widget.dart';
+import '../../../../../../core/network/api_contstants.dart';
+import '../../../../../../core/theme/color_extension.dart';
+import '../../../../../../core/utils/app_text_style.dart';
+import '../../../cubit/cart_cubit.dart';
 import 'cart_item_delete_widget.dart';
 
 class CartItemWidget extends StatefulWidget {

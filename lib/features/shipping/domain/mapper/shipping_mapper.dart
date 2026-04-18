@@ -8,7 +8,11 @@ class ShippingMapper {
         return ShippingOptionEntity(
           id: option.id,
           name: option.name,
-          amount: option.amount,
+          amount: option.calculatedPrice?.amount ?? option.amount,
+          currencyCode: option.calculatedPrice?.currencyCode,
+          description: option.type?.description,
+          type: option.type?.code,
+          isTaxInclusive: option.isTaxInclusive ?? false,
         );
       }).toList(),
     );

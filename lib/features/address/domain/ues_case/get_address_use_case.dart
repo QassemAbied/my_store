@@ -4,11 +4,12 @@ import '../entities/address_entities.dart';
 import '../repository.dart';
 
 class GetAddressUseCase extends UseCase<AddressResponseEntity, NoParams> {
-  final CartRepository _cartRepository;
-  GetAddressUseCase(this._cartRepository);
+  final AddressRepository _addressRepository;
+
+  GetAddressUseCase(this._addressRepository);
 
   @override
   Future<ApiResult<AddressResponseEntity>> call(NoParams params) async {
-    return await _cartRepository.getAddresses();
+    return await _addressRepository.getAddresses();
   }
 }
