@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_store/features/cart/presentation/screens/widget/cart_component_widget.dart';
-import 'package:my_store/features/cart/presentation/screens/widget/cart_empty_widget.dart';
-import 'package:my_store/features/cart/presentation/screens/widget/cart_shimmer_widget.dart';
-import '../cubit/cart_cubit.dart';
-import '../cubit/cart_state.dart';
+import 'package:my_store/features/cart/presentation/screens/cart/widget/cart_component_widget.dart';
+import 'package:my_store/features/cart/presentation/screens/cart/widget/cart_empty_widget.dart';
+import 'package:my_store/features/cart/presentation/screens/cart/widget/cart_shimmer_widget.dart';
+import '../../cubit/cart_cubit.dart';
+import '../../cubit/cart_state.dart';
 
 class CartBody extends StatelessWidget {
   const CartBody({super.key});
