@@ -95,7 +95,7 @@ class _CreateUserFormState extends State<CreateUserForm> {
               },
             ),
             verticalSpace(30),
-            CustomPrimaryButton(
+            CustomElevatedButton(
               text: "Create Profile",
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
@@ -109,7 +109,7 @@ class _CreateUserFormState extends State<CreateUserForm> {
                     ),
                   );
                 }
-              },
+              }, icon: null,
             ),
             verticalSpace(30),
           ],
