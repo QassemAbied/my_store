@@ -22,7 +22,7 @@ class AppTheme {
         iconTheme: IconThemeData(color: AppColors.onBackground),
         backgroundColor: AppColors.background,
         elevation: 0.0,
-        titleTextStyle: AppTextStyle.regular(
+        titleTextStyle: AppTextStyle.bold(
           fontSize: 20,
           color: AppColors.onBackground,
         ),
@@ -42,7 +42,12 @@ class AppTheme {
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
-          backgroundColor: WidgetStatePropertyAll(AppColors.primary),
+          backgroundColor: WidgetStateProperty.resolveWith<Color>((states) {
+            if (states.contains(WidgetState.disabled)) {
+              return AppColors.disabled;
+            }
+            return AppColors.primary;
+          }),
           foregroundColor: WidgetStatePropertyAll(AppColors.onPrimary),
           shape: WidgetStatePropertyAll(
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -104,8 +109,12 @@ class AppTheme {
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
-          backgroundColor: WidgetStatePropertyAll(AppColors.primaryDark),
-          foregroundColor: WidgetStatePropertyAll(AppColors.onPrimaryDark),
+          backgroundColor: WidgetStateProperty.resolveWith<Color>((states) {
+            if (states.contains(WidgetState.disabled)) {
+              return AppColors.disabledDark;
+            }
+            return AppColors.primaryDark;
+          }),          foregroundColor: WidgetStatePropertyAll(AppColors.onPrimaryDark),
           shape: WidgetStatePropertyAll(
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           ),
