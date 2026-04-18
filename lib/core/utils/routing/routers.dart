@@ -5,4 +5,7 @@ class Routers {
   static const String bottomNav='/bottomNav';
   static const String cart='/cart';
   static const String address='/address';
+  static const String shipping='/shipping';
+  static const String payment='/payment';
+  static const String checkOut='/address';
 }
