@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../../../core/theme/app_colors.dart';
-import '../../cubit/cart_cubit.dart';
+import '../../../../../../core/theme/app_colors.dart';
 
 class CartItemDeleteWidget extends StatelessWidget {
   final dynamic item;
