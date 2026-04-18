@@ -10,7 +10,6 @@ class AddressListViewWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final list = addresses.addresses.reversed.toList();
     return ListView.builder(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
       itemCount: list.length,
 
       itemBuilder: (context, index) {
