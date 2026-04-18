@@ -51,7 +51,7 @@ class _LoginBodyState extends State<LoginBody> {
                     emailController: emailController,
                     passwordController: passwordController,
                   ),
-                  CustomPrimaryButton(
+                  CustomElevatedButton(
                     text: "Login",
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
