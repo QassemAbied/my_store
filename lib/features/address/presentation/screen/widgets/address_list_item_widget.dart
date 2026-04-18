@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_store/core/common_widgets/custom_animated_container_widget.dart';
+import 'package:my_store/core/common_widgets/widgets.dart';
 import 'package:my_store/core/theme/app_colors.dart';
 import 'package:my_store/core/theme/color_extension.dart';
 import 'package:my_store/core/utils/app_text_style.dart';
+import 'package:my_store/core/utils/extension.dart';
+import 'package:my_store/core/utils/routing/routers.dart';
 import 'package:my_store/core/utils/spacing.dart';
+import 'package:my_store/features/cart/presentation/cubit/cart_cubit.dart';
+import 'package:my_store/features/shipping/presentation/controller/shipping_cubit.dart';
 
+import '../../../../cart/domain/entities/params.dart';
+import '../../../../shipping/domain/entities/shipping_request.dart';
+import '../../../../shipping/presentation/screen/widget/shipping_address_listener.dart';
 import '../../../domain/entities/address_entities.dart';
 import '../../controller/address_cubit.dart';
 
@@ -24,34 +33,27 @@ class AddressListItemWidget extends StatelessWidget {
 
             cubit.selectAddress(index);
 
-            // context.read<AddressCubit>().addShippingAddress(
-            //   body: ShippingAddressRequest(
-            //     firstName: e.firstName ?? '',
-            //     lastName: e.lastName ?? '',
-            //     address1: e.address1 ?? '',
-            //     city: e.city ?? '',
-            //     countryCode: e.countryCode ?? '',
-            //   ),
-            // );
+            //context.pushNamed(Routers.shipping, arguments: ShippingAddressRequest(
+            //   firstName: item.firstName ?? '',
+            //   lastName: item.lastName ?? '',
+            //   address1: item.address1 ?? '',
+            //   city: item.city ?? '',
+            //   countryCode: item.countryCode ?? '',
+            // ),);
+            context.read<ShippingCubit>().addShippingAddress(
+              body: ShippingAddressRequest(
+                firstName: item.firstName ?? '',
+                lastName: item.lastName ?? '',
+                address1: item.address1 ?? '',
+                city: item.city ?? '',
+                countryCode: item.countryCode ?? '',
+              ),
+            );
+
           },
 
-          child: Container(
-            margin: const EdgeInsets.only(bottom: 14),
-            padding: const EdgeInsets.all(14),
-            decoration: BoxDecoration(
-              color: context.surfaceColor,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(
-                  color:selected? context.primaryColor: context.border,
-                  width: 1.5),
-              boxShadow: [
-                BoxShadow(
-                  color: context.textPrimary.withValues(alpha: 0.5),
-                  blurRadius: 5,
-                ),
-              ],
-            ),
-
+          child: CustomAnimatedContainerWidget(
+            selected: selected,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -100,14 +102,7 @@ class AddressListItemWidget extends StatelessWidget {
 Widget nameAndIcon(BuildContext context, AddressEntity item, bool selected) {
   return Row(
     children: [
-      Container(
-        padding: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: context.primaryColor.withValues(alpha: 0.1),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Icon(Icons.home, color: context.primaryColor, size: 20),
-      ),
+      CommonWidget.leadingIcon(context, Icons.home),
 
       horizontalSpace(10),
 
@@ -118,14 +113,7 @@ Widget nameAndIcon(BuildContext context, AddressEntity item, bool selected) {
         ),
       ),
 
-      Icon(
-        selected
-            ? Icons.check_box
-            : Icons.check_box_outline_blank,
-        color: selected
-            ? context.primaryColor
-            : context.disabled,
-      ),
+      CommonWidget.selectedItem(selected, context),
     ],
   );
 }
