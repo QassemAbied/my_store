@@ -4,12 +4,12 @@ import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
 import '../../features/auth/data/models/auth_model.dart';
 import '../../features/auth/data/models/customer_model.dart';
-import '../../features/cart/data/models/address_model.dart';
+import '../../features/address/data/models/address_model.dart';
 import '../../features/cart/data/models/cart_item_model.dart';
 import '../../features/cart/data/models/payment_provider_model.dart';
-import '../../features/cart/data/models/shipping_model.dart';
 import '../../features/home/data/models/product_models.dart';
 import '../../features/products/data/models/product_details_model.dart';
+import '../../features/shipping/data/models/shipping_model.dart';
 part 'rest_client.g.dart';
 
 @RestApi(baseUrl: ApiConstants.baseUrl)
