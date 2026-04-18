@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_store/features/bottom_nav_bar/controller/bottom_nav_state.dart';
 import '../../../injection_container.dart';
 import '../../cart/presentation/cubit/cart_cubit.dart';
-import '../../cart/presentation/screens/cart_screen.dart';
+import '../../cart/presentation/screens/cart/cart_screen.dart';
 import '../../category/presentation/screens/category_screen.dart';
 import '../../favorite/presentation/screens/favorite_screen.dart';
 import '../../home/presentation/screens/home_screen.dart';
