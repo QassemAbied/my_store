@@ -1,7 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:my_store/core/network/dio_client.dart';
-import 'package:my_store/core/network/use_case.dart';
+import 'package:my_store/features/address/data/data_source/remote_data_source.dart';
+import 'package:my_store/features/address/domain/repository.dart';
+import 'package:my_store/features/address/presentation/controller/address_cubit.dart';
 import 'package:my_store/features/auth/data/data_source/auth_remote_data_source.dart';
 import 'package:my_store/features/auth/data/data_source/auth_remote_data_source_impl.dart';
 import 'package:my_store/features/auth/domain/repository.dart';
@@ -12,15 +14,12 @@ import 'package:my_store/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:my_store/features/cart/data/data_source/cart_remote_data_source.dart';
 import 'package:my_store/features/cart/domain/repository.dart';
 import 'package:my_store/features/cart/domain/usecases/add_cart_use_case.dart';
-import 'package:my_store/features/cart/domain/usecases/add_shipping_use_cas.dart';
 import 'package:my_store/features/cart/domain/usecases/cart_item_use_case.dart';
 import 'package:my_store/features/cart/domain/usecases/complete_cart_use_case.dart';
 import 'package:my_store/features/cart/domain/usecases/create_cart_use_case.dart';
 import 'package:my_store/features/cart/domain/usecases/regions_use_case.dart';
-import 'package:my_store/features/cart/domain/usecases/shipping_use_case.dart';
 import 'package:my_store/features/cart/domain/usecases/update_cart_use_case.dart';
 import 'package:my_store/features/cart/presentation/cubit/cart_cubit.dart';
-import 'package:my_store/features/cart/presentation/cubit/cart_state.dart';
 import 'package:my_store/features/home/data/data_source/remote_data_source.dart';
 import 'package:my_store/features/home/data/data_source/remote_data_source_impl.dart';
 import 'package:my_store/features/home/domain/repositories/home_repositories.dart';
@@ -29,20 +28,29 @@ import 'package:my_store/features/home/presentation/cubit/home_cubit.dart';
 import 'package:my_store/features/products/domain/repository.dart';
 import 'package:my_store/features/products/domain/usecases/get_products_details.dart';
 import 'package:my_store/features/products/presentation/cubit/product_details_cubit.dart';
+import 'package:my_store/features/shipping/data/data_source/remote_data_source.dart';
 import 'core/network/rest_client.dart';
+import 'features/address/data/data_source/remote_data_source_impl.dart';
+import 'features/address/data/repository_impl.dart';
 import 'features/auth/data/repository_impl.dart';
 import 'features/auth/domain/usecases/register_use_case.dart';
 import 'features/cart/data/data_source/cart_remote_data_source_impl.dart';
 import 'features/cart/data/repository_impl.dart';
-import 'features/cart/domain/usecases/add_address_use_case.dart';
-import 'features/cart/domain/usecases/add_shipping_address_use_case.dart';
-import 'features/cart/domain/usecases/delete_address_use_case.dart';
+import 'features/address/domain/ues_case/add_address_use_case.dart';
+import 'features/shipping/data/data_source/remote_data_source_impl.dart';
+import 'features/shipping/data/repository_impl.dart';
+import 'features/address/domain/ues_case/delete_address_use_case.dart';
 import 'features/cart/domain/usecases/delete_cart_use_case.dart';
-import 'features/cart/domain/usecases/get_address_use_case.dart';
+import 'features/address/domain/ues_case/get_address_use_case.dart';
 import 'features/home/data/repositories_impl/home_repositories_impl.dart';
 import 'features/products/data/data_source/product_details_remote_data_source.dart';
 import 'features/products/data/data_source/product_details_remote_data_source_impl.dart';
 import 'features/products/data/repository_impl.dart';
+import 'features/shipping/domain/repository.dart';
+import 'features/shipping/domain/ues_case/add_shipping_address_use_case.dart';
+import 'features/shipping/domain/ues_case/add_shipping_use_cas.dart';
+import 'features/shipping/domain/ues_case/shipping_use_case.dart';
+import 'features/shipping/presentation/controller/shipping_cubit.dart';
 
 final sl = GetIt.instance;
 
@@ -78,26 +86,17 @@ Future<void> init() async {
   sl.registerLazySingleton<AddCartUseCase>(() => AddCartUseCase(sl()));
   sl.registerLazySingleton<DeleteCartUseCase>(() => DeleteCartUseCase(sl()));
   sl.registerLazySingleton<UpdateCartUseCase>(() => UpdateCartUseCase(sl()));
-  sl.registerLazySingleton<ShippingUseCase>(() => ShippingUseCase(sl()));
-  sl.registerLazySingleton<AddShippingUseCas>(() => AddShippingUseCas(sl()));
   sl.registerLazySingleton<CompleteCartUseCase>(() => CompleteCartUseCase(sl()));
-  sl.registerLazySingleton<GetAddressUseCase>(() =>
-      GetAddressUseCase(sl()));
-  sl.registerLazySingleton<DeleteAddressUseCase>(() =>
-      DeleteAddressUseCase(sl()));
-  sl.registerLazySingleton<AddAddressUseCase>(() =>
-      AddAddressUseCase(sl()));
-  sl.registerLazySingleton<AddShippingAddressUseCase>(() =>
-      AddShippingAddressUseCase(sl()));
+
+
   sl.registerFactory(() => CartCubit(sl(), sl(), sl(),
-      sl(),sl(),sl(),sl(), sl(), sl(), sl(), sl(),sl(),sl(),));
+      sl(),sl(),sl(),sl(), ));
 
 
 
 
   sl.registerLazySingleton<AuthRemoteDataSource>(
-        () => AuthRemoteDataSourceImpl(sl()),
-  );
+        () => AuthRemoteDataSourceImpl(sl()),);
   sl.registerLazySingleton<AuthRepository>(() =>
       AuthRepositoryImpl( remoteDataSource: sl(),));
   sl.registerLazySingleton<RegisterAuthUseCase>(() =>
@@ -110,4 +109,33 @@ Future<void> init() async {
       GetProfileUseCase(sl()));
 
   sl.registerFactory(() => AuthCubit(sl(), sl(),sl(),sl(),));
+
+
+
+  sl.registerLazySingleton<AddressRemoteDataSource>(
+        () => AddressRemoteDataSourceImpl(sl()),);
+  sl.registerLazySingleton<AddressRepository>(() =>
+      AddressRepositoryImpl(  sl(),));
+  sl.registerLazySingleton<GetAddressUseCase>(() =>
+      GetAddressUseCase(sl()));
+  sl.registerLazySingleton<DeleteAddressUseCase>(() =>
+      DeleteAddressUseCase(sl()));
+  sl.registerLazySingleton<AddAddressUseCase>(() =>
+      AddAddressUseCase(sl()));
+  sl.registerFactory(() => AddressCubit(sl(), sl(),sl(),));
+
+
+
+
+  sl.registerLazySingleton<ShippingRemoteDataSource>(
+        () => ShippingRemoteDataSourceImpl(sl()),);
+  sl.registerLazySingleton<ShippingRepository>(() =>
+      ShippingRepositoryImpl(  sl(),));
+  sl.registerLazySingleton<AddShippingAddressUseCase>(() =>
+      AddShippingAddressUseCase(sl()));
+  sl.registerLazySingleton<AddShippingUseCas>(() =>
+      AddShippingUseCas(sl()));
+  sl.registerLazySingleton<ShippingUseCase>(() =>
+      ShippingUseCase(sl()));
+  sl.registerFactory(() => ShippingCubit(sl(), sl(),sl(),));
 }
