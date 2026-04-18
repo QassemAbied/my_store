@@ -5,9 +5,11 @@ import 'package:my_store/core/theme/app_theme.dart';
 import 'package:my_store/core/theme/theme_controller/theme_state.dart';
 import 'package:my_store/core/utils/routing/app_route.dart';
 import 'package:my_store/core/utils/routing/routers.dart';
+import 'package:my_store/features/address/presentation/controller/address_cubit.dart';
 import 'package:my_store/features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:my_store/features/home/presentation/cubit/home_cubit.dart';
 import 'package:my_store/features/products/presentation/cubit/product_details_cubit.dart';
+import 'package:my_store/features/shipping/presentation/controller/shipping_cubit.dart';
 import 'core/utils/constants.dart';
 import 'features/auth/presentation/cubit/auth_cubit.dart';
 import 'features/bottom_nav_bar/controller/bottom_nav_cubit.dart';
@@ -35,9 +37,11 @@ class MyApp extends StatelessWidget {
 
         BlocProvider(create: (context) => ThemeCubit()..init()),
         BlocProvider(create: (context) => sl<ProductDetailsCubit>()),
-        BlocProvider(create: (context) => sl<CartCubit>()),
+        BlocProvider(create: (context) => sl<CartCubit>()..getCartItems()),
         BlocProvider(create: (context) => sl<HomeCubit>()),
         BlocProvider(create: (context) => sl<AuthCubit>()),
+        BlocProvider(create: (context) => sl<ShippingCubit>()),
+        BlocProvider(create: (context) => sl<AddressCubit>()..getAddresses()),
       ],
       child: BlocBuilder<ThemeCubit, ThemeState>(
         builder: (context, themeMode) {
@@ -47,7 +51,10 @@ class MyApp extends StatelessWidget {
             darkTheme: AppTheme.darkTheme(),
             themeMode: context.read<ThemeCubit>().themeMode(),
             onGenerateRoute: AppRoute.generateRoute,
-            initialRoute: AppConstants.token== null||AppConstants.token == ''?
+            initialRoute:
+            // Routers.payment
+            //
+            AppConstants.token== null||AppConstants.token == ''?
             Routers.login:Routers.bottomNav,
           );
         },
