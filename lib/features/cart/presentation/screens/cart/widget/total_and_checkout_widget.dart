@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_store/core/utils/spacing.dart';
+import '../../../../../../core/theme/color_extension.dart';
+import '../../../../../../core/utils/app_text_style.dart';
+import '../../../../../address/presentation/screen/address_screen.dart';
+import '../../../../domain/entities/cart_item.dart';
+import '../../../cubit/cart_cubit.dart';
+import '../../check_out.dart';
+import '../../step.dart';
 
-import '../../../../../core/theme/color_extension.dart';
-import '../../../../../core/utils/app_text_style.dart';
-import '../../../domain/entities/cart_item.dart';
-import '../../cubit/cart_cubit.dart';
 
 class TotalAndCheckoutWidget extends StatelessWidget {
   const TotalAndCheckoutWidget({super.key, required this.cartResponseEntity});
@@ -48,7 +51,9 @@ class TotalAndCheckoutWidget extends StatelessWidget {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
-                context.read<CartCubit>().checkout();
+               Navigator.push(context, MaterialPageRoute(builder: (context){
+                 return AddressScreen();
+               }));
               },
               child: const Text("Checkout"),
             ),
