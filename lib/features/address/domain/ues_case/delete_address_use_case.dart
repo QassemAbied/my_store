@@ -3,12 +3,12 @@ import '../../../../core/network/use_case.dart';
 import '../repository.dart';
 
 class DeleteAddressUseCase extends UseCase<void, String> {
-  final CartRepository _cartRepository;
+  final AddressRepository _addressRepository;
 
-  DeleteAddressUseCase(this._cartRepository);
+  DeleteAddressUseCase(this._addressRepository);
 
   @override
   Future<ApiResult<void>> call(String addressId) async {
-    return await _cartRepository.deleteAddress(addressId);
+    return await _addressRepository.deleteAddress(addressId);
   }
 }
