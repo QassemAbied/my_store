@@ -11,7 +11,7 @@ class ApiConstants {
   static const String authorization= "Authorization";
 
 
-  static const String productUrl= "/store/products";
+    static const String productUrl= "/store/products";
 
   static const String collections = "/store/collections";
   static const String categories = "/store/product-categories";
