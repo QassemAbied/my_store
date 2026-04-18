@@ -55,7 +55,7 @@ class _RegisterBodyState extends State<RegisterBody> {
                       passwordController: passwordController,
                     ),
       
-                    CustomPrimaryButton(
+                    CustomElevatedButton(
                       text: "Register",
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
