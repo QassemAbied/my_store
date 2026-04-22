@@ -4,11 +4,12 @@ import '../../../cart/domain/entities/cart_item.dart';
 import '../entities/shipping_request.dart';
 import '../repository.dart';
 
-class AddShippingAddressUseCase extends UseCase<CartResponseEntity, ShippingAddressCartRequest> {
+class AddShippingAddressUseCase
+    extends UseCase<CartResponseEntity, ShippingAddressCartRequest> {
   final ShippingRepository _shippingRepository;
   AddShippingAddressUseCase(this._shippingRepository);
   @override
-  Future<ApiResult<CartResponseEntity>> call( params) async {
+  Future<ApiResult<CartResponseEntity>> call(params) async {
     return await _shippingRepository.addShippingAddress(params);
   }
 }
