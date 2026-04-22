@@ -5,15 +5,9 @@ import 'package:my_store/core/common_widgets/widgets.dart';
 import 'package:my_store/core/theme/app_colors.dart';
 import 'package:my_store/core/theme/color_extension.dart';
 import 'package:my_store/core/utils/app_text_style.dart';
-import 'package:my_store/core/utils/extension.dart';
-import 'package:my_store/core/utils/routing/routers.dart';
 import 'package:my_store/core/utils/spacing.dart';
-import 'package:my_store/features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:my_store/features/shipping/presentation/controller/shipping_cubit.dart';
-
-import '../../../../cart/domain/entities/params.dart';
 import '../../../../shipping/domain/entities/shipping_request.dart';
-import '../../../../shipping/presentation/screen/widget/shipping_address_listener.dart';
 import '../../../domain/entities/address_entities.dart';
 import '../../controller/address_cubit.dart';
 
@@ -30,16 +24,7 @@ class AddressListItemWidget extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: () {
-
             cubit.selectAddress(index);
-
-            //context.pushNamed(Routers.shipping, arguments: ShippingAddressRequest(
-            //   firstName: item.firstName ?? '',
-            //   lastName: item.lastName ?? '',
-            //   address1: item.address1 ?? '',
-            //   city: item.city ?? '',
-            //   countryCode: item.countryCode ?? '',
-            // ),);
             context.read<ShippingCubit>().addShippingAddress(
               body: ShippingAddressRequest(
                 firstName: item.firstName ?? '',
