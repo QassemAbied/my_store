@@ -6,9 +6,7 @@ part 'address_model.g.dart';
 class AddressResponseModel {
   final List<AddressModel> addresses;
 
-  AddressResponseModel({
-    required this.addresses,
-  });
+  AddressResponseModel({required this.addresses});
 
   factory AddressResponseModel.fromJson(Map<String, dynamic> json) =>
       _$AddressResponseModelFromJson(json);
