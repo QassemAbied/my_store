@@ -15,7 +15,7 @@ class AddAddressListener extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<AddressCubit, AddressState>(
       listenWhen: (previous, current) =>
-      current is AddAddressLoading ||
+          current is AddAddressLoading ||
           current is AddAddressSuccess ||
           current is AddAddressError,
       listener: (context, state) async {
