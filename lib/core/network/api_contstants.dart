@@ -1,17 +1,20 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 class ApiConstants {
-  static const Duration timeout= Duration(seconds: 30);
-  static const String baseUrl= "http://10.0.2.2:9000";
- static  String fixImageUrl(String url) {
+  static const Duration timeout = Duration(seconds: 30);
+  static const String baseUrl = "http://10.0.2.2:9000";
+  static String fixImageUrl(String url) {
     return url.replaceAll("localhost", "10.0.2.2");
   }
-  static const String publishable="x-publishable-api-key";
-  static const String apiKey="pk_ecbf59591d859787be74acff3df180060ed990228d9dba0e95bfdc25182a23e6";
-  static const String contentType= "Content-Type";
-  static const String applicationJson= "application/json";
-  static const String authorization= "Authorization";
 
+  static const String publishable = "x-publishable-api-key";
+  static final String apiKey =dotenv.env['API_KEY']!;
+  static const String contentType = "Content-Type";
+  static const String applicationJson = "application/json";
+  static const String authorization = "Authorization";
+  static final String secretKey =dotenv.env['STRIPE_SECRET']!;
 
-    static const String productUrl= "/store/products";
+  static const String productUrl = "/store/products";
 
   static const String collections = "/store/collections";
   static const String categories = "/store/product-categories";
@@ -27,4 +30,8 @@ class ApiConstants {
   static const String profileRegister = "/store/register";
   static const String login = "/auth/customer/emailpass";
   static const String profile = "/store/custom/me";
+
+  static const String paymentCollection = "/store/payment-collections";
+  static const String paymentSessions = "/store/payment-collections/{id}/payment-sessions";
+
 }
