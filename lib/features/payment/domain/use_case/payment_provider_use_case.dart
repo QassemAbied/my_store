@@ -1,7 +1,7 @@
 import '../../../../core/network/api_result.dart';
 import '../../../../core/network/use_case.dart';
 import '../entities/payment_provider_entities.dart';
-import '../repository.dart';
+import '../../../cart/domain/repository.dart';
 
 class PaymentProviderUseCase extends UseCase<PaymentProvidersResponseEntity, String> {
   final CartRepository _cartRepository;
