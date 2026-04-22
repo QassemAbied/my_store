@@ -12,7 +12,11 @@ import '../../../domain/entities/address_entities.dart';
 import '../../controller/address_cubit.dart';
 
 class AddressListItemWidget extends StatelessWidget {
-  const AddressListItemWidget({super.key, required this.item, required this.index});
+  const AddressListItemWidget({
+    super.key,
+    required this.item,
+    required this.index,
+  });
   final AddressEntity item;
   final int index;
   @override
@@ -34,7 +38,6 @@ class AddressListItemWidget extends StatelessWidget {
                 countryCode: item.countryCode ?? '',
               ),
             );
-
           },
 
           child: CustomAnimatedContainerWidget(
@@ -67,18 +70,19 @@ class AddressListItemWidget extends StatelessWidget {
           bottom: 0,
           right: 0,
           child: GestureDetector(
-            onTap: (){
+            onTap: () {
               cubit.deleteAddress(item.id);
             },
-            child:Container(
+            child: Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                 color: AppColors.error.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Icon(Icons.delete, color: AppColors.error, size:20),
+              child: Icon(Icons.delete, color: AppColors.error, size: 20),
             ),
-          ))
+          ),
+        ),
       ],
     );
   }
