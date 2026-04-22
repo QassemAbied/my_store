@@ -13,19 +13,18 @@ class AddShippingOptionsListener extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<ShippingCubit, ShippingState>(
       listenWhen: (previous, current) =>
-      current is AddShippingLoading ||
+          current is AddShippingLoading ||
           current is AddShippingSuccess ||
           current is AddShippingError,
-      listener: (context, state) async{
-        if(state is AddShippingLoading){
+      listener: (context, state) async {
+        if (state is AddShippingLoading) {
           showDialog(
             context: context,
             barrierDismissible: false,
             builder: (_) => const Center(child: CircularProgressIndicator()),
           );
-        }
-        else if (state is AddShippingSuccess)  {
-           context.pop();
+        } else if (state is AddShippingSuccess) {
+          context.pop();
           context.pushNamed(Routers.payment);
         } else if (state is AddShippingError) {
           context.pop();
