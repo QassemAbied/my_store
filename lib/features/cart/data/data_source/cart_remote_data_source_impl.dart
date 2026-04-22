@@ -1,7 +1,6 @@
 import 'package:my_store/core/network/rest_client.dart';
-import 'package:my_store/features/address/data/models/address_model.dart';
 import 'package:my_store/features/cart/data/models/cart_item_model.dart';
-import 'package:my_store/features/cart/data/models/payment_provider_model.dart';
+import 'package:my_store/features/payment/data/models/payment_provider_model.dart';
 import 'package:my_store/features/cart/domain/entities/params.dart';
 import 'cart_remote_data_source.dart';
 

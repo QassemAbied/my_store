@@ -2,7 +2,7 @@ import 'package:my_store/features/cart/data/models/cart_item_model.dart';
 import 'package:my_store/features/cart/domain/entities/params.dart';
 
 import '../../../address/data/models/address_model.dart';
-import '../models/payment_provider_model.dart';
+import '../../../payment/data/models/payment_provider_model.dart';
 
 abstract class CartRemoteDataSource {
   Future<String> getRegions();
