@@ -20,8 +20,8 @@ class AddNewAddressWidget extends StatelessWidget {
       width: double.infinity,
       height: 50,
       child: ElevatedButton.icon(
-        onPressed: () async{
-        await  showAddAddressSheet(context);
+        onPressed: () async {
+          await showAddAddressSheet(context);
         },
         style: ButtonStyle(
           backgroundColor: WidgetStatePropertyAll(
@@ -30,21 +30,20 @@ class AddNewAddressWidget extends StatelessWidget {
         ),
         icon: Icon(Icons.add),
         label: Text("Add New Address"),
-
       ),
     );
   }
 }
 
 Future<void> showAddAddressSheet(BuildContext context) async {
+  final cubit = context.read<AddressCubit>();
   final firstName = TextEditingController();
   final lastName = TextEditingController();
   final address1 = TextEditingController();
   final address2 = TextEditingController();
   final city = TextEditingController();
   final phone = TextEditingController();
-  final form=GlobalKey<FormState>();
-
+  final form = GlobalKey<FormState>();
 
   showModalBottomSheet(
     context: context,
@@ -52,75 +51,93 @@ Future<void> showAddAddressSheet(BuildContext context) async {
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
     ),
-    builder: (context) {
-      return AddAddressListener(
-        child: SingleChildScrollView(
-          child: Form(
-            key: form,
-            child: Padding(
-              padding: EdgeInsets.only(
-                top: 16,
-                left: 16,
-                right: 16,
-                bottom: MediaQuery.of(context).viewInsets.bottom,
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ListTile(
-                    title: Text(
-                      "Address details",
-                      style: AppTextStyle.bold(fontSize: 18,
-                          color: context.textPrimary),
+    builder: (_) {
+      return BlocProvider.value(
+        value: cubit,
+        child: AddAddressListener(
+          child: DraggableScrollableSheet(
+            initialChildSize: 0.8,
+            maxChildSize: 0.9,
+            expand: false,
+            builder: (BuildContext context, ScrollController scrollController) {
+              return SingleChildScrollView(
+                controller: scrollController,
+                child: Form(
+                  key: form,
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      top: 16,
+                      left: 16,
+                      right: 16,
+                      bottom: MediaQuery.of(context).viewInsets.bottom,
                     ),
-                    subtitle: Text(
-                      "complete address Would assist better us in serving you",
-                      maxLines: 2,
-                      style: AppTextStyle.regular(fontSize: 16,
-                          color: context.textSecondary),
-                    ),
-                    trailing: IconButton(
-                      onPressed: () => context.pop(),
-                      icon: const Icon(Icons.close),
-                    ),
-                  ),
-        
-          
-                   verticalSpace( 10),
-          
-                  _field("First Name", firstName, TextInputType.name),
-                  _field("Last Name", lastName, TextInputType.name),
-                  _field("Address1", address1, TextInputType.streetAddress),
-                  _field("Address2", address2, TextInputType.streetAddress),
-                  _field("City", city, TextInputType.streetAddress),
-                  _field("Phone", phone, TextInputType.phone),
-          
-                   verticalSpace( 20),
-                  CustomElevatedButton(
-                      onPressed: (){
-                        if(form.currentState!.validate()){
-                          context.read<AddressCubit>().addAddress(
-                            CreateAddressParams(
-                              firstName: firstName.text,
-                              lastName: lastName.text,
-                              address1: address1.text,
-                              city: city.text,
-                              countryCode: "gb",
-                              phone: phone.text,
+                    child: Column(
+                      // mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ListTile(
+                          title: Text(
+                            "Address details",
+                            style: AppTextStyle.bold(
+                              fontSize: 18,
+                              color: context.textPrimary,
                             ),
-                          );
-                          
-                        }
-                      },
-                      text: "Save Address",
+                          ),
+                          subtitle: Text(
+                            "complete address Would assist better us in serving you",
+                            maxLines: 2,
+                            style: AppTextStyle.regular(
+                              fontSize: 16,
+                              color: context.textSecondary,
+                            ),
+                          ),
+                          trailing: IconButton(
+                            onPressed: () => context.pop(),
+                            icon: const Icon(Icons.close),
+                          ),
+                        ),
+
+                        verticalSpace(10),
+
+                        _field("First Name", firstName, TextInputType.name),
+                        _field("Last Name", lastName, TextInputType.name),
+                        _field(
+                          "Address1",
+                          address1,
+                          TextInputType.streetAddress,
+                        ),
+                        _field(
+                          "Address2",
+                          address2,
+                          TextInputType.streetAddress,
+                        ),
+                        _field("City", city, TextInputType.streetAddress),
+                        _field("Phone", phone, TextInputType.phone),
+
+                        verticalSpace(20),
+                        CustomElevatedButton(
+                          onPressed: () {
+                            if (form.currentState!.validate()) {
+                              context.read<AddressCubit>().addAddress(
+                                CreateAddressParams(
+                                  firstName: firstName.text,
+                                  lastName: lastName.text,
+                                  address1: address1.text,
+                                  city: city.text,
+                                  countryCode: "gb",
+                                  phone: phone.text,
+                                ),
+                              );
+                            }
+                          },
+                          text: "Save Address",
+                        ),
+                        verticalSpace(10),
+                      ],
+                    ),
                   ),
-                  verticalSpace(10),
-          
-          
-          
-                ],
-              ),
-            ),
+                ),
+              );
+            },
           ),
         ),
       );
@@ -128,23 +145,23 @@ Future<void> showAddAddressSheet(BuildContext context) async {
   );
 }
 
-Widget _field(String hint, TextEditingController controller,
-    TextInputType textInputType) {
+Widget _field(
+  String hint,
+  TextEditingController controller,
+  TextInputType textInputType,
+) {
   return Padding(
     padding: const EdgeInsets.only(bottom: 10),
     child: CustomTextFormField(
       textInputType: textInputType,
       controller: controller,
       hintText: hint,
-      validator: (value){
-        if(value?.isEmpty??false){
+      validator: (value) {
+        if (value?.isEmpty ?? false) {
           return "Please enter $hint";
         }
         return null;
       },
     ),
-
-
-
   );
 }
