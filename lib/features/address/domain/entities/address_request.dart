@@ -1,4 +1,3 @@
-
 class CreateAddressParams {
   final String firstName;
   final String lastName;
