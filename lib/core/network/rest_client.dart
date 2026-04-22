@@ -6,8 +6,11 @@ import '../../features/auth/data/models/auth_model.dart';
 import '../../features/auth/data/models/customer_model.dart';
 import '../../features/address/data/models/address_model.dart';
 import '../../features/cart/data/models/cart_item_model.dart';
-import '../../features/cart/data/models/payment_provider_model.dart';
+import '../../features/orders/data/models/order_review_model.dart';
+import '../../features/payment/data/models/payment_collection_model.dart';
+import '../../features/payment/data/models/payment_provider_model.dart';
 import '../../features/home/data/models/product_models.dart';
+import '../../features/payment/data/models/payment_session_model.dart';
 import '../../features/products/data/models/product_details_model.dart';
 import '../../features/shipping/data/models/shipping_model.dart';
 part 'rest_client.g.dart';
@@ -20,8 +23,8 @@ abstract class RestClient {
     @Query("fields") String fields,
     @Query("limit") int limit,
     @Query("offset") int offset,
-      @Query("region_id") String regionId,
-      );
+    @Query("region_id") String regionId,
+  );
 
   @GET("${ApiConstants.productUrl}/{id}")
   Future<ProductDetailsModel> getProductDetails(
@@ -70,10 +73,6 @@ abstract class RestClient {
   Future<ShippingResponseModel> getShippingOptions(
     @Query("cart_id") String cartId,
   );
-  @GET(ApiConstants.paymentProvider)
-  Future<PaymentProvidersResponseModel> getPaymentProviders(
-    @Query("region_id") String regionId,
-  );
 
   @POST(ApiConstants.addShippingOptions)
   Future<void> addShippingMethod(
@@ -86,8 +85,6 @@ abstract class RestClient {
     @Body() Map<String, dynamic> body,
   );
 
-  @POST("${ApiConstants.carts}/{id}/complete")
-  Future<void> completeCart(@Path("id") String cartId);
   @GET(ApiConstants.address)
   Future<AddressResponseModel> getAddresses();
 
@@ -97,6 +94,26 @@ abstract class RestClient {
   @DELETE("${ApiConstants.address}/{id}")
   Future<void> deleteAddress(@Path("id") String id);
 
+  @GET(ApiConstants.paymentProvider)
+  Future<PaymentProvidersResponseModel> getPaymentProviders(
+    @Query("region_id") String regionId,
+  );
+
+  @POST(ApiConstants.paymentCollection)
+  Future<PaymentCollectionResponse> createPaymentCollection(
+    @Body() Map<String, dynamic> body,
+  );
+
+  @POST(ApiConstants.paymentSessions)
+  Future<PaymentSessionResponseModel> createPaymentSession(
+    @Path("id") String cartId,
+    @Body() Map<String, dynamic> body,
+  );
+  @POST("${ApiConstants.carts}/{id}/complete")
+  Future<OrderReviewResponseModel> completeCart(@Path("id") String cartId);
+
+  @GET("/store/custom/order/{id}")
+  Future<OrderReviewResponseModel> getOrder(@Path("id") String id);
   @POST(ApiConstants.authRegister)
   Future<AuthResponseModel> registerAuth(@Body() Map<String, dynamic> body);
 
