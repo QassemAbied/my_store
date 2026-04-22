@@ -1,9 +1,7 @@
 class AddressResponseEntity {
   final List<AddressEntity> addresses;
 
-  AddressResponseEntity({
-    required this.addresses,
-  });
+  AddressResponseEntity({required this.addresses});
 }
 
 class AddressEntity {
