@@ -12,9 +12,10 @@ class AddressCubit extends Cubit<AddressState> {
   final AddAddressUseCase _addAddressUseCase;
   final DeleteAddressUseCase _deleteAddressUseCase;
   AddressCubit(
-      this._getAddressUseCase,
-      this._addAddressUseCase,
-      this._deleteAddressUseCase) : super(AddressInitial());
+    this._getAddressUseCase,
+    this._addAddressUseCase,
+    this._deleteAddressUseCase,
+  ) : super(AddressInitial());
 
   int? selectedIndex;
   AddressResponseEntity? addresses;
@@ -30,27 +31,26 @@ class AddressCubit extends Cubit<AddressState> {
     final result = await _getAddressUseCase.call(NoParams());
 
     result.result.fold(
-
-          (error) {
+      (error) {
         emit(AddressError(error.toString() ?? "Something went wrong"));
       },
-          (data) {
-            addresses = data;
+      (data) {
+        addresses = data;
         emit(AddressSuccess(data));
       },
     );
   }
+
   Future<void> addAddress(CreateAddressParams params) async {
     emit(AddAddressLoading());
 
     final result = await _addAddressUseCase.call(params);
 
     result.result.fold(
-
-          (error) {
-        emit(AddAddressError(error.toString()?? "Failed to add address"));
+      (error) {
+        emit(AddAddressError(error.toString() ?? "Failed to add address"));
       },
-          (_) {
+      (_) {
         emit(AddAddressSuccess());
 
         /// refresh list بعد الإضافة
@@ -58,10 +58,10 @@ class AddressCubit extends Cubit<AddressState> {
       },
     );
   }
+
   Future<void> deleteAddress(String id) async {
-    addresses?.addresses.removeWhere((e)=> e.id==id);
+    addresses?.addresses.removeWhere((e) => e.id == id);
     emit(AddressSuccess(addresses!));
     await _deleteAddressUseCase.call(id);
-
   }
 }
