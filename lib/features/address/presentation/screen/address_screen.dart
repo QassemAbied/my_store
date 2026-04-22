@@ -4,39 +4,24 @@ import 'package:my_store/features/address/presentation/screen/widgets/add_new_ad
 import '../../../cart/presentation/screens/step.dart';
 import 'address_body.dart';
 
-
-
-class AddressScreen extends StatefulWidget {
+class AddressScreen extends StatelessWidget {
   const AddressScreen({super.key});
-
-  @override
-  State<AddressScreen> createState() => _AddressScreenState();
-}
-
-class _AddressScreenState extends State<AddressScreen> {
-  String? selectedId;
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Addresses"),
-
-      ),
+      appBar: AppBar(title: const Text("Addresses")),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            StepHeader(currentStep: 1, totalSteps: 4,),
+            StepHeader(currentStep: 1, totalSteps: 4),
             AddNewAddressWidget(),
             verticalSpace(20),
-            AddressBody(),
+            Expanded(child: AddressBody()),
           ],
         ),
       ),
     );
   }
 }
-
-
