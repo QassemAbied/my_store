@@ -25,7 +25,7 @@ class AddressBody extends StatelessWidget {
               return EmptyAddressWidget();
             }
 
-            return AddressListViewWidget(addresses: state.addresses,);
+            return AddressListViewWidget(addresses: state.addresses);
           }
           if (state is AddressError) {
             return Center(child: Text(state.message));
