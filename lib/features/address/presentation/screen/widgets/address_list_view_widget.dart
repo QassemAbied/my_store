@@ -14,7 +14,7 @@ class AddressListViewWidget extends StatelessWidget {
 
       itemBuilder: (context, index) {
         final item = list[index];
-        return AddressListItemWidget(item: item, index: index,);
+        return AddressListItemWidget(item: item, index: index);
       },
     );
   }
