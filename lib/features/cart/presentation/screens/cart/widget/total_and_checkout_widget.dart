@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_store/core/utils/routing/routers.dart';
 import 'package:my_store/core/utils/spacing.dart';
 import '../../../../../../core/theme/color_extension.dart';
 import '../../../../../../core/utils/app_text_style.dart';
-import '../../../../../address/presentation/screen/address_screen.dart';
+import '../../../../../../core/utils/extension.dart';
 import '../../../../domain/entities/cart_item.dart';
-import '../../../cubit/cart_cubit.dart';
-import '../../check_out.dart';
-import '../../step.dart';
-
 
 class TotalAndCheckoutWidget extends StatelessWidget {
   const TotalAndCheckoutWidget({super.key, required this.cartResponseEntity});
@@ -51,9 +47,7 @@ class TotalAndCheckoutWidget extends StatelessWidget {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
-               Navigator.push(context, MaterialPageRoute(builder: (context){
-                 return AddressScreen();
-               }));
+                context.pushNamed(Routers.address);
               },
               child: const Text("Checkout"),
             ),
