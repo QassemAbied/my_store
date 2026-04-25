@@ -23,11 +23,11 @@ class _RestClient implements RestClient {
 
   @override
   Future<ProductResponseModel> getProduct(
-      String fields,
-      int limit,
-      int offset,
-      String regionId,
-      ) async {
+    String fields,
+    int limit,
+    int offset,
+    String regionId,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'fields': fields,
@@ -40,11 +40,11 @@ class _RestClient implements RestClient {
     final _options = _setStreamType<ProductResponseModel>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/store/products',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/store/products',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -60,9 +60,9 @@ class _RestClient implements RestClient {
 
   @override
   Future<ProductDetailsModel> getProductDetails(
-      String id,
-      String fields,
-      ) async {
+    String id,
+    String fields,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'fields': fields};
     final _headers = <String, dynamic>{};
@@ -70,11 +70,11 @@ class _RestClient implements RestClient {
     final _options = _setStreamType<ProductDetailsModel>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/store/products/${id}',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/store/products/${id}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -100,33 +100,74 @@ class _RestClient implements RestClient {
     final _options = _setStreamType<void>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/store/collections',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/store/collections',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     await _dio.fetch<void>(_options);
   }
 
   @override
-  Future<void> getCategories() async {
+  Future<CategoryResponseModel> getCategories() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<void>(
+    final _options = _setStreamType<CategoryResponseModel>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/store/product-categories',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/store/product-categories',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
-    await _dio.fetch<void>(_options);
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late CategoryResponseModel _value;
+    try {
+      _value = CategoryResponseModel.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<ProductResponseModel> getProductsByCategory(
+    String categoryId,
+    String fields,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'category_id': categoryId,
+      r'fields': fields,
+    };
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<ProductResponseModel>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/store/products',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late ProductResponseModel _value;
+    try {
+      _value = ProductResponseModel.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
   }
 
   @override
@@ -139,11 +180,11 @@ class _RestClient implements RestClient {
     final _options = _setStreamType<String>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/store/carts',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/store/carts',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<String>(_options);
@@ -167,11 +208,11 @@ class _RestClient implements RestClient {
     final _options = _setStreamType<void>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/store/carts/${id}/line-items',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/store/carts/${id}/line-items',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     await _dio.fetch<void>(_options);
@@ -186,11 +227,11 @@ class _RestClient implements RestClient {
     final _options = _setStreamType<CartResponseModel>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/store/carts/${id}',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/store/carts/${id}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -213,11 +254,11 @@ class _RestClient implements RestClient {
     final _options = _setStreamType<String>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/store/regions',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/store/regions',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<String>(_options);
@@ -240,11 +281,11 @@ class _RestClient implements RestClient {
     final _options = _setStreamType<void>(
       Options(method: 'DELETE', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/store/carts/${cartId}/line-items/${lineId}',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/store/carts/${cartId}/line-items/${lineId}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     await _dio.fetch<void>(_options);
@@ -252,10 +293,10 @@ class _RestClient implements RestClient {
 
   @override
   Future<void> updateCartItem(
-      String cartId,
-      String lineId,
-      Map<String, dynamic> body,
-      ) async {
+    String cartId,
+    String lineId,
+    Map<String, dynamic> body,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -264,11 +305,11 @@ class _RestClient implements RestClient {
     final _options = _setStreamType<void>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/store/carts/${cartId}/line-items/${lineId}',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/store/carts/${cartId}/line-items/${lineId}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     await _dio.fetch<void>(_options);
@@ -283,11 +324,11 @@ class _RestClient implements RestClient {
     final _options = _setStreamType<ShippingResponseModel>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/store/shipping-options',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/store/shipping-options',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -303,9 +344,9 @@ class _RestClient implements RestClient {
 
   @override
   Future<void> addShippingMethod(
-      String cartId,
-      Map<String, dynamic> body,
-      ) async {
+    String cartId,
+    Map<String, dynamic> body,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -314,11 +355,11 @@ class _RestClient implements RestClient {
     final _options = _setStreamType<void>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/store/carts/${cartId}/shipping-methods',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/store/carts/${cartId}/shipping-methods',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     await _dio.fetch<void>(_options);
@@ -326,9 +367,9 @@ class _RestClient implements RestClient {
 
   @override
   Future<CartResponseModel> addShippingAddress(
-      String cartId,
-      Map<String, dynamic> body,
-      ) async {
+    String cartId,
+    Map<String, dynamic> body,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -337,11 +378,11 @@ class _RestClient implements RestClient {
     final _options = _setStreamType<CartResponseModel>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/store/carts/${cartId}',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/store/carts/${cartId}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -364,11 +405,11 @@ class _RestClient implements RestClient {
     final _options = _setStreamType<AddressResponseModel>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/store/custom/addresses',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/store/custom/addresses',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -392,11 +433,11 @@ class _RestClient implements RestClient {
     final _options = _setStreamType<void>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/store/custom/addresses',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/store/custom/addresses',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     await _dio.fetch<void>(_options);
@@ -411,11 +452,11 @@ class _RestClient implements RestClient {
     final _options = _setStreamType<void>(
       Options(method: 'DELETE', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/store/custom/addresses/${id}',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/store/custom/addresses/${id}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     await _dio.fetch<void>(_options);
@@ -423,8 +464,8 @@ class _RestClient implements RestClient {
 
   @override
   Future<PaymentProvidersResponseModel> getPaymentProviders(
-      String regionId,
-      ) async {
+    String regionId,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'region_id': regionId};
     final _headers = <String, dynamic>{};
@@ -432,11 +473,11 @@ class _RestClient implements RestClient {
     final _options = _setStreamType<PaymentProvidersResponseModel>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/store/payment-providers',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/store/payment-providers',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -452,8 +493,8 @@ class _RestClient implements RestClient {
 
   @override
   Future<PaymentCollectionResponse> createPaymentCollection(
-      Map<String, dynamic> body,
-      ) async {
+    Map<String, dynamic> body,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -462,11 +503,11 @@ class _RestClient implements RestClient {
     final _options = _setStreamType<PaymentCollectionResponse>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/store/payment-collections',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/store/payment-collections',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -482,9 +523,9 @@ class _RestClient implements RestClient {
 
   @override
   Future<PaymentSessionResponseModel> createPaymentSession(
-      String cartId,
-      Map<String, dynamic> body,
-      ) async {
+    String cartId,
+    Map<String, dynamic> body,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -493,11 +534,11 @@ class _RestClient implements RestClient {
     final _options = _setStreamType<PaymentSessionResponseModel>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/store/payment-collections/${cartId}/payment-sessions',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/store/payment-collections/${cartId}/payment-sessions',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -520,11 +561,11 @@ class _RestClient implements RestClient {
     final _options = _setStreamType<OrderReviewResponseModel>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/store/carts/${cartId}/complete',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/store/carts/${cartId}/complete',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -547,11 +588,11 @@ class _RestClient implements RestClient {
     final _options = _setStreamType<OrderReviewResponseModel>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/store/custom/order/${id}',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/store/custom/order/${id}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -575,11 +616,11 @@ class _RestClient implements RestClient {
     final _options = _setStreamType<AuthResponseModel>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/auth/customer/emailpass/register',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/auth/customer/emailpass/register',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -595,8 +636,8 @@ class _RestClient implements RestClient {
 
   @override
   Future<CustomerResponseModel> registerProfile(
-      Map<String, dynamic> body,
-      ) async {
+    Map<String, dynamic> body,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -605,11 +646,11 @@ class _RestClient implements RestClient {
     final _options = _setStreamType<CustomerResponseModel>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/store/register',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/store/register',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -632,11 +673,11 @@ class _RestClient implements RestClient {
     final _options = _setStreamType<CustomerResponseModel>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/store/custom/me',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/store/custom/me',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -660,11 +701,11 @@ class _RestClient implements RestClient {
     final _options = _setStreamType<AuthResponseModel>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/auth/customer/emailpass',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/auth/customer/emailpass',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
