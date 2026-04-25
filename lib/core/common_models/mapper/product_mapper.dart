@@ -2,8 +2,8 @@
 
 
 
-import 'package:my_store/features/home/data/models/product_models.dart' as model;
-import 'package:my_store/features/home/domain/entities/product_entities.dart' as entity;
+import 'package:my_store/core/common_models/models/product_models.dart' as model;
+import 'package:my_store/core/common_models/entities/product_entities.dart' as entity;
 
 
 class ProductMapper {
