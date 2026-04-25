@@ -1,34 +1,44 @@
 import '../../../../core/common_models/entities/product_entities.dart';
 import '../../domain/entities/category_entities.dart';
 
-abstract class CategoryState {}
-
-class CategoryInitial extends CategoryState {}
-
-class CategoryLoading extends CategoryState {}
-
-class CategorySuccess extends CategoryState {
+class CategoryState {
   final List<CategoryEntities> categories;
-
-  CategorySuccess(this.categories);
-}
-
-class CategoryError extends CategoryState {
-  final String message;
-
-  CategoryError(this.message);
-}
-
-class ProductByCategoryLoading extends CategoryState {}
-
-class ProductByCategorySuccess extends CategoryState {
   final List<ProductItemEntity> products;
 
-  ProductByCategorySuccess(this.products);
-}
+  final String? selectedCategoryId;
 
-class ProductByCategoryError extends CategoryState {
-  final String message;
+  final bool isLoadingCategories;
+  final bool isLoadingProducts;
 
-  ProductByCategoryError(this.message);
+  final String? error;
+
+  CategoryState({
+    this.categories = const [],
+    this.products = const [],
+    this.selectedCategoryId,
+    this.isLoadingCategories = false,
+    this.isLoadingProducts = false,
+    this.error,
+  });
+
+  CategoryState copyWith({
+    List<CategoryEntities>? categories,
+    List<ProductItemEntity>? products,
+    String? selectedCategoryId,
+    bool? isLoadingCategories,
+    bool? isLoadingProducts,
+    String? error,
+  }) {
+    return CategoryState(
+      categories: categories ?? this.categories,
+      products: products ?? this.products,
+      selectedCategoryId:
+      selectedCategoryId ?? this.selectedCategoryId,
+      isLoadingCategories:
+      isLoadingCategories ?? this.isLoadingCategories,
+      isLoadingProducts:
+      isLoadingProducts ?? this.isLoadingProducts,
+      error: error,
+    );
+  }
 }

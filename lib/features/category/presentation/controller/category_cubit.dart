@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_store/core/network/use_case.dart';
 import 'package:my_store/features/category/domain/usecases/get_category_use_case.dart';
@@ -10,21 +11,41 @@ class CategoryCubit extends Cubit<CategoryState> {
   final GetProductsByCategoryUseCase _getProductsByCategoryUseCase;
 
   CategoryCubit(this._getCategoryUseCase, this._getProductsByCategoryUseCase)
-    : super(CategoryInitial());
+    : super(CategoryState());
 
-  Future<void> getCategories() async {
-    emit(CategoryLoading());
+  Future<void> selectCategory(String id, BuildContext context) async {
+    if (state.selectedCategoryId == id) return;
+    emit(state.copyWith(selectedCategoryId: id, products: []));
+    if (id.isNotEmpty) {
+      await getProductsByCategory(id);
+    }
+  }
+
+  Future<void> getCategories(BuildContext context) async {
+    emit(state.copyWith(isLoadingCategories: true));
     final result = await _getCategoryUseCase(NoParams());
     result.result.fold(
-      (failure) => emit(CategoryError('Failed to fetch categories')),
-      (categories) {
-        emit(CategorySuccess(categories));
+      (failure) => emit(
+        state.copyWith(
+          isLoadingCategories: false,
+          error: 'Failed to fetch categories',
+        ),
+      ),
+      (categories) async {
+        emit(
+          state.copyWith(
+            isLoadingCategories: false,
+            categories: categories,
+            selectedCategoryId: categories.first.id,
+          ),
+        );
+        await getProductsByCategory(categories.first.id);
       },
     );
   }
 
   Future<void> getProductsByCategory(String categoryId) async {
-    emit(ProductByCategoryLoading());
+    emit(state.copyWith(isLoadingProducts: true));
     final result = await _getProductsByCategoryUseCase(
       ProductByCategoryRequest(
         categoryId: categoryId,
@@ -32,9 +53,14 @@ class CategoryCubit extends Cubit<CategoryState> {
       ),
     );
     result.result.fold(
-      (failure) => emit(ProductByCategoryError('Failed to fetch products')),
+      (failure) => emit(state.copyWith(error: 'Failed to fetch products')),
       (products) {
-        emit(ProductByCategorySuccess(products.products ?? []));
+        emit(
+          state.copyWith(
+            isLoadingProducts: false,
+            products: products.products ?? [],
+          ),
+        );
       },
     );
   }
