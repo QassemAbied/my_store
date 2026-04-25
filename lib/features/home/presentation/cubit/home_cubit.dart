@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_store/features/home/domain/entities/product_entities.dart';
+import 'package:my_store/core/common_models/entities/product_entities.dart';
 import 'package:my_store/features/home/domain/entities/product_param.dart';
 import '../../../../core/services/shared_pref.dart';
 import '../../domain/usecases/product_usecase.dart';

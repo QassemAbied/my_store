@@ -1,5 +1,5 @@
 
-import 'package:my_store/features/home/domain/entities/product_entities.dart';
+import 'package:my_store/core/common_models/entities/product_entities.dart';
 
 class HomeState {}
 
