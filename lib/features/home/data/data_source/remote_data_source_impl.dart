@@ -1,5 +1,5 @@
 import 'package:my_store/features/home/data/data_source/remote_data_source.dart';
-import 'package:my_store/features/home/data/models/product_models.dart';
+import 'package:my_store/core/common_models/models/product_models.dart';
 import '../../../../core/network/rest_client.dart';
 import '../../domain/entities/product_param.dart';
 
