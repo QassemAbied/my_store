@@ -19,6 +19,10 @@ import 'package:my_store/features/cart/domain/usecases/create_cart_use_case.dart
 import 'package:my_store/features/cart/domain/usecases/regions_use_case.dart';
 import 'package:my_store/features/cart/domain/usecases/update_cart_use_case.dart';
 import 'package:my_store/features/cart/presentation/cubit/cart_cubit.dart';
+import 'package:my_store/features/category/data/data_source/category_remote_data_source.dart';
+import 'package:my_store/features/category/domain/category_repositories.dart';
+import 'package:my_store/features/category/domain/usecases/get_category_use_case.dart';
+import 'package:my_store/features/category/presentation/controller/category_cubit.dart';
 import 'package:my_store/features/home/data/data_source/remote_data_source.dart';
 import 'package:my_store/features/home/data/data_source/remote_data_source_impl.dart';
 import 'package:my_store/features/home/domain/repositories/home_repositories.dart';
@@ -40,6 +44,9 @@ import 'features/auth/domain/usecases/register_use_case.dart';
 import 'features/cart/data/data_source/cart_remote_data_source_impl.dart';
 import 'features/cart/data/repository_impl.dart';
 import 'features/address/domain/ues_case/add_address_use_case.dart';
+import 'features/category/data/category_repositories_impl.dart';
+import 'features/category/data/data_source/category_remote_data_source_imp.dart';
+import 'features/category/domain/usecases/get_product_by_category_use_case.dart';
 import 'features/orders/data/data_source/order_remote_data_source_impl.dart';
 import 'features/orders/data/repository_imp.dart';
 import 'features/orders/domain/use_case/order_review_use_case.dart';
@@ -166,4 +173,17 @@ Future<void> init() async {
   sl.registerLazySingleton<OrderRepository>(() => OrderRepositoryImpl(sl()));
   sl.registerLazySingleton<OrderReviewUseCase>(() => OrderReviewUseCase(sl()));
   sl.registerFactory(() => OrderCubit(sl()));
+
+
+
+  sl.registerLazySingleton<CategoryRemoteDataSource>(
+        () => CategoryRemoteDataSourceImpl(sl()),
+  );
+
+  sl.registerLazySingleton<CategoryRepositories>(
+        () => CategoryRepositoriesImpl(sl()),
+  );
+  sl.registerLazySingleton(() => GetCategoryUseCase(sl()));
+  sl.registerLazySingleton(() => GetProductsByCategoryUseCase(sl()));
+  sl.registerFactory(() => CategoryCubit(sl(),sl(),));
 }
