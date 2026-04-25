@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:my_store/features/category/presentation/screens/category_body.dart';
+import '../../../../core/common_widgets/custom_app_bar.dart';
+import '../../../../core/theme/color_extension.dart';
 
-class CategoryScreen extends StatefulWidget {
-  const CategoryScreen({super.key});
 
-  @override
-  State<CategoryScreen> createState() => _CategoryScreenState();
-}
-
-class _CategoryScreenState extends State<CategoryScreen> {
+class CategoryScreen extends StatelessWidget {
+  CategoryScreen({super.key});
+  final GlobalKey cartKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Category')),
-      body: const Center(child: Text('Category Screen')),
+      appBar: CustomAppBar(title: 'Product', cartKey: cartKey),
+      body: CategoryBody(cartKey: cartKey),
     );
   }
 }
