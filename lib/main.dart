@@ -9,6 +9,7 @@ import 'package:my_store/core/utils/routing/app_route.dart';
 import 'package:my_store/core/utils/routing/routers.dart';
 import 'package:my_store/features/address/presentation/controller/address_cubit.dart';
 import 'package:my_store/features/cart/presentation/cubit/cart_cubit.dart';
+import 'package:my_store/features/category/presentation/controller/category_cubit.dart';
 import 'package:my_store/features/home/presentation/cubit/home_cubit.dart';
 import 'package:my_store/features/orders/presentation/controller/order_cubit.dart';
 import 'package:my_store/features/payment/presentation/controller/payment_cubit.dart';
@@ -48,6 +49,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => sl<CartCubit>()..getCartItems()),
         BlocProvider(create: (context) => sl<HomeCubit>()),
         BlocProvider(create: (context) => sl<AuthCubit>()),
+        BlocProvider(create: (context) => sl<CategoryCubit>()),
         // BlocProvider(create: (context) => sl<OrderCubit>()),
         // BlocProvider(create: (context) => sl<ShippingCubit>()),
         //  BlocProvider(create: (context) => sl<PaymentCubit>()),
