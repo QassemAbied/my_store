@@ -1,22 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_store/features/category/presentation/screens/widgets/category_list_view_widget.dart';
+import 'package:my_store/features/category/presentation/screens/widgets/category_loading_widget.dart';
+import 'package:my_store/features/category/presentation/screens/widgets/empty_product_and_category_widget.dart';
 import 'package:my_store/features/category/presentation/screens/widgets/product_list_view_widget.dart';
+import 'package:my_store/features/category/presentation/screens/widgets/product_loading_widget.dart';
 
 import '../../../../core/utils/spacing.dart';
 import '../controller/category_cubit.dart';
 import '../controller/category_state.dart';
 
 class CategoryBody extends StatelessWidget {
- const  CategoryBody({super.key, required this.cartKey});
+  const CategoryBody({super.key, required this.cartKey});
   final GlobalKey cartKey;
 
   @override
   Widget build(BuildContext context) {
-    return  BlocBuilder<CategoryCubit, CategoryState>(
+    return BlocBuilder<CategoryCubit, CategoryState>(
       builder: (context, state) {
         if (state.isLoadingCategories) {
-          return const Center(child: CircularProgressIndicator());
+          if (state.products.isEmpty) {
+            return const CategoriesShimmer();
+          }
+          return const CategoriesShimmer();
         }
 
         if (state.error != null) {
@@ -37,13 +43,15 @@ class CategoryBody extends StatelessWidget {
 
               Expanded(
                 child: state.isLoadingProducts
-                    ? const Center(child: CircularProgressIndicator())
+                    ? const ProductsShimmer()
+                    : state.products.isEmpty
+                    ? EmptyCategoryScreen(
+                        categoryName: state.selectedCategoryId!,
+                      )
                     : ProductListViewWidget(
-                  product: state.products,
-          cartKey: cartKey,
-                ),
-
-
+                        product: state.products,
+                        cartKey: cartKey,
+                      ),
               ),
             ],
           ),
