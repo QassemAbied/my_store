@@ -6,6 +6,7 @@ import 'package:my_store/core/common_widgets/custom_cart_icon_widget.dart';
 import 'package:my_store/features/auth/domain/entities/requests.dart';
 import 'package:my_store/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:my_store/features/cart/presentation/cubit/cart_cubit.dart';
+import 'package:my_store/features/category/presentation/controller/category_cubit.dart';
 import '../../../../core/network/api_contstants.dart';
 import '../../../../core/services/shared_pref.dart';
 import '../../../../core/utils/extension.dart';
@@ -154,16 +155,16 @@ class _HomeScreenState extends State<HomeScreen> {
           // context.read<CartCubit>().addCart(
           //     variantId: 'variant_01KMWC9BKA8SZTM3NE9KXNC6AF',
           //     quantity: 1);
-          context.read<AuthCubit>().logout();
-          context.pushNamedAndRemoveUntil(Routers.login);
-          await SharedPrefHelper.removeData('region');
-         await SharedPrefHelper.removeData('cartId');
+         //  context.read<AuthCubit>().logout();
+         //  context.pushNamedAndRemoveUntil(Routers.login);
+         //  await SharedPrefHelper.removeData('region');
+         // await SharedPrefHelper.removeData('cartId');
          // cartId = null;
 
           // context.read<CartCubit>().updateCart(
           //     lineId: 'cali_01KNF46YPMAHY01VAJ1GHSS3ZW',
           //     quantity: 5.toInt());
-          //context.read<CartCubit>().getShippingOptions();
+          context.read<CategoryCubit>().getProductsByCategory('pcat_01KMWC9BGP7DW9JBSF4568Q9JV');
          // context.read<CartCubit>().checkout();
         //  context.read<CartCubit>().addShippingOptions(shippingOptionId: 'so_01KMWC9BE3DEHBFF7MZGY2BFAZ');
         // context.read<CartCubit>().deleteCart(lineId: 'cali_01KNF1N25ZSNGF51H1PR0GE8TQ');
