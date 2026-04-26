@@ -12,7 +12,8 @@ class RemoteDataSourceImpl implements RemoteDataSource {
       params.fields,
       params.limit,
       params.offset,
-      params.reginId
+      params.reginId,
+        params.query,
       //params.expand,
     );
   }
