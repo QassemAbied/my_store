@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_store/features/search/search_screen.dart';
 import 'package:my_store/core/theme/app_colors.dart';
 import 'package:my_store/core/theme/color_extension.dart';
 import 'package:my_store/core/utils/app_text_style.dart';
@@ -21,6 +22,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget{
       title:  Text(title,style: AppTextStyle.bold(
           fontSize: 20.0, color: context.primaryColor),),
       actions: [
+        IconButton(
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) =>  SearchScreen()) );
+          },
+          icon: const Icon(Icons.search)),
+
         CartIconWithBadge(cartKey: cartKey),
       ],
     );
