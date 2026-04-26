@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_store/features/category/presentation/screens/widgets/product_loading_widget.dart';
+import 'package:my_store/core/common_widgets/custom_grid_view/product_grid_loading_widget.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../../../core/theme/color_extension.dart';
 import '../../../../../core/utils/spacing.dart';
@@ -34,7 +34,7 @@ class CategoriesShimmer extends StatelessWidget {
           ),
         ),
         verticalSpace(20),
-        Expanded(child: ProductsShimmer()),
+        Expanded(child: ProductsGridShimmer()),
       ],
     );
   }
