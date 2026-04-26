@@ -27,6 +27,7 @@ class _RestClient implements RestClient {
     int limit,
     int offset,
     String regionId,
+    String? query,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
@@ -34,7 +35,9 @@ class _RestClient implements RestClient {
       r'limit': limit,
       r'offset': offset,
       r'region_id': regionId,
+      r'q': query,
     };
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<ProductResponseModel>(

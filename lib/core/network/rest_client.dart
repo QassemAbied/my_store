@@ -25,6 +25,7 @@ abstract class RestClient {
     @Query("limit") int limit,
     @Query("offset") int offset,
     @Query("region_id") String regionId,
+      @Query("q") String? query,
   );
 
   @GET(ApiConstants.productDetails)
