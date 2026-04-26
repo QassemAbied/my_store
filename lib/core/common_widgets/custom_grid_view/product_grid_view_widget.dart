@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_store/features/category/presentation/screens/widgets/product_list_item_widget.dart';
+import 'package:my_store/core/common_widgets/custom_grid_view/product_grid_item_widget.dart';
 import '../../../../../core/common_models/entities/product_entities.dart';
 
 class ProductListViewWidget extends StatelessWidget {

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
-import '../../../../../core/theme/color_extension.dart';
-import '../../../../../core/utils/spacing.dart';
+import '../../theme/color_extension.dart';
+import '../../utils/spacing.dart';
 
-class ProductsShimmer extends StatelessWidget {
-  const ProductsShimmer({super.key});
+class ProductsGridShimmer extends StatelessWidget {
+  const ProductsGridShimmer({super.key});
 
   @override
   Widget build(BuildContext context) {

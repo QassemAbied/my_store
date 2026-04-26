@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/common_models/entities/product_entities.dart';
-import '../../../../../core/common_widgets/custom_cart_icon_widget.dart';
-import '../../../../../core/network/api_contstants.dart';
-import '../../../../../core/theme/color_extension.dart';
-import '../../../../../core/utils/app_text_style.dart';
-import '../../../../../core/utils/spacing.dart';
-import '../../../../cart/domain/entities/cart_item.dart';
+import '../../common_models/entities/product_entities.dart';
+import '../custom_cart_icon_widget.dart';
+import '../../network/api_contstants.dart';
+import '../../theme/color_extension.dart';
+import '../../utils/app_text_style.dart';
+import '../../utils/spacing.dart';
+import '../../../features/cart/domain/entities/cart_item.dart';
 
 class ModernProductCard extends StatelessWidget {
   final ProductItemEntity product;
