@@ -6,50 +6,56 @@ import '../../domain/usecases/product_usecase.dart';
 import 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
-  final ProductUseCase productUseCase;
+  final ProductUseCase _productUseCase;
 
-  HomeCubit(this.productUseCase) : super(HomeInitial());
+  HomeCubit(this._productUseCase,) : super(HomeInitial());
 
-  int limit = 7;
-   int offset = 0;
-   bool hasMore = true;
-   bool isLoading = false;
+  int limit = 5;
+  int offset = 0;
+  bool hasMore = true;
+  bool isLoading = false;
+
 
   List<ProductItemEntity> productList = [];
 
 
-  Future getProduct({ bool isLoadMore=false}) async{
-    if(isLoading || !hasMore) return;
-    isLoading=true;
-    if(!isLoadMore){
-       offset = 0;
-       hasMore = true;
-       productList.clear();
-       emit(ProductLoading());
+  Future getProduct({ bool isLoadMore = false}) async {
+    if (isLoading || !hasMore) return;
+    isLoading = true;
+    if (!isLoadMore) {
+      offset = 0;
+      hasMore = true;
+      productList.clear();
+      emit(ProductLoading());
     }
     final regionId =
-     SharedPrefHelper.getString(key: 'region');
+    SharedPrefHelper.getString(key: 'region');
     if (regionId == null) {
       emit(ProductFailure("Region Id is null"));
       return;
     }
-   final params=ProductParams(
-       limit: limit, offset: offset,
-     fields: "id,title,description,thumbnail,*variants.calculated_price",
-     reginId: regionId??'',
-   );
-    final result =await productUseCase(params);
-    result.result.fold((failure)=>emit(ProductFailure(failure.toString())),
-        (data){
-      final newProduct = data.products;
-      if(newProduct?.isEmpty??false){
-        hasMore=false;
-      }else{
-        productList.addAll(newProduct!);
-        offset+=limit;
-      }
-      emit(ProductSuccess(product: productList,));
+    final params = ProductParams(
+        limit: limit,
+        offset: offset,
+        fields: "id,title,description,thumbnail,*variants.calculated_price",
+        reginId: regionId,
+        query: null
+    );
+    final result = await _productUseCase(params);
+    result.result.fold((failure) => emit(ProductFailure(failure.toString())),
+            (data) {
+          final newProduct = data.products;
+          if (newProduct?.isEmpty ?? false) {
+            hasMore = false;
+          } else {
+            productList.addAll(newProduct!);
+            offset += limit;
+          }
+          emit(ProductSuccess(product: productList, isSearch: false,));
         });
     isLoading = false;
   }
 }
+
+
+

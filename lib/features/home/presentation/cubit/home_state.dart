@@ -7,13 +7,17 @@ final class HomeInitial extends HomeState {}
 final class ProductLoading extends HomeState {}
 final class ProductSuccess extends HomeState {
   final List<ProductItemEntity> product;
+  final bool isSearch;
 
 
 
-  ProductSuccess({required this.product});
+
+  ProductSuccess({required this.product,required this.isSearch});
 }
 final class ProductFailure extends HomeState {
   final String err;
 
   ProductFailure(this.err);
 }
+
+
