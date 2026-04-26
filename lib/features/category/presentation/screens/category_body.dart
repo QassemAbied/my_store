@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_store/features/category/presentation/screens/widgets/category_list_view_widget.dart';
 import 'package:my_store/features/category/presentation/screens/widgets/category_loading_widget.dart';
 import 'package:my_store/features/category/presentation/screens/widgets/empty_product_and_category_widget.dart';
-import 'package:my_store/features/category/presentation/screens/widgets/product_list_view_widget.dart';
-import 'package:my_store/features/category/presentation/screens/widgets/product_loading_widget.dart';
+import 'package:my_store/core/common_widgets/custom_grid_view/product_grid_view_widget.dart';
+import 'package:my_store/core/common_widgets/custom_grid_view/product_grid_loading_widget.dart';
 
 import '../../../../core/utils/spacing.dart';
 import '../controller/category_cubit.dart';
@@ -43,7 +43,7 @@ class CategoryBody extends StatelessWidget {
 
               Expanded(
                 child: state.isLoadingProducts
-                    ? const ProductsShimmer()
+                    ? const ProductsGridShimmer()
                     : state.products.isEmpty
                     ? EmptyCategoryScreen(
                         categoryName: state.selectedCategoryId!,
