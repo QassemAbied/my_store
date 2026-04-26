@@ -27,6 +27,7 @@ import 'package:my_store/features/home/data/data_source/remote_data_source.dart'
 import 'package:my_store/features/home/data/data_source/remote_data_source_impl.dart';
 import 'package:my_store/features/home/domain/repositories/home_repositories.dart';
 import 'package:my_store/features/home/domain/usecases/product_usecase.dart';
+import 'package:my_store/features/home/domain/usecases/search_use_case.dart';
 import 'package:my_store/features/home/presentation/cubit/home_cubit.dart';
 import 'package:my_store/features/orders/data/data_source/order_remote_data_source.dart';
 import 'package:my_store/features/orders/domain/repository.dart';
@@ -34,6 +35,7 @@ import 'package:my_store/features/orders/presentation/controller/order_cubit.dar
 import 'package:my_store/features/products/domain/repository.dart';
 import 'package:my_store/features/products/domain/usecases/get_products_details.dart';
 import 'package:my_store/features/products/presentation/cubit/product_details_cubit.dart';
+import 'package:my_store/features/search/controller/search_cubit.dart';
 import 'package:my_store/features/shipping/data/data_source/remote_data_source.dart';
 import 'core/network/rest_client.dart';
 import 'core/services/stripe_service.dart';
@@ -85,7 +87,11 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<HomeRepositories>(() => HomeRepositoriesImpl(sl()));
   sl.registerLazySingleton<ProductUseCase>(() => ProductUseCase(sl()));
-  sl.registerFactory(() => HomeCubit(sl()));
+  sl.registerLazySingleton<SearchUseCase>(() => SearchUseCase(sl()));
+
+  sl.registerFactory(() => HomeCubit(sl(), ));
+  sl.registerFactory(() => SearchCubit(sl(), ));
+
 
   sl.registerLazySingleton<ProductDetailsRemoteDataSource>(
     () => ProductDetailsRemoteDataSourceImpl(sl()),
