@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => ThemeCubit()..init()),
         BlocProvider(create: (context) => sl<ProductDetailsCubit>()),
         BlocProvider(create: (context) => sl<CartCubit>()..getCartItems()),
-        BlocProvider(create: (context) => sl<HomeCubit>()..getProduct()),
+        BlocProvider(create: (context) => sl<HomeCubit>()),
         BlocProvider(create: (context) => sl<AuthCubit>()),
         BlocProvider(create: (context) => sl<CategoryCubit>()..getCategories(context)),
         // BlocProvider(create: (context) => sl<OrderCubit>()),
