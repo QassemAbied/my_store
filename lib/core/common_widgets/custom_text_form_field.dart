@@ -16,6 +16,7 @@ class CustomTextFormField extends StatelessWidget {
   final bool? autofocus;
   final String? helperText;
   final String? Function(String?)? validator;
+  final void Function(String)? onChanged;
 
   const CustomTextFormField({
     super.key,
@@ -32,6 +33,7 @@ class CustomTextFormField extends StatelessWidget {
     this.enabled,
     this.minLines,
     this.maxLines,
+    this.onChanged
   });
 
   @override
@@ -44,6 +46,7 @@ class CustomTextFormField extends StatelessWidget {
       maxLines: maxLines,
       minLines: minLines,
       obscureText: isPassword ?? false,
+      onChanged:onChanged ,
       decoration: InputDecoration(
         helperText: helperText,
         labelText: labelText,
