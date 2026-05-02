@@ -69,6 +69,12 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> logout() async {
     await SharedPrefHelper.removeData(AppConstants.tokenKey);
+    await SharedPrefHelper.removeData('region');
+    await SharedPrefHelper.removeData('cartId');
+    await SharedPrefHelper.removeData('email');
+    print(SharedPrefHelper.getString(key: 'email'));
+    print(SharedPrefHelper.getString(key: 'cartId'));
+    print(SharedPrefHelper.getString(key: 'region'));
     emit(LogoutSuccess());
   }
 }
