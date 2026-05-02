@@ -8,47 +8,42 @@ class DummyPaymentWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [context.primaryColor, context.secondaryColor],
-            ),
-            borderRadius: BorderRadius.circular(16),
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [context.primaryColor, context.secondaryColor],
+        ),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Payment Method",
+            style: AppTextStyle.medium(fontSize: 16, color: Colors.white),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+
+          verticalSpace(10),
+
+          Row(
             children: [
-              Text(
-                "Payment Method",
-                style: AppTextStyle.medium(fontSize: 16, color: Colors.white),
-              ),
-
+              Icon(Icons.credit_card, color: Colors.white),
               verticalSpace(10),
-
-              Row(
-                children: [
-                  Icon(Icons.credit_card, color: Colors.white),
-                  SizedBox(width: 10),
-                  Text(
-                    "VISA •••• 4242",
-                    style: AppTextStyle.bold(fontSize: 16, color: Colors.white),
-                  ),
-                ],
-              ),
-
-              verticalSpace(10),
-
               Text(
-                "Expires 12/26",
-                style: AppTextStyle.regular(fontSize: 14, color: Colors.white),
+                "VISA •••• 4242",
+                style: AppTextStyle.bold(fontSize: 16, color: Colors.white),
               ),
             ],
           ),
-        ),
+
+          verticalSpace(10),
+
+          Text(
+            "Expires 12/26",
+            style: AppTextStyle.regular(fontSize: 14, color: Colors.white),
+          ),
+        ],
       ),
     );
   }
