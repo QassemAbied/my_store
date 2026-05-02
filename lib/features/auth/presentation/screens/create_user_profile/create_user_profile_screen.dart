@@ -14,7 +14,7 @@ class CreateUserProfileScreen extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => sl<AuthCubit>()),
-        BlocProvider(create: (_) => sl<CartCubit>()), // 🔥 مهم جدًا
+        BlocProvider(create: (_) => sl<CartCubit>()),
       ],
       child: CreateUserProfileBody(),
     );
