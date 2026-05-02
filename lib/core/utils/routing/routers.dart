@@ -8,5 +8,11 @@ class Routers {
   static const String shipping = '/shipping';
   static const String payment = '/payment';
   static const String success = '/success';
-  static const String orderDetails = '/orderDetails';
+  static const String orderReview = '/orderReview';
+  static const String addressSettings = '/addressSettings';
+  static const String orderHistory = '/orderHistory';
+  static const String profile = '/profile';
+
+
+
 }
