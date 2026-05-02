@@ -13,35 +13,28 @@ class PaymentBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomScrollView(
       slivers: [
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: SecureTextWidget(),
-          ),
-        ),
-        BlocBuilder<CartCubit, CartState>(
-          builder: (context, state) {
-            if (state is CartItemsSuccess) {
-              final cart = state.cartResponseEntity.cart;
+        SliverPadding(padding: EdgeInsetsGeometry.all(16),
+          sliver: SliverList(delegate: SliverChildListDelegate(
+            [
+              SecureTextWidget(),
+              BlocBuilder<CartCubit, CartState>(
+                builder: (context, state) {
+                  if (state is CartItemsSuccess) {
+                    final cart = state.cartResponseEntity.cart;
 
-              return OrderSummeryWidget(
-                items: cart.items,
-                subtotal: cart.subtotal ?? 0,
-                shippingTotal: cart.shippingTotal ?? 0,
-                total: cart.total,
-              );
-            }
+                    return OrderSummeryWidget(
+                      items: cart.items,
+                      item:  cart,
+                      isShow: true,
+                    );
+                  }
 
-            return const SliverToBoxAdapter(
-              child: Center(child: CircularProgressIndicator()),
-            );
-          },
-        ),
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: PayButtonWidget(),
-          ),
+                  return Center(child: CircularProgressIndicator());
+                },
+              ),
+              PayButtonWidget()
+            ]
+          )),
         ),
       ],
     );
