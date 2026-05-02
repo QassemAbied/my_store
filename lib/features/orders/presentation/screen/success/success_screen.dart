@@ -48,7 +48,9 @@ class _SuccessScreenState extends State<SuccessScreen>
 
     Timer(const Duration(seconds: 4), () {
       if (mounted) {
-       context.pushNamedAndRemoveUntil(Routers.orderDetails,arguments:  widget.orderId);
+       context.pushNamedAndRemoveUntil(Routers.orderReview,arguments:
+       {"orderId": widget.orderId,
+         "showButton": true,});
       }
     });
   }
@@ -135,7 +137,7 @@ class _SuccessScreenState extends State<SuccessScreen>
 
                     CustomElevatedButton(
                         onPressed: (){
-                          context.pushNamedAndRemoveUntil(Routers.orderDetails,arguments:  widget.orderId);
+                          context.pushNamedAndRemoveUntil(Routers.orderReview,arguments:  widget.orderId);
 
                         },
                         text: 'Track Order'),
