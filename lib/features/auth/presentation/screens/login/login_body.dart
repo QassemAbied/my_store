@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_store/core/services/shared_pref.dart';
 import 'package:my_store/core/utils/extension.dart';
 import 'package:my_store/core/utils/routing/routers.dart';
 import 'package:my_store/core/utils/spacing.dart';
@@ -53,14 +54,20 @@ class _LoginBodyState extends State<LoginBody> {
                   ),
                   CustomElevatedButton(
                     text: "Login",
-                    onPressed: () {
+                    onPressed: () async{
                       if (_formKey.currentState!.validate()) {
                         context.read<AuthCubit>().login(
                           LoginRequest(
-                            email: emailController.text,
+                            email: emailController.text.trim(),
                             password: passwordController.text,
                           ),
+
                         );
+                        if(emailController.text.isNotEmpty){
+                          await SharedPrefHelper.setData(
+                              key: 'email', value: emailController.text);
+                        }
+
                       }
                     },
                   ),
