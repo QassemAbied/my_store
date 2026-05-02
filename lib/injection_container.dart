@@ -31,6 +31,7 @@ import 'package:my_store/features/home/domain/usecases/search_use_case.dart';
 import 'package:my_store/features/home/presentation/cubit/home_cubit.dart';
 import 'package:my_store/features/orders/data/data_source/order_remote_data_source.dart';
 import 'package:my_store/features/orders/domain/repository.dart';
+import 'package:my_store/features/orders/domain/use_case/order_list_use_case.dart';
 import 'package:my_store/features/orders/presentation/controller/order_cubit.dart';
 import 'package:my_store/features/products/domain/repository.dart';
 import 'package:my_store/features/products/domain/usecases/get_products_details.dart';
@@ -178,7 +179,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<OrderRepository>(() => OrderRepositoryImpl(sl()));
   sl.registerLazySingleton<OrderReviewUseCase>(() => OrderReviewUseCase(sl()));
-  sl.registerFactory(() => OrderCubit(sl()));
+  sl.registerLazySingleton<OrderListUseCase>(() => OrderListUseCase(sl()));
+
+  sl.registerFactory(() => OrderCubit(sl(), sl()));
 
 
 
