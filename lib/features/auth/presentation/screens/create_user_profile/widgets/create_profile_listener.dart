@@ -3,9 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_store/core/utils/extension.dart';
 import 'package:my_store/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:my_store/features/auth/presentation/cubit/auth_state.dart';
-
 import '../../../../../../core/utils/routing/routers.dart';
-import '../../../../../../injection_container.dart';
+import '../../../../../bottom_nav_bar/controller/bottom_nav_cubit.dart';
 import '../../../../../cart/presentation/cubit/cart_cubit.dart';
 
 class CreateProfileListener extends StatelessWidget {
@@ -31,6 +30,7 @@ class CreateProfileListener extends StatelessWidget {
           final cartCubit = context.read<CartCubit>();
           await cartCubit.ensureCartId();
           context.pop();
+          context.read<BottomNavCubit>().changeBottomNavIndex(0);
           context.pushNamedAndRemoveUntil(Routers.bottomNav);
         } else if (state is RegisterError) {
           context.pop();
