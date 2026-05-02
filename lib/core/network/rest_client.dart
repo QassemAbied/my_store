@@ -7,6 +7,7 @@ import '../../features/auth/data/models/customer_model.dart';
 import '../../features/address/data/models/address_model.dart';
 import '../../features/cart/data/models/cart_item_model.dart';
 import '../../features/category/data/models/category_model.dart';
+import '../../features/orders/data/models/order_list_model.dart';
 import '../../features/orders/data/models/order_review_model.dart';
 import '../../features/payment/data/models/payment_collection_model.dart';
 import '../../features/payment/data/models/payment_provider_model.dart';
@@ -119,8 +120,10 @@ abstract class RestClient {
   @POST(ApiConstants.completeCart)
   Future<OrderReviewResponseModel> completeCart(@Path("id") String cartId);
 
-  @GET(ApiConstants.getOrder)
-  Future<OrderReviewResponseModel> getOrder(@Path("id") String id);
+  @GET(ApiConstants.getOrderDetails)
+  Future<OrderReviewResponseModel> getOrderDetails(@Path("id") String id);
+  @GET(ApiConstants.getOrderList)
+  Future<OrdersResponseModel> getOrderList();
   @POST(ApiConstants.authRegister)
   Future<AuthResponseModel> registerAuth(@Body() Map<String, dynamic> body);
 
@@ -130,7 +133,8 @@ abstract class RestClient {
   );
 
   @GET(ApiConstants.profile)
-  Future<CustomerResponseModel> getProfile();
+  Future<CustomerResponseModel> getProfile(
+      );
 
   @POST(ApiConstants.login)
   Future<AuthResponseModel> login(@Body() Map<String, dynamic> body);
