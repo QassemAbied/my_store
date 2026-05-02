@@ -48,7 +48,7 @@ class PaymentRepositoryImpl implements PaymentRepository {
   Future<ApiResult<OrderReviewEntity>> completeOrder(String cartId) async {
     try {
       final res = await _remotePaymentDataSource.completeOrder(cartId);
-      return ApiResult.success(res.toEntity());
+      return ApiResult.success(res.order.toEntity());
     } catch (e) {
       return ApiResult.failure(ServerFailure());
     }
