@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-
 part 'order_review_model.g.dart';
 
 @JsonSerializable()
@@ -15,29 +14,46 @@ class OrderReviewResponseModel {
 @JsonSerializable()
 class OrderModel {
   final String id;
+  final String status;
 
   @JsonKey(name: "currency_code")
   final String currencyCode;
 
-  final String status;
-  final String? email;
+  @JsonKey(name: "created_at")
+  final String createdAt;
+
+  final int total;
 
   final List<OrderItemModel> items;
 
   @JsonKey(name: "shipping_address")
   final ShippingAddressModel? shippingAddress;
 
+  final CustomerModel? customer;
+
   OrderModel({
     required this.id,
-    required this.currencyCode,
     required this.status,
+    required this.currencyCode,
+    required this.createdAt,
+    required this.total,
     required this.items,
-    this.email,
     this.shippingAddress,
+    this.customer,
   });
 
   factory OrderModel.fromJson(Map<String, dynamic> json) =>
       _$OrderModelFromJson(json);
+}
+
+@JsonSerializable()
+class CustomerModel {
+  final String? email;
+
+  CustomerModel({this.email});
+
+  factory CustomerModel.fromJson(Map<String, dynamic> json) =>
+      _$CustomerModelFromJson(json);
 }
 
 @JsonSerializable()
@@ -71,10 +87,18 @@ class ShippingAddressModel {
   @JsonKey(name: "country_code")
   final String countryCode;
 
+  @JsonKey(name: "first_name")
+  final String? firstName;
+
+  @JsonKey(name: "last_name")
+  final String? lastName;
+
   ShippingAddressModel({
     required this.address1,
     required this.city,
     required this.countryCode,
+    this.firstName,
+    this.lastName,
   });
 
   factory ShippingAddressModel.fromJson(Map<String, dynamic> json) =>
