@@ -42,13 +42,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => BottomNavCubit()),
+        BlocProvider(create: (context) => sl<CartCubit>()..ensureCartId()..getCartItems()),
 
+        BlocProvider(create: (context) => BottomNavCubit()),
         BlocProvider(create: (context) => ThemeCubit()..init()),
         BlocProvider(create: (context) => sl<ProductDetailsCubit>()),
-        BlocProvider(create: (context) => sl<CartCubit>()..getCartItems()),
-        BlocProvider(create: (context) => sl<HomeCubit>()),
-        BlocProvider(create: (context) => sl<AuthCubit>()),
+        BlocProvider(create: (context) => sl<HomeCubit>()..getProduct()),
+        BlocProvider(create: (context) => sl<AuthCubit>()..getProfile()),
         BlocProvider(create: (context) => sl<CategoryCubit>()..getCategories(context)),
         // BlocProvider(create: (context) => sl<OrderCubit>()),
         // BlocProvider(create: (context) => sl<ShippingCubit>()),
@@ -57,6 +57,7 @@ class MyApp extends StatelessWidget {
       ],
       child: BlocBuilder<ThemeCubit, ThemeState>(
         builder: (context, themeMode) {
+         // context.read<BottomNavCubit>().changeBottomNavIndex(0);
           return MaterialApp(
             title: 'My Store',
             theme: AppTheme.lightTheme(),
