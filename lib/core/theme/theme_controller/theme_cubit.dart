@@ -5,12 +5,12 @@ import 'package:my_store/core/theme/theme_controller/theme_state.dart';
 import 'package:my_store/core/utils/constants.dart';
 import 'package:my_store/core/utils/enum.dart';
 
-
 class ThemeCubit extends Cubit<ThemeState> {
   ThemeCubit() : super(ThemeInitial());
   void init() {
     saveTheme();
   }
+
   static ThemeCubit get(BuildContext context) => BlocProvider.of(context);
   ThemeEnum currentTheme = ThemeEnum.system;
   void toggleTheme(ThemeEnum themeMode) {
