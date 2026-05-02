@@ -91,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   //final cartCubit = context.watch<CartCubit>();
                   //final isCart = cartCubit.selectedItems.contains(product.variants![0].id);
                   return Card(
-    key: imageKey,
+                     key: imageKey,
                     margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 16),
                     child: ListTile(
                       leading: product.thumbnail != null?
