@@ -19,12 +19,12 @@ class AppTheme {
         error: AppColors.error,
       ),
       appBarTheme: AppBarTheme(
-        iconTheme: IconThemeData(color: AppColors.onBackground),
+        iconTheme: IconThemeData(color: AppColors.primary),
         backgroundColor: AppColors.background,
         elevation: 0.0,
         titleTextStyle: AppTextStyle.bold(
           fontSize: 20,
-          color: AppColors.onBackground,
+          color: AppColors.primary,
         ),
       ),
       cardTheme: CardThemeData(
@@ -37,7 +37,7 @@ class AppTheme {
       ),
       textSelectionTheme: TextSelectionThemeData(
         cursorColor: AppColors.primary,
-        selectionColor: AppColors.primary.withOpacity(0.3),
+        selectionColor: AppColors.primary.withValues(alpha: 0.3),
         selectionHandleColor: AppColors.primary,
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
@@ -54,6 +54,18 @@ class AppTheme {
           ),
           textStyle: WidgetStatePropertyAll(
             AppTextStyle.bold(fontSize: 18, color: AppColors.onPrimary),
+          ),
+        ),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: ButtonStyle(
+          side: WidgetStatePropertyAll(BorderSide(color: AppColors.primary)),
+          foregroundColor: WidgetStatePropertyAll(AppColors.primary),
+          shape: WidgetStatePropertyAll(
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          ),
+          textStyle: WidgetStatePropertyAll(
+            AppTextStyle.bold(fontSize: 18, color: AppColors.primary),
           ),
         ),
       ),
@@ -86,12 +98,12 @@ class AppTheme {
         error: AppColors.errorDark,
       ),
       appBarTheme: AppBarTheme(
-        iconTheme: IconThemeData(color: AppColors.onBackgroundDark),
+        iconTheme: IconThemeData(color: AppColors.primaryDark),
         backgroundColor: AppColors.backgroundDark,
         elevation: 0.0,
         titleTextStyle: AppTextStyle.regular(
           fontSize: 20,
-          color: AppColors.onBackgroundDark,
+          color: AppColors.primaryDark,
         ),
       ),
       cardTheme: CardThemeData(
@@ -104,7 +116,7 @@ class AppTheme {
       ),
       textSelectionTheme: TextSelectionThemeData(
         cursorColor: AppColors.primaryDark,
-        selectionColor: AppColors.primaryDark.withOpacity(0.4),
+        selectionColor: AppColors.primaryDark.withValues(alpha: 0.4),
         selectionHandleColor: AppColors.primaryDark,
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
@@ -120,6 +132,18 @@ class AppTheme {
           ),
           textStyle: WidgetStatePropertyAll(
             AppTextStyle.bold(fontSize: 18, color: AppColors.onPrimaryDark),
+          ),
+        ),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: ButtonStyle(
+          side: WidgetStatePropertyAll(BorderSide(color: AppColors.primaryDark)),
+          foregroundColor: WidgetStatePropertyAll(AppColors.primaryDark),
+          shape: WidgetStatePropertyAll(
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          ),
+          textStyle: WidgetStatePropertyAll(
+            AppTextStyle.bold(fontSize: 18, color: AppColors.primaryDark),
           ),
         ),
       ),
