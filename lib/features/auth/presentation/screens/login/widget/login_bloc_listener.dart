@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_store/core/utils/extension.dart';
 import 'package:my_store/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:my_store/features/auth/presentation/cubit/auth_state.dart';
-import 'package:my_store/features/cart/presentation/cubit/cart_cubit.dart';
 import '../../../../../../core/utils/routing/routers.dart';
+import '../../../../../bottom_nav_bar/controller/bottom_nav_cubit.dart';
 
 class LoginBlocConsumer extends StatelessWidget {
   const LoginBlocConsumer({super.key});
@@ -19,7 +19,7 @@ class LoginBlocConsumer extends StatelessWidget {
           current is ProfileLoading ||
           current is ProfileSuccess ||
           current is ProfileError,
-      listener: (context, state) {
+      listener: (context, state) async {
         if (state is LoginLoading) {
           showDialog(
             context: context,
@@ -28,11 +28,10 @@ class LoginBlocConsumer extends StatelessWidget {
           );
         } else if (state is LoginSuccess) {
           context.pop();
-
           context.read<AuthCubit>().getProfile();
         } else if (state is ProfileSuccess) {
           context.pop();
-
+          context.read<BottomNavCubit>().changeBottomNavIndex(0);
           context.pushNamedAndRemoveUntil(Routers.bottomNav);
         } else if (state is ProfileError) {
           context.pop();
@@ -40,7 +39,6 @@ class LoginBlocConsumer extends StatelessWidget {
           context.pushNamedAndRemoveUntil(Routers.createProfile);
         } else if (state is LoginError) {
           context.pop();
-
           showDialog(
             context: context,
             builder: (_) => AlertDialog(content: Text(state.message)),
