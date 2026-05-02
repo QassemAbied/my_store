@@ -1,14 +1,17 @@
 import 'package:my_store/features/orders/data/models/order_review_model.dart';
 import 'package:my_store/features/orders/domain/entitiy/order_review_entities.dart';
 
-extension OrderMapper on OrderReviewResponseModel {
+extension OrderMapper on OrderModel {
   OrderReviewEntity toEntity() {
     return OrderReviewEntity(
-      id: order.id,
-      status: order.status,
-      email: order.email,
-      items: order.items.map((e) => e.toEntity()).toList(),
-      address: order.shippingAddress?.toEntity(),
+      id: id,
+      status: status,
+      currencyCode: currencyCode,
+      createdAt: createdAt,
+      total: total,
+      email: customer?.email,
+      items: items.map((e) => e.toEntity()).toList(),
+      address: shippingAddress?.toEntity(),
     );
   }
 }
@@ -30,6 +33,8 @@ extension AddressMapper on ShippingAddressModel {
       address: address1,
       city: city,
       country: countryCode,
+      firstName: firstName,
+      lastName: lastName,
     );
   }
 }
