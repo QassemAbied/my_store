@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:my_store/core/services/shared_pref.dart';
 import 'package:my_store/features/auth/data/data_source/auth_remote_data_source.dart';
 import 'package:my_store/features/auth/data/models/auth_model.dart';
@@ -19,24 +21,59 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource{
       "password": request.password,
     });
   }
-  @override
-  Future<AuthResponseModel> login(LoginRequest request)async {
+  // @override
+  // Future<AuthResponseModel> login(LoginRequest request)async {
+  //   final response = await _restClient.login({
+  //     "email": request.email,
+  //     "password": request.password,
+  //   });
+  //
+  //   // AppConstants.token== null||AppConstants.token == ''?
+  //   // await SharedPrefHelper.setData(key: AppConstants.tokenKey, value: response.token):null;
+  //
+  //   await SharedPrefHelper.setData(
+  //     key: AppConstants.tokenKey,
+  //     value: response.token,
+  //   );
+  //   AppConstants.token = response.token;
+  //
+  //
+  //   print("TOKEN: ${response.token}");
+  //
+  //   return response;
+  // }
+
+
+  Future<AuthResponseModel> login(LoginRequest request) async {
     final response = await _restClient.login({
       "email": request.email,
       "password": request.password,
     });
 
-    // AppConstants.token== null||AppConstants.token == ''?
-    // await SharedPrefHelper.setData(key: AppConstants.tokenKey, value: response.token):null;
-
+    // حفظ التوكن
     await SharedPrefHelper.setData(
       key: AppConstants.tokenKey,
       value: response.token,
     );
+
     AppConstants.token = response.token;
 
-
     print("TOKEN: ${response.token}");
+
+    // 🔥 فك التوكن
+    final parts = response.token.split('.');
+    final payload = base64Url.normalize(parts[1]);
+    final decoded = jsonDecode(utf8.decode(base64Url.decode(payload)));
+
+    final authId = decoded['auth_identity_id'];
+
+    print("AUTH ID: $authId");
+
+    // 🔥 خزن الـ authId
+    await SharedPrefHelper.setData(
+      key: "auth_id",
+      value: authId,
+    );
 
     return response;
   }
@@ -51,6 +88,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource{
        "first_name": request.firstName,
        "phone": request.phone,
        "country": request.country,
+      "auth_identity_id": request.authIdentityId,
      });
     return response.customer;
   }
