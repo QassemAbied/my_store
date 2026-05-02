@@ -7,49 +7,39 @@ import 'list_item_order_summery_widget.dart';
 
 class OrderSummeryWidget extends StatelessWidget {
   final List items;
-  final int subtotal;
-  final int shippingTotal;
-  final int total;
+  final dynamic item;
+  final bool isShow;
   const OrderSummeryWidget({
     super.key,
     required this.items,
-    required this.subtotal,
-    required this.shippingTotal,
-    required this.total,
+   required this.item,
+    this.isShow = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    return SliverList(
-      delegate: SliverChildListDelegate([
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Text(
-            "Order Summary",
-            style: AppTextStyle.bold(fontSize: 18, color: context.textPrimary),
-          ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Order Summary",
+          style: AppTextStyle.bold(fontSize: 18, color: context.textPrimary),
         ),
 
         verticalSpace(10),
 
         ...items.map(
-          (item) => Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-            child: ListItemOrderSummeryWidget(item: item),
-          ),
+              (item) => ListItemOrderSummeryWidget(item: item),
         ),
 
         verticalSpace(10),
 
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: TotalOrderSummeryWidget(
-            subtotal: subtotal,
-            shippingTotal: shippingTotal,
-            total: total,
-          ),
-        ),
-      ]),
+        isShow?   TotalOrderSummeryWidget(
+          subtotal: item.subtotal,
+          shippingTotal: item.shippingTotal,
+          total: item.total,
+        ):verticalSpace(0),
+      ],
     );
   }
 }
