@@ -47,8 +47,11 @@ class CartCubit extends Cubit<CartState> {
     final regionId = regionResult.result.getOrElse(() => "");
 
     await SharedPrefHelper.setData(key: 'region', value: regionId);
+    final email= SharedPrefHelper.getString(key: 'email');
 
-    final createResult = await cartUseCase({"region_id": regionId});
+    final createResult = await cartUseCase({
+      "region_id": regionId,
+      "email":email,});
 
     if (createResult.result.isLeft()) {
       emit(CartItemsError("Create Cart Error"));
