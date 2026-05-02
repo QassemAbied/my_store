@@ -36,6 +36,7 @@ class AddressCubit extends Cubit<AddressState> {
       },
       (data) {
         addresses = data;
+        selectedIndex=0;
         emit(AddressSuccess(data));
       },
     );
@@ -52,8 +53,6 @@ class AddressCubit extends Cubit<AddressState> {
       },
       (_) {
         emit(AddAddressSuccess());
-
-        /// refresh list بعد الإضافة
         getAddresses();
       },
     );
