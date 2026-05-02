@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:my_store/core/network/api_contstants.dart';
 import 'package:my_store/core/theme/color_extension.dart';
 import 'package:my_store/core/utils/app_text_style.dart';
 import 'package:my_store/core/utils/spacing.dart';
-import '../../../features/cart/domain/entities/cart_item.dart';
 import '../custom_animated_container_widget.dart';
 
 class ListItemOrderSummeryWidget extends StatelessWidget {
@@ -17,7 +17,7 @@ class ListItemOrderSummeryWidget extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: Image.network(
-              item.thumbnail ?? '',
+             ApiConstants.fixImageUrl( item.thumbnail ?? ''),
               width: 60,
               height: 60,
               fit: BoxFit.cover,
