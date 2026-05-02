@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_store/core/services/shared_pref.dart';
 import 'package:my_store/features/auth/domain/entities/requests.dart';
 import '../../../../../../core/common_widgets/custom_primary_button.dart';
 import '../../../../../../core/common_widgets/custom_text_form_field.dart';
@@ -25,13 +26,16 @@ class _CreateUserFormState extends State<CreateUserForm> {
   final countryController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final email= SharedPrefHelper.getString(key: 'email');
+    final authId =  SharedPrefHelper.getString(key: "auth_id");
     return CreateProfileListener(
       child: Form(
         key: _formKey,
         child: Column(
           children: [
             CustomTextFormField(
-              hintText: "Email",
+              hintText: email,
+              enabled: false,
               textInputType: TextInputType.emailAddress,
               prefixIcon: Icon(Icons.email,color: context.disabled,),
               controller: emailController,
@@ -98,6 +102,7 @@ class _CreateUserFormState extends State<CreateUserForm> {
             CustomElevatedButton(
               text: "Create Profile",
               onPressed: () {
+                 emailController.text = email!;
                 if (_formKey.currentState!.validate()) {
                   context.read<AuthCubit>().createProfile(
                     RegisterRequest(
@@ -106,6 +111,7 @@ class _CreateUserFormState extends State<CreateUserForm> {
                       lastName: lastNameController.text,
                       phone: phoneController.text,
                       country: countryController.text,
+                      authIdentityId: authId!,
                     ),
                   );
                 }
