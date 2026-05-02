@@ -20,7 +20,6 @@ class OrderShimmerItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
 
-            /// header
             Container(height: 16, width: 100, color: Colors.white),
 
             const SizedBox(height: 10),
@@ -29,7 +28,6 @@ class OrderShimmerItem extends StatelessWidget {
 
             const SizedBox(height: 12),
 
-            /// items preview
             Row(
               children: List.generate(
                 3,
@@ -44,7 +42,6 @@ class OrderShimmerItem extends StatelessWidget {
 
             const SizedBox(height: 12),
 
-            /// total
             Container(height: 14, width: 80, color: Colors.white),
           ],
         ),
@@ -61,7 +58,7 @@ class OrdersShimmerList extends StatelessWidget {
     return ListView.builder(
       padding: const EdgeInsets.all(16),
       itemCount: 6,
-      itemBuilder: (_, __) => const OrderShimmerItem(),
+      itemBuilder: (_, _) => const OrderShimmerItem(),
     );
   }
 }
