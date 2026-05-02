@@ -48,7 +48,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<ApiResult<CustomerEntity>> getProfile() async{
+  Future<ApiResult<CustomerEntity>> getProfile( ) async{
     try {
       final result = await remoteDataSource.getProfile();
 
