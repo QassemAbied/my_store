@@ -6,12 +6,13 @@ import '../../../../../core/utils/extension.dart';
 import '../../../../../core/utils/routing/routers.dart';
 import '../../../../bottom_nav_bar/controller/bottom_nav_cubit.dart';
 import '../../../../cart/presentation/cubit/cart_cubit.dart';
-import '../../../../cart/presentation/screens/step.dart';
 
-class OrderDetailsScreen extends StatelessWidget {
+class OrderReviewScreen extends StatelessWidget {
   final String orderId;
+  final bool showButton;
 
-  const OrderDetailsScreen({super.key, required this.orderId});
+  const OrderReviewScreen({super.key, required this.orderId,
+  this.showButton=false});
 
   @override
   Widget build(BuildContext context) {
@@ -19,19 +20,21 @@ class OrderDetailsScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            StepHeader(currentStep: 4, totalSteps: 4),
             Expanded(child: OrderBody()),
           ],
         ),
       ),
-      floatingActionButton: CustomElevatedButton(
-        onPressed: () async {
-          await context.read<CartCubit>().getCartItems();
-          context.read<BottomNavCubit>().changeBottomNavIndex(0);
-          context.pushNamedAndRemoveUntil(Routers.bottomNav);
-        },
-        text: 'Reorder',
-      ),
+      bottomNavigationBar:showButton? Padding(
+        padding: const EdgeInsets.all(16),
+        child: CustomElevatedButton(
+          onPressed: () async {
+            await context.read<CartCubit>().getCartItems();
+            context.read<BottomNavCubit>().changeBottomNavIndex(0);
+            context.pushNamedAndRemoveUntil(Routers.bottomNav);
+          },
+          text: 'Reorder',
+        ),
+      ):null,
     );
   }
 }
