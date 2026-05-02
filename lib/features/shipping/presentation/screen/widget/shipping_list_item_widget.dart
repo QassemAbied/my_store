@@ -28,7 +28,7 @@ class ShippingListItemWidget extends StatelessWidget {
         selected: selected,
         child: Row(
           children: [
-            CommonWidget.leadingIcon(context, Icons.local_shipping),
+            CommonWidget.leadingIcon(context: context,icon:  Icons.local_shipping),
             horizontalSpace(10),
 
            // verticalSpace( 12),
