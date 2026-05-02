@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:my_store/core/theme/color_extension.dart';
-import '../../../../../../core/common_widgets/custom_animated_container_widget.dart';
 import '../../../../../../core/utils/app_text_style.dart';
+import '../../../../../../core/utils/spacing.dart';
 import '../../../../domain/entitiy/order_review_entities.dart';
+import 'glass_card_widget.dart';
 
 class AddressWidget extends StatelessWidget {
   final OrderReviewEntity order;
@@ -11,45 +12,33 @@ class AddressWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
-      child: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: CustomAnimatedContainerWidget(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Shipping Address",
-                style: AppTextStyle.bold(
-                  fontSize: 20,
-                  color: context.primaryColor,
-                ),
-              ),
-              const SizedBox(height: 6),
-              Text(
-                order.address?.address ?? "",
-                style: AppTextStyle.bold(
-                  fontSize: 17,
-                  color: context.textPrimary,
-                ),
-              ),
-              Text(
-                order.address?.city ?? "",
-                style: AppTextStyle.bold(
-                  fontSize: 17,
-                  color: context.textPrimary,
-                ),
-              ),
-              Text(
-                order.address?.country ?? "",
-                style: AppTextStyle.bold(
-                  fontSize: 17,
-                  color: context.textPrimary,
-                ),
-              ),
-            ],
+    final a = order.address;
+    return GlassCardWidget(
+      title: "Delivery Address",
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Name: ${a?.firstName ?? ""} ${a?.lastName ?? ""}",
+            style: AppTextStyle.bold(fontSize: 16, color: context.textPrimary),
           ),
-        ),
+          verticalSpace(4),
+          Text(
+            'Address: ${a?.address}',
+            style: AppTextStyle.medium(
+              fontSize: 14,
+              color: context.textSecondary,
+            ),
+          ),
+
+          Text(
+            "City: ${a?.city}, ${a?.country}",
+            style: AppTextStyle.medium(
+              fontSize: 14,
+              color: context.textSecondary,
+            ),
+          ),
+        ],
       ),
     );
   }
