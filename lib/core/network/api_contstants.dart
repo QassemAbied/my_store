@@ -29,12 +29,14 @@ class ApiConstants {
   static const String addShippingOptions = "/store/carts/{id}/shipping-methods";
   static const String paymentProvider = "/store/payment-providers";
   static const String completeCart = "/store/carts/{id}/complete";
-  static const String getOrder = "/store/custom/order/{id}";
+  static const String getOrderDetails = "/store/custom/order/{id}";
+  static const String getOrderList = "/store/custom/order";
+
   static const String regions = "/store/regions";
   static const String authRegister = "/auth/customer/emailpass/register";
   static const String profileRegister = "/store/register";
   static const String login = "/auth/customer/emailpass";
-  static const String profile = "/store/custom/me";
+  static const String profile = "/store/me";
 
   static const String paymentCollection = "/store/payment-collections";
   static const String paymentSessions =
