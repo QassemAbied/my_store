@@ -6,8 +6,6 @@ import 'package:my_store/core/theme/app_colors.dart';
 import 'package:my_store/core/theme/color_extension.dart';
 import 'package:my_store/core/utils/app_text_style.dart';
 import 'package:my_store/core/utils/spacing.dart';
-import 'package:my_store/features/shipping/presentation/controller/shipping_cubit.dart';
-import '../../../../shipping/domain/entities/shipping_request.dart';
 import '../../../domain/entities/address_entities.dart';
 import '../../controller/address_cubit.dart';
 
@@ -15,55 +13,69 @@ class AddressListItemWidget extends StatelessWidget {
   const AddressListItemWidget({
     super.key,
     required this.item,
-    required this.index,
+    required this.index, required this.selected,
   });
   final AddressEntity item;
   final int index;
+  final bool selected ;
+
   @override
   Widget build(BuildContext context) {
     final cubit = context.watch<AddressCubit>();
-
-    final selected = cubit.selectedIndex == index;
     return Stack(
       children: [
-        GestureDetector(
-          onTap: () {
-            cubit.selectAddress(index);
-            context.read<ShippingCubit>().addShippingAddress(
-              body: ShippingAddressRequest(
-                firstName: item.firstName ?? '',
-                lastName: item.lastName ?? '',
-                address1: item.address1 ?? '',
-                city: item.city ?? '',
-                countryCode: item.countryCode ?? '',
+        CustomAnimatedContainerWidget(
+          selected: selected,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              nameAndIcon(context, item, selected),
+              verticalSpace(10),
+              Text(
+                item.address1 ?? "",
+                style: AppTextStyle.bold(
+                  fontSize: 12,
+                  color: context.textSecondary,
+                ),
               ),
-            );
-          },
+              verticalSpace(10),
 
-          child: CustomAnimatedContainerWidget(
-            selected: selected,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                nameAndIcon(context, item, selected),
-                verticalSpace(10),
+              Text(
+                "${item.city}, ${item.city}",
+                style: AppTextStyle.regular(
+                  fontSize: 13,
+                  color: context.textSecondary,
+                ),
+              ),
+
+              if (item.address2 != null)
                 Text(
-                  item.address1 ?? "",
-                  style: AppTextStyle.bold(
-                    fontSize: 12,
+                  item.address2!,
+                  style: AppTextStyle.regular(
+                    fontSize: 13,
                     color: context.textSecondary,
                   ),
                 ),
-                verticalSpace(6),
-                Text(
-                  item.phone ?? "",
-                  style: AppTextStyle.bold(
-                    fontSize: 12,
-                    color: context.textSecondary,
-                  ),
+
+              verticalSpace(6),
+
+              Text(
+                "${item.countryCode} - ${item.postalCode ?? ''}",
+                style: AppTextStyle.regular(
+                  fontSize: 12,
+                  color: context.textSecondary,
                 ),
-              ],
-            ),
+              ),
+
+              verticalSpace(6),
+              Text(
+                item.phone ?? "",
+                style: AppTextStyle.bold(
+                  fontSize: 12,
+                  color: context.textSecondary,
+                ),
+              ),
+            ],
           ),
         ),
         Positioned(
@@ -91,13 +103,13 @@ class AddressListItemWidget extends StatelessWidget {
 Widget nameAndIcon(BuildContext context, AddressEntity item, bool selected) {
   return Row(
     children: [
-      CommonWidget.leadingIcon(context, Icons.home),
+      CommonWidget.leadingIcon(context: context,icon:  Icons.location_on),
 
       horizontalSpace(10),
 
       Expanded(
         child: Text(
-          item.firstName ?? "Home",
+          '${item.firstName ?? ""} ${item.lastName ?? ""}',
           style: AppTextStyle.bold(fontSize: 16, color: context.primaryColor),
         ),
       ),
