@@ -4,12 +4,9 @@ import '../../domain/entities/category_entities.dart';
 class CategoryState {
   final List<CategoryEntities> categories;
   final List<ProductItemEntity> products;
-
   final String? selectedCategoryId;
-
   final bool isLoadingCategories;
   final bool isLoadingProducts;
-
   final String? error;
 
   CategoryState({
