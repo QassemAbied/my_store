@@ -15,6 +15,7 @@ class CartMapper {
       total: model.total,
       subtotal: model.subtotal,
       shippingTotal: model.shippingTotal,
+
       currencyCode: model.currencyCode,
       email: model.email,
       items: model.items.map(toItemEntity).toList(),
@@ -31,6 +32,7 @@ class CartMapper {
     return CartItemEntity(
       id: model.id,
       title: model.title,
+      productId: model.productId,
       quantity: model.quantity,
       price: model.price,
       thumbnail: model.thumbnail, variantId: model.variantId,
