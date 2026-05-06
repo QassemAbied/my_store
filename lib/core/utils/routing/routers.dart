@@ -12,6 +12,8 @@ class Routers {
   static const String addressSettings = '/addressSettings';
   static const String orderHistory = '/orderHistory';
   static const String profile = '/profile';
+  static const String productDetails = '/productDetails';
+
 
 
 

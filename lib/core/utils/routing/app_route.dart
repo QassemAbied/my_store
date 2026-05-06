@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_store/core/utils/routing/routers.dart';
-import 'package:my_store/features/auth/presentation/cubit/auth_cubit.dart';
 import '../../../features/address/presentation/controller/address_cubit.dart';
 import '../../../features/address/presentation/screen/address_screen.dart';
 import '../../../features/address/presentation/screen/address_settings/address_setting_screen.dart';
@@ -17,6 +16,8 @@ import '../../../features/orders/presentation/screen/order_review/order_screen.d
 import '../../../features/orders/presentation/screen/success/success_screen.dart';
 import '../../../features/payment/presentation/controller/payment_cubit.dart';
 import '../../../features/payment/presentation/screen/payment/payment_screen.dart';
+import '../../../features/products/presentation/cubit/product_details_cubit.dart';
+import '../../../features/products/presentation/screens/product_detail_screen.dart';
 import '../../../features/shipping/presentation/controller/shipping_cubit.dart';
 import '../../../features/shipping/presentation/screen/shipping_screen.dart';
 import '../../../injection_container.dart';
@@ -79,9 +80,7 @@ class AppRoute {
         }
       case Routers.profile:
         {
-          return MaterialPageRoute(
-            builder: (_) => ProfileScreen(),
-          );
+          return MaterialPageRoute(builder: (_) => ProfileScreen());
         }
       case Routers.payment:
         {
@@ -97,6 +96,17 @@ class AppRoute {
           final orderId = settings.arguments as String;
           return MaterialPageRoute(
             builder: (_) => SuccessScreen(orderId: orderId),
+          );
+        }
+      case Routers.productDetails:
+        {
+          final prodId = settings.arguments as String;
+          return MaterialPageRoute(
+            builder: (_) => BlocProvider(
+              create: (context) =>
+                  sl<ProductDetailsCubit>()..getProductDetails(prodId),
+              child: ProductDetailsScreen(productId: prodId),
+            ),
           );
         }
       case Routers.orderHistory:
