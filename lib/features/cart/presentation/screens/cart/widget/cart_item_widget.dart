@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_store/core/common_widgets/custom_cached_image_widget.dart';
 import 'package:my_store/core/utils/spacing.dart';
 import 'package:my_store/features/cart/presentation/screens/cart/widget/quantity_widget.dart';
-import '../../../../../../core/network/api_contstants.dart';
 import '../../../../../../core/theme/color_extension.dart';
 import '../../../../../../core/utils/app_text_style.dart';
 import '../../../cubit/cart_cubit.dart';
@@ -38,7 +38,6 @@ class _CartItemWidgetState extends State<CartItemWidget> {
       child: isDeleting
           ? const SizedBox.shrink()
           : Container(
-       // key: ValueKey(item.id),
         margin: const EdgeInsets.only(bottom: 16),
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
@@ -55,14 +54,9 @@ class _CartItemWidgetState extends State<CartItemWidget> {
         child: Row(
           children: [
             Center(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Image.network(
-                  ApiConstants.fixImageUrl(item.thumbnail),
-                  width: 75,
-                  height: 75,
-                  fit: BoxFit.cover,
-                ),
+              child: CustomNetworkImage(imageUrl: item.thumbnail,
+                width: 75,
+                height: 75,
               ),
             ),
             const SizedBox(width: 12),
