@@ -30,7 +30,6 @@ class CartCubit extends Cubit<CartState> {
 
   String? cartId;
   String? regionId;
-  final Set<String> selectedItems = {};
   CartResponseEntity? items;
   Future<void> ensureCartId() async {
     cartId ??= SharedPrefHelper.getString(key: 'cartId');
@@ -47,11 +46,12 @@ class CartCubit extends Cubit<CartState> {
     final regionId = regionResult.result.getOrElse(() => "");
 
     await SharedPrefHelper.setData(key: 'region', value: regionId);
-    final email= SharedPrefHelper.getString(key: 'email');
+    final email = SharedPrefHelper.getString(key: 'email');
 
     final createResult = await cartUseCase({
       "region_id": regionId,
-      "email":email,});
+      "email": email,
+    });
 
     if (createResult.result.isLeft()) {
       emit(CartItemsError("Create Cart Error"));
@@ -67,23 +67,16 @@ class CartCubit extends Cubit<CartState> {
 
   Future<void> getCartItems() async {
     emit(CartItemsLoading());
-
     await ensureCartId();
-
     if (cartId == null) {
       emit(CartItemsError("Cart Id is null"));
       return;
     }
-
     final result = await cartItemUseCase(cartId!);
-
     result.result.fold((failure) => emit(CartItemsError("Get Cart Error")), (
       cartData,
     ) {
       items = cartData;
-      selectedItems.clear();
-
-      selectedItems.addAll(items!.cart.items.map((e) => e.variantId));
       emit(CartItemsSuccess(cartData));
     });
   }
@@ -101,23 +94,17 @@ class CartCubit extends Cubit<CartState> {
     items ??= CartResponseEntity(
       cart: CartEntity(items: [], total: 0, id: cartId!, regionId: regionId!),
     );
-
     final index = items!.cart.items.indexWhere((e) => e.variantId == variantId);
-
     if (index != -1) {
       items!.cart.items[index].quantity += quantity;
     } else {
       items!.cart.items.insert(0, cartItem);
     }
-
     items!.cart.total = items!.cart.items.fold<int>(
       0,
       (sum, item) => sum + (item.price * item.quantity),
     );
-
     emit(CartItemsSuccess(items!));
-    selectedItems.add(variantId);
-
     try {
       await addCartUseCase(
         AddCartRequest(cartId!, {
@@ -125,7 +112,6 @@ class CartCubit extends Cubit<CartState> {
           "quantity": quantity,
         }),
       );
-
       await getCartItems();
     } catch (e) {
       if (index != -1) {
@@ -133,12 +119,10 @@ class CartCubit extends Cubit<CartState> {
       } else {
         items!.cart.items.removeWhere((e) => e.variantId == variantId);
       }
-
       items!.cart.total = items!.cart.items.fold<int>(
         0,
         (sum, item) => sum + (item.price * item.quantity),
       );
-
       emit(CartItemsSuccess(items!));
     }
   }
@@ -158,8 +142,6 @@ class CartCubit extends Cubit<CartState> {
       (sum, item) => sum + (item.price * item.quantity),
     );
 
-    selectedItems.remove(variantId);
-
     emit(CartItemsSuccess(items!));
 
     try {
@@ -171,8 +153,6 @@ class CartCubit extends Cubit<CartState> {
         0,
         (sum, item) => sum + (item.price * item.quantity),
       );
-
-      selectedItems.add(variantId);
 
       emit(CartItemsSuccess(items!));
     }
@@ -215,11 +195,8 @@ class CartCubit extends Cubit<CartState> {
 
   Future<void> clearCart() async {
     items = null;
-    selectedItems.clear();
     cartId = null;
-
     await SharedPrefHelper.removeData('cartId');
-
     emit(CartInitial());
   }
 }
