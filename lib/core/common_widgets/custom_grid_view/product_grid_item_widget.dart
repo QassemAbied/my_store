@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:my_store/core/utils/routing/routers.dart';
 import '../../common_models/entities/product_entities.dart';
+import '../../utils/extension.dart';
+import '../custom_cached_image_widget.dart';
 import '../custom_cart_icon_widget.dart';
-import '../../network/api_contstants.dart';
 import '../../theme/color_extension.dart';
 import '../../utils/app_text_style.dart';
 import '../../utils/spacing.dart';
@@ -19,13 +21,16 @@ class ModernProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final firstVariant = product.variants?.isNotEmpty == true
+        ? product.variants!.first
+        : null;
     final cartItem = CartItemEntity(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       title: product.title ?? "",
       quantity: 1,
       price: product.variants?[0].price ?? 0,
       thumbnail: product.thumbnail ?? "",
-      variantId: product.variants?[0].id ?? '',
+      variantId: firstVariant?.id ?? '', productId: product.id ?? '',
     );
     final price = product.variants?.isNotEmpty == true
         ? product.variants!.first.price ?? 0
@@ -40,93 +45,93 @@ class ModernProductCard extends StatelessWidget {
               blurRadius: 12),
         ],
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Expanded(
-            flex: 1,
-            child: Stack(
-              children: [
-                ClipRRect(
-                  borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(20),
-                  ),
-                  child: Image.network(
-                    key: imageKey,
-                    ApiConstants.fixImageUrl(product.thumbnail ?? ''),
+      child: GestureDetector(
+        onTap: () {
+          context.pushNamed(Routers.productDetails, arguments: product.id);
+        },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Expanded(
+              flex: 1,
+              child: Stack(
+                children: [
+                  CustomNetworkImage(imageUrl: product.thumbnail ?? "",
                     width: double.infinity,
-                    fit: BoxFit.cover,
+                    imageKey: imageKey,
                   ),
-                ),
-
-                Positioned.fill(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.vertical(
-                        top: Radius.circular(20),
-                        bottom: Radius.circular(20),
+                  Positioned.fill(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.vertical(
+                          top: Radius.circular(20),
+                          bottom: Radius.circular(20),
+                        ),
+                        gradient: LinearGradient(
+                          colors: [
+                            Colors.transparent,
+                            context.primaryColor.withValues(alpha: 0.2),
+                          ],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        ),
                       ),
-                      gradient: LinearGradient(
-                        colors: [
-                          Colors.transparent,
-                          context.primaryColor.withValues(alpha: 0.2),
-                        ],
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
+                    ),
+                  ),
+
+                  Positioned(
+                    top: 5,
+                    right: 5,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: context.surfaceColor,
+                        shape: BoxShape.circle,
+                      ),
+                      child: CustomCartIconWidget(
+                        variantId:product.variants
+                            ?.map((e) => e.id)
+                            .whereType<String>()
+                            .toList() ?? [],
+                        quantity: 1,
+                        cartItem: cartItem,
+                        cartKey: cartKey,
+                        imageKey: imageKey,
                       ),
                     ),
                   ),
-                ),
-
-                Positioned(
-                  top: 5,
-                  right: 5,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: context.surfaceColor,
-                      shape: BoxShape.circle,
-                    ),
-                    child: CustomCartIconWidget(
-                      variantId: product.variants?[0].id ?? '',
-                      quantity: 1,
-                      cartItem: cartItem,
-                      cartKey: cartKey,
-                      imageKey: imageKey,
-                    ),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
 
-          Padding(
-            padding: const EdgeInsets.all(12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  product.title ?? '',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: AppTextStyle.semiBold(
-                    fontSize: 17,
-                    color: context.textPrimary,
+            Padding(
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    product.title ?? '',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTextStyle.semiBold(
+                      fontSize: 17,
+                      color: context.textPrimary,
+                    ),
                   ),
-                ),
-                verticalSpace(4),
-                Text(
-                  "Price: \$$price",
-                  style: AppTextStyle.bold(
-                    fontSize: 14,
-                    color: context.primaryColor,
+                  verticalSpace(4),
+                  Text(
+                    "Price: \$$price",
+                    style: AppTextStyle.bold(
+                      fontSize: 14,
+                      color: context.primaryColor,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
