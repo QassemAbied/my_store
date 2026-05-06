@@ -31,6 +31,7 @@ class CartModel {
   @JsonKey(name: 'subtotal')
   final int? subtotal;
 
+
   @JsonKey(name: 'shipping_total')
   final int? shippingTotal;
 
@@ -70,7 +71,8 @@ class CartItemModel {
   @JsonKey(name: 'variant_id')
   final String variantId;
   final int quantity;
-
+  @JsonKey(name: 'product_id')
+  final String productId;
   final String thumbnail;
 
   @JsonKey(name: 'unit_price')
@@ -81,6 +83,7 @@ class CartItemModel {
     required this.title,
     required this.quantity,
     required this.price,
+    required this.productId,
     required this.thumbnail, required this.variantId,
   });
 
