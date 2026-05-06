@@ -49,6 +49,8 @@ dependencies:
   flutter_stripe: ^12.6.0
   confetti: ^0.8.0
   flutter_dotenv: ^5.0.2
+  carousel_slider: ^5.1.2
+  smooth_page_indicator: ^2.0.1
 
 dev_dependencies:
   flutter_test:
