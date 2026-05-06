@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../../../../../core/utils/extension.dart';
+import '../../../../../../core/utils/routing/routers.dart';
 import '../../../../domain/entities/cart_item.dart';
 import 'cart_item_widget.dart';
 
@@ -16,9 +18,14 @@ class CartListWidget extends StatelessWidget {
         itemBuilder: (context, index) {
           final item = items[index];
 
-          return CartItemWidget(
-              key: ValueKey(item.id),
-              item: item);
+          return GestureDetector(
+            onTap: () {
+              context.pushNamed(Routers.productDetails, arguments: item.productId);
+            },
+            child: CartItemWidget(
+                key: ValueKey(item.id),
+                item: item),
+          );
         },
       ),
     );
