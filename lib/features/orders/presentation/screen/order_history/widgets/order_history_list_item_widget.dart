@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_store/core/network/api_contstants.dart';
+import 'package:my_store/core/common_widgets/custom_cached_image_widget.dart';
 import '../../../../../../core/common_widgets/custom_animated_container_widget.dart';
 import '../../../../../../core/common_widgets/widgets.dart';
 import '../../../../../../core/theme/color_extension.dart';
@@ -79,15 +79,12 @@ class OrderHistoryListItemWidget extends StatelessWidget {
         itemBuilder: (context, index) {
           final item = order.items[index];
 
-          return ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Image.network(
-              ApiConstants.fixImageUrl(item.thumbnail ?? ""),
-              width: 60,
-              height: 60,
-              fit: BoxFit.cover,
-            ),
+          return CustomNetworkImage(imageUrl: item.thumbnail ?? "",
+            width: 60,
+            height: 60,
           );
+
+
         },
       ),
     );
