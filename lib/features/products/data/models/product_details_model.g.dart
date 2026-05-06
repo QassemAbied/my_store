@@ -20,17 +20,20 @@ ProductModel _$ProductModelFromJson(Map<String, dynamic> json) => ProductModel(
   title: json['title'] as String,
   description: json['description'] as String,
   thumbnail: json['thumbnail'] as String,
-  collection: CollectionModel.fromJson(
-    json['collection'] as Map<String, dynamic>,
-  ),
-  categories: (json['categories'] as List<dynamic>)
-      .map((e) => CategoryModel.fromJson(e as Map<String, dynamic>))
+  collection: json['collection'] == null
+      ? null
+      : CollectionModel.fromJson(json['collection'] as Map<String, dynamic>),
+  categories: (json['categories'] as List<dynamic>?)
+      ?.map((e) => CategoryModel.fromJson(e as Map<String, dynamic>))
       .toList(),
-  images: (json['images'] as List<dynamic>)
-      .map((e) => ImageModel.fromJson(e as Map<String, dynamic>))
+  images: (json['images'] as List<dynamic>?)
+      ?.map((e) => ImageModel.fromJson(e as Map<String, dynamic>))
       .toList(),
-  options: (json['options'] as List<dynamic>)
-      .map((e) => OptionModel.fromJson(e as Map<String, dynamic>))
+  options: (json['options'] as List<dynamic>?)
+      ?.map((e) => OptionModel.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  variants: (json['variants'] as List<dynamic>?)
+      ?.map((e) => ProductVariantModel.fromJson(e as Map<String, dynamic>))
       .toList(),
 );
 
@@ -44,7 +47,29 @@ Map<String, dynamic> _$ProductModelToJson(ProductModel instance) =>
       'categories': instance.categories,
       'images': instance.images,
       'options': instance.options,
+      'variants': instance.variants,
     };
+
+ProductVariantModel _$ProductVariantModelFromJson(Map<String, dynamic> json) =>
+    ProductVariantModel(
+      id: json['id'] as String?,
+      title: json['title'] as String?,
+      sku: json['sku'] as String?,
+      options: (json['options'] as List<dynamic>?)
+          ?.map((e) => ValueModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      manageInventory: json['manageInventory'] as bool?,
+    );
+
+Map<String, dynamic> _$ProductVariantModelToJson(
+  ProductVariantModel instance,
+) => <String, dynamic>{
+  'id': instance.id,
+  'title': instance.title,
+  'sku': instance.sku,
+  'manageInventory': instance.manageInventory,
+  'options': instance.options,
+};
 
 CollectionModel _$CollectionModelFromJson(Map<String, dynamic> json) =>
     CollectionModel(title: json['title'] as String);

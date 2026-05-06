@@ -18,11 +18,11 @@ class ProductModel {
   final String title;
   final String description;
   final String thumbnail;
-  final CollectionModel collection;
-  final List<CategoryModel> categories;
-  final List<ImageModel> images;
-  final List<OptionModel> options;
-
+  final CollectionModel? collection;
+  final List<CategoryModel>? categories;
+  final List<ImageModel>? images;
+  final List<OptionModel>? options;
+  final List<ProductVariantModel>? variants;
   ProductModel({
     required this.id,
     required this.title,
@@ -31,12 +31,31 @@ class ProductModel {
     required this.collection,
     required this.categories,
     required this.images,
-    required this.options,
+    required this.options, required this.variants,
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) =>
       _$ProductModelFromJson(json);
 }
+@JsonSerializable()
+class ProductVariantModel {
+  final String? id;
+  final String? title;
+  final String? sku;
+  final bool? manageInventory;
+  final List<ValueModel>? options;
+
+  ProductVariantModel({
+    required this.id,
+    this.title,
+    this.sku,
+    this.options, this.manageInventory,
+  });
+
+  factory ProductVariantModel.fromJson(Map<String, dynamic> json) =>
+      _$ProductVariantModelFromJson(json);
+}
+
 
 @JsonSerializable()
 class CollectionModel {
