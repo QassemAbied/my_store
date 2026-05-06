@@ -14,7 +14,6 @@ extension ContextExtension on BuildContext {
   Color get onSecondaryColor => colorScheme.onSecondary;
   Color get textSecondary  => colorScheme.onSurface;
 
-  // Custom colors
   Color get textPrimary  =>
       isDark ? AppColors.onBackgroundDark : AppColors.onBackground;
 
