@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_store/core/common_models/entities/product_entities.dart';
 import 'package:my_store/features/home/domain/entities/product_param.dart';
@@ -8,7 +9,18 @@ import 'home_state.dart';
 class HomeCubit extends Cubit<HomeState> {
   final ProductUseCase _productUseCase;
 
-  HomeCubit(this._productUseCase,) : super(HomeInitial());
+  ScrollController scrollController = ScrollController();
+
+  HomeCubit(this._productUseCase) : super(HomeInitial()) {
+    scrollController.addListener(_onScroll);
+  }
+
+  void _onScroll() {
+    if (scrollController.position.pixels >=
+        scrollController.position.maxScrollExtent - 300) {
+      getProduct(isLoadMore: true);
+    }
+  }
 
   int limit = 5;
   int offset = 0;
