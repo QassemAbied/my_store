@@ -20,7 +20,6 @@ class EmptyCategoryScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            /// 📦 Icon
             Icon(
               Icons.inventory_2_outlined,
               size: 80,
@@ -29,7 +28,6 @@ class EmptyCategoryScreen extends StatelessWidget {
 
             verticalSpace(20),
 
-            /// 🏷️ Title
             Text(
               "No products in $categoryName",
               textAlign: TextAlign.center,
@@ -41,7 +39,6 @@ class EmptyCategoryScreen extends StatelessWidget {
 
             verticalSpace(10),
 
-            /// 📝 Subtitle
             Text(
               "Try another category",
               textAlign: TextAlign.center,
