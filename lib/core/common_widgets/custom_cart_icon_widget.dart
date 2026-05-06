@@ -11,7 +11,7 @@ class CustomCartIconWidget extends StatelessWidget {
     required this.quantity,
     required this.cartItem, required this.cartKey, required this.imageKey,
   });
-  final String variantId;
+  final  List<String> variantId;
   final int quantity;
   final CartItemEntity cartItem;
   final GlobalKey cartKey;
@@ -20,17 +20,18 @@ class CustomCartIconWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cartCubit = context.watch<CartCubit>();
-    final isCart = cartCubit.selectedItems.contains(variantId);
+    final isCart = cartCubit.items?.cart.items.any(
+          (item) => variantId.contains(item.variantId),
+    ) ?? false;
     return IconButton(
       onPressed: () {
-
         final cubit = context.read<CartCubit>();
         if (isCart) {
-          final item = cubit.items?.cart.items.firstWhere(
-            (e) => e.variantId == variantId,
-          );
+          final item = cubit.items?.cart.items
+              .where((e) => variantId.contains(e.variantId))
+              .firstOrNull;
           if (item != null) {
-            cubit.deleteCart(lineId: item.id, variantId: variantId);
+            cubit.deleteCart(lineId: item.id, variantId: item.variantId);
           }
         } else {
           runAddToCartAnimation(
@@ -39,7 +40,7 @@ class CustomCartIconWidget extends StatelessWidget {
             imageKey: imageKey,
           );
           cubit.addCart(
-            variantId: variantId,
+            variantId:  cartItem.variantId,
             quantity: quantity,
             cartItem: cartItem,
           );
