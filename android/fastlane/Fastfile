@@ -1,0 +1,23 @@
+require 'dotenv'
+Dotenv.load
+
+default_platform(:android)
+
+platform :android do
+  desc "Lane for Android Firebase App Distribution"
+
+  lane :firebase_distribution do
+    sh "flutter clean"
+    sh "flutter build apk --release --no-tree-shake-icons"
+
+    firebase_app_distribution(
+      app: "1:1048578357949:android:719b4bad66b55377ec15d4",
+      firebase_cli_token: ENV["FIREBASE_CLI_TOKEN"],
+      android_artifact_type: "APK",
+      android_artifact_path: "../build/app/outputs/flutter-apk/app-release.apk",
+      testers: "qassemab1@gmail.com",
+      upload_timeout: 3600,
+      release_notes: "Testing something with GitHub Actions"
+    )
+  end
+end
