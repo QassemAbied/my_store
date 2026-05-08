@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,10 +17,14 @@ import 'features/auth/presentation/cubit/auth_cubit.dart';
 import 'features/bottom_nav_bar/controller/bottom_nav_cubit.dart';
 import 'package:my_store/core/theme/theme_controller/theme_cubit.dart';
 
+import 'firebase_options.dart';
 import 'injection_container.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await init();
   await dotenv.load(fileName: ".env");
   Stripe.publishableKey =dotenv.env['STRIPE_PUBLISHABLE_KEY']!;
