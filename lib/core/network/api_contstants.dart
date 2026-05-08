@@ -2,9 +2,9 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ApiConstants {
   static const Duration timeout = Duration(seconds: 30);
-  static const String baseUrl = "http://10.0.2.2:9000";
+  static const String baseUrl = "http://192.168.1.2:9000";
   static String fixImageUrl(String url) {
-    return url.replaceAll("localhost", "10.0.2.2");
+    return url.replaceAll("localhost", "192.168.1.2");
   }
 
   static const String publishable = "x-publishable-api-key";
