@@ -279,9 +279,9 @@ flutter run
 
 ## 🛒 Cart & Checkout
 
-| Cart | Shipping |
-|------|-----------|
-| <img src="assets/screenshots/cart.png" width="250"/> | <img src="assets/screenshots/shipping.png" width="250"/> |
+| Cart | Addresses | Shipping |
+|------|------------|-----------|
+| <img src="assets/screenshots/cart.png" width="250"/> | <img src="assets/screenshots/address.png" width="250"/> | <img src="assets/screenshots/shipping.png" width="250"/> |
 
 | Payment | Stripe |
 |----------|---------|
@@ -303,9 +303,9 @@ flutter run
 
 ## ⚙️ Settings & Address
 
-| Settings | Addresses |
-|-----------|------------|
-| <img src="assets/screenshots/settings.png" width="250"/> | <img src="assets/screenshots/address.png" width="250"/> |
+| Settings | 
+|-----------|
+| <img src="assets/screenshots/settings.png" width="250"/> | 
 
 # 👨‍💻 Developer
 
