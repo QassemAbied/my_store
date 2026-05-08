@@ -243,15 +243,69 @@ flutter run
 
 ---
 
-# 📸 Screenshots
+# 📸 App Screens
 
-Add your app screenshots here.
+## 🔐 Authentication
 
-```md
-/assets/screenshots/
-```
+| Register | Create Profile |
+|----------|----------------|
+| <img src="assets/screenshots/register.png" width="250"/> | <img src="assets/screenshots/profile_create.png" width="250"/> |
 
 ---
+
+## 🏠 Home & Products
+
+| Home | Products |
+|------|----------|
+| <img src="assets/screenshots/home.png" width="250"/> | <img src="assets/screenshots/products.png" width="250"/> |
+
+---
+
+## 🔎 Search & Categories
+
+| Search | Categories |
+|---------|------------|
+| <img src="assets/screenshots/search.png" width="250"/> | <img src="assets/screenshots/category.png" width="250"/> |
+
+---
+
+## 📦 Product Details
+
+| Product Details |
+|-----------------|
+| <img src="assets/screenshots/product_details.png" width="250"/> |
+
+---
+
+## 🛒 Cart & Checkout
+
+| Cart | Shipping |
+|------|-----------|
+| <img src="assets/screenshots/cart.png" width="250"/> | <img src="assets/screenshots/shipping.png" width="250"/> |
+
+| Payment | Stripe |
+|----------|---------|
+| <img src="assets/screenshots/payment.png" width="250"/> | <img src="assets/screenshots/stripe.png" width="250"/> |
+
+---
+
+## ✅ Orders
+
+| Order Success | Order Tracking |
+|---------------|----------------|
+| <img src="assets/screenshots/order_success.png" width="250"/> | <img src="assets/screenshots/order_tracking.png" width="250"/> |
+
+| My Orders |
+|------------|
+| <img src="assets/screenshots/orders.png" width="250"/> |
+
+---
+
+## ⚙️ Settings & Address
+
+| Settings | Addresses |
+|-----------|------------|
+| <img src="assets/screenshots/settings.png" width="250"/> | <img src="assets/screenshots/address.png" width="250"/> |
 
 # 👨‍💻 Developer
 
