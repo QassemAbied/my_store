@@ -51,6 +51,7 @@ dependencies:
   flutter_dotenv: ^5.0.2
   carousel_slider: ^5.1.2
   smooth_page_indicator: ^2.0.1
+  firebase_core: ^4.7.0
 
 dev_dependencies:
   flutter_test:
