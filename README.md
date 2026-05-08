@@ -249,7 +249,7 @@ flutter run
 
 | Register | Create Profile |
 |----------|----------------|
-| <img src="assets/screenshots/register.png" width="250"/> | <img src="assets/screenshots/profile_create.png" width="250"/> |
+| <img src="./assets/screenshots/register.png" width="250"/> | <img src="assets/screenshots/profile_create.png" width="250"/> |
 
 ---
 
@@ -257,7 +257,7 @@ flutter run
 
 | Home | Products |
 |------|----------|
-| <img src="assets/screenshots/home.png" width="250"/> | <img src="assets/screenshots/products.png" width="250"/> |
+| <img src="./assets/screenshots/home.png" width="250"/> | <img src="assets/screenshots/products.png" width="250"/> |
 
 ---
 
@@ -265,7 +265,7 @@ flutter run
 
 | Search | Categories |
 |---------|------------|
-| <img src="assets/screenshots/search.png" width="250"/> | <img src="assets/screenshots/category.png" width="250"/> |
+| <img src="./assets/screenshots/search.png" width="250"/> | <img src="assets/screenshots/category.png" width="250"/> |
 
 ---
 
@@ -273,7 +273,7 @@ flutter run
 
 | Product Details |
 |-----------------|
-| <img src="assets/screenshots/product_details.png" width="250"/> |
+| <img src="./assets/screenshots/product_details.png" width="250"/> |
 
 ---
 
