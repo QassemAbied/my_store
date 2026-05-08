@@ -53,6 +53,9 @@ class _CarouselPageWidgetState extends State<CarouselPageWidget> {
             effect: ExpandingDotsEffect(
                 dotColor: context.border,
                 activeDotColor: context.primaryColor,
+             dotHeight: 10,
+              dotWidth: 10,
+
             ),
             activeIndex: currentIndex,
           ),
