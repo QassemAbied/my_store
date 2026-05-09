@@ -1,6 +1,5 @@
 import 'package:my_store/features/orders/domain/entitiy/order_list_entitiy.dart';
-
-import '../../../core/error/failures.dart';
+import '../../../core/error/error_handler.dart';
 import '../../../core/network/api_result.dart';
 import '../domain/entitiy/order_review_entities.dart';
 import '../domain/mapper/order_list_mapper.dart';
@@ -19,8 +18,8 @@ class OrderRepositoryImpl implements OrderRepository {
       final res = await _remote.getOrderReview(orderId);
 
       return ApiResult.success(res.order.toEntity());
-    } catch (failure) {
-      return ApiResult.failure(ServerFailure());
+    } catch (e) {
+      return ApiResult.failure(ErrorHandler.handle(e));
     }
   }
 
@@ -30,8 +29,8 @@ class OrderRepositoryImpl implements OrderRepository {
       final res = await _remote.getOrderList();
 
       return ApiResult.success(res.toEntity());
-    } catch (failure) {
-      return ApiResult.failure(ServerFailure());
+    } catch (e) {
+      return ApiResult.failure(ErrorHandler.handle(e));
     }
   }
 }

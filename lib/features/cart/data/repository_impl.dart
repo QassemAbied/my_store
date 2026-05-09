@@ -1,17 +1,13 @@
 import 'dart:convert';
-import 'package:my_store/core/error/failures.dart';
 import 'package:my_store/core/services/shared_pref.dart';
-import 'package:my_store/features/address/domain/entities/address_entities.dart';
 import 'package:my_store/features/cart/domain/entities/cart_item.dart';
 import 'package:my_store/features/cart/domain/entities/params.dart';
 import 'package:my_store/features/payment/domain/entities/payment_provider_entities.dart';
-import 'package:my_store/features/shipping/domain/entities/shipping_entites.dart';
 import 'package:my_store/features/cart/domain/repository.dart';
+import '../../../core/error/error_handler.dart';
 import '../../../core/network/api_result.dart';
-import '../../address/domain/mapper/address_mapper.dart';
 import '../domain/mappers/cart_item_mapper.dart';
 import '../../payment/domain/mappers/payment_provider_mapper.dart';
-import '../../shipping/domain/mapper/shipping_mapper.dart';
 import 'data_source/cart_remote_data_source.dart';
 import 'models/cart_id_model.dart';
 import 'models/regions_model.dart';
@@ -27,8 +23,8 @@ class CartRepositoryImpl implements CartRepository {
       final regionId = model.regions.first.id;
       await SharedPrefHelper.setData(key: "regionId", value: regionId);
       return ApiResult.success(regionId);
-    } catch (failure) {
-      return ApiResult.failure(ServerFailure());
+    } catch (e) {
+      return ApiResult.failure(ErrorHandler.handle(e));
     }
   }
 
@@ -45,8 +41,8 @@ class CartRepositoryImpl implements CartRepository {
       final id = model.id;
       await SharedPrefHelper.setData(key: "cartId", value: id);
       return ApiResult.success(id);
-    } catch (failure) {
-      return ApiResult.failure(ServerFailure());
+    } catch (e) {
+      return ApiResult.failure(ErrorHandler.handle(e));
     }
   }
 
@@ -56,8 +52,8 @@ class CartRepositoryImpl implements CartRepository {
       final res = await _cartRemoteDataSource.getCartItems(id);
       final cartResponseEntity = CartMapper.toResponseEntity(res);
       return ApiResult.success(cartResponseEntity);
-    } catch (failure) {
-      return ApiResult.failure(ServerFailure());
+    } catch (e) {
+      return ApiResult.failure(ErrorHandler.handle(e));
     }
   }
 
@@ -66,8 +62,8 @@ class CartRepositoryImpl implements CartRepository {
     try {
       final res = await _cartRemoteDataSource.addToCart(request);
       return ApiResult.success(res);
-    } catch (failure) {
-      return ApiResult.failure(ServerFailure());
+    } catch (e) {
+      return ApiResult.failure(ErrorHandler.handle(e));
     }
   }
 
@@ -76,8 +72,8 @@ class CartRepositoryImpl implements CartRepository {
     try {
       final res = await _cartRemoteDataSource.deleteCartItem(params);
       return ApiResult.success(res);
-    } catch (failure) {
-      return ApiResult.failure(ServerFailure());
+    } catch (e) {
+      return ApiResult.failure(ErrorHandler.handle(e));
     }
   }
 
@@ -86,8 +82,8 @@ class CartRepositoryImpl implements CartRepository {
     try {
       final res = await _cartRemoteDataSource.updateCartItem(params);
       return ApiResult.success(res);
-    } catch (failure) {
-      return ApiResult.failure(ServerFailure());
+    } catch (e) {
+      return ApiResult.failure(ErrorHandler.handle(e));
     }
   }
 
@@ -99,7 +95,7 @@ class CartRepositoryImpl implements CartRepository {
       await _cartRemoteDataSource.completeCart(cartId);
       return ApiResult.success(null);
     } catch (e) {
-      return ApiResult.failure(ServerFailure());
+      return ApiResult.failure(ErrorHandler.handle(e));
     }
   }
 
@@ -113,8 +109,8 @@ class CartRepositoryImpl implements CartRepository {
       final res = await _cartRemoteDataSource.getPaymentProviders( regionId);
       final paymentProvidersResponseEntity = PaymentProvidersMapper.toEntity(res);
       return ApiResult.success(paymentProvidersResponseEntity);
-    } catch (failure) {
-      return ApiResult.failure(ServerFailure());
+    } catch (e) {
+      return ApiResult.failure(ErrorHandler.handle(e));
     }
   }
 }

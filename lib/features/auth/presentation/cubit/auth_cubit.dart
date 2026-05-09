@@ -6,7 +6,6 @@ import 'package:my_store/features/auth/domain/usecases/get_profile_use_case.dart
 import 'package:my_store/features/auth/domain/usecases/register_use_case.dart';
 import 'package:my_store/features/auth/presentation/cubit/auth_state.dart';
 import '../../../../core/utils/constants.dart';
-import '../../../cart/presentation/cubit/cart_cubit.dart';
 import '../../domain/usecases/login_user_use_case.dart';
 import '../../domain/usecases/register_auth_use_case.dart';
 
@@ -27,7 +26,7 @@ class AuthCubit extends Cubit<AuthState> {
     emit(RegisterAuthLoading());
     final result = await _registerAuthUseCase(request);
     result.result.fold(
-      (failure) => emit(RegisterAuthError(failure.toString())),
+      (failure) => emit(RegisterAuthError(failure.message)),
       (data) {
         emit(RegisterAuthSuccess(data));
       },
@@ -38,7 +37,7 @@ class AuthCubit extends Cubit<AuthState> {
     emit(RegisterLoading());
     final result = await _registerUseCase(request);
     result.result.fold(
-      (failure) => emit(RegisterError(failure.toString())),
+      (failure) => emit(RegisterError(failure.message)),
       (data) => emit(RegisterSuccess(data)),
     );
   }
@@ -46,7 +45,7 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> getProfile() async {
     emit(ProfileLoading());
     final result = await _getProfileUseCase(NoParams());
-    result.result.fold((failure) => emit(ProfileError(failure.toString())), (
+    result.result.fold((failure) => emit(ProfileError(failure.message)), (
       data,
     ) {
       if (data.email.isEmpty) {
@@ -60,9 +59,7 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> login(LoginRequest request) async {
     emit(LoginLoading());
     final result = await _loginUserUseCase(request);
-    result.result.fold((failure) => emit(LoginError(failure.toString())), (
-      data,
-    ) {
+    result.result.fold((failure) => emit(LoginError(failure.message)), (data) {
       emit(LoginSuccess(data));
     });
   }

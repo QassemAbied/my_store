@@ -32,7 +32,7 @@ class AddressCubit extends Cubit<AddressState> {
 
     result.result.fold(
       (error) {
-        emit(AddressError(error.toString() ?? "Something went wrong"));
+        emit(AddressError(error.message));
       },
       (data) {
         addresses = data;
@@ -49,7 +49,7 @@ class AddressCubit extends Cubit<AddressState> {
 
     result.result.fold(
       (error) {
-        emit(AddAddressError(error.toString() ?? "Failed to add address"));
+        emit(AddAddressError(error.message));
       },
       (_) {
         emit(AddAddressSuccess());

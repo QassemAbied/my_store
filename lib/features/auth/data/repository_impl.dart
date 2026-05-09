@@ -1,6 +1,6 @@
-import 'package:my_store/core/error/failures.dart';
 import 'package:my_store/features/auth/domain/entities/customer_entity.dart';
 import '../../../core/network/api_result.dart';
+import '../../../core/error/error_handler.dart';
 import '../domain/entities/auth_entity.dart';
 import '../domain/entities/requests.dart';
 import '../domain/mapper/auth_mapper.dart';
@@ -21,7 +21,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
       return ApiResult.success(result.toEntity());
     } catch (e) {
-      return ApiResult.failure(ServerFailure());
+      return ApiResult.failure(ErrorHandler.handle(e));
     }
   }
 
@@ -32,7 +32,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
       return ApiResult.success(result.toEntity());
     } catch (e) {
-      return ApiResult.failure(ServerFailure());
+      return ApiResult.failure(ErrorHandler.handle(e));
     }
   }
 
@@ -43,7 +43,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
       return ApiResult.success(result.toEntity());
     } catch (e) {
-      return ApiResult.failure(ServerFailure());
+      return ApiResult.failure(ErrorHandler.handle(e));
     }
   }
 
@@ -54,7 +54,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
       return ApiResult.success(result.toEntity());
     } catch (e) {
-      return ApiResult.failure(ServerFailure());
+      return ApiResult.failure(ErrorHandler.handle(e));
     }
   }
 }

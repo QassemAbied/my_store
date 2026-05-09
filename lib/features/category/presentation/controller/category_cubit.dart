@@ -28,7 +28,7 @@ class CategoryCubit extends Cubit<CategoryState> {
       (failure) => emit(
         state.copyWith(
           isLoadingCategories: false,
-          error: 'Failed to fetch categories',
+          error: failure.message,
         ),
       ),
       (categories) async {
@@ -53,7 +53,8 @@ class CategoryCubit extends Cubit<CategoryState> {
       ),
     );
     result.result.fold(
-      (failure) => emit(state.copyWith(error: 'Failed to fetch products')),
+      (failure) => emit(state.copyWith(
+          error: failure.message)),
       (products) {
         emit(
           state.copyWith(

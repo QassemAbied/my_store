@@ -61,7 +61,7 @@ class ShippingCubit extends Cubit<ShippingState> {
         AddShippingOptionParams(cartId!,
             {"option_id": shippingOptionId}));
     result.result.fold((failure) =>
-        emit(AddShippingError(failure.toString())), (
+        emit(AddShippingError(failure.message)), (
         _,
         ) async {
       // await getCartItems();
@@ -84,7 +84,7 @@ class ShippingCubit extends Cubit<ShippingState> {
     result.result.fold(
 
           (error) {
-        emit(AddShippingAddressError(error.toString() ?? "Failed to delete address"));
+        emit(AddShippingAddressError(error.message));
       },
           (data) {
         emit(AddShippingAddressSuccess(data));

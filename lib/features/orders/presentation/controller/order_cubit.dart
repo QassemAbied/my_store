@@ -20,7 +20,7 @@ class OrderCubit extends Cubit<OrderState> {
     final result = await _orderReviewUseCase(orderId);
 
     result.result.fold(
-      (failure) => emit(OrderReviewError(failure.toString())),
+      (failure) => emit(OrderReviewError(failure.message)),
       (data) => emit(OrderReviewSuccess(data)),
     );
   }
@@ -30,7 +30,7 @@ class OrderCubit extends Cubit<OrderState> {
     final result = await _orderListUseCase(NoParams());
 
     result.result.fold(
-          (failure) => emit(OrderListError(failure.toString())),
+          (failure) => emit(OrderListError(failure.message)),
           (data) => emit(OrderListSuccess(data)),
     );
   }

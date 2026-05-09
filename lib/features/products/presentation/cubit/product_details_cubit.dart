@@ -95,7 +95,7 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
       ),
     );
     result.result.fold(
-      (failure) => emit(ProductDetailsFailure(failure.toString())),
+      (failure) => emit(ProductDetailsFailure(failure.message)),
       (data) => emit(ProductDetailsSuccess(data)),
     );
   }

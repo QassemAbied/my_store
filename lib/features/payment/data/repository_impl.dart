@@ -1,7 +1,7 @@
 import 'package:my_store/core/network/api_result.dart';
 import 'package:my_store/features/payment/domain/entities/payment_collection.dart';
 import 'package:my_store/features/payment/domain/entities/payment_provider_entities.dart';
-import '../../../core/error/failures.dart';
+import '../../../core/error/error_handler.dart';
 import '../../orders/domain/entitiy/order_review_entities.dart';
 import '../../orders/domain/mapper/order_review_mapper.dart';
 import '../domain/entities/payment_session.dart';
@@ -25,8 +25,8 @@ class PaymentRepositoryImpl implements PaymentRepository {
         res,
       );
       return ApiResult.success(paymentProvidersResponseEntity);
-    } catch (failure) {
-      return ApiResult.failure(ServerFailure());
+    } catch (e) {
+      return ApiResult.failure(ErrorHandler.handle(e));
     }
   }
 
@@ -39,8 +39,8 @@ class PaymentRepositoryImpl implements PaymentRepository {
         paymentSessionInput,
       );
       return ApiResult.success(res.toEntity());
-    } catch (failure) {
-      return ApiResult.failure(ServerFailure());
+    } catch (e) {
+      return ApiResult.failure(ErrorHandler.handle(e));
     }
   }
 
@@ -50,7 +50,7 @@ class PaymentRepositoryImpl implements PaymentRepository {
       final res = await _remotePaymentDataSource.completeOrder(cartId);
       return ApiResult.success(res.order.toEntity());
     } catch (e) {
-      return ApiResult.failure(ServerFailure());
+      return ApiResult.failure(ErrorHandler.handle(e));
     }
   }
 
@@ -65,7 +65,7 @@ class PaymentRepositoryImpl implements PaymentRepository {
       final paymentCollection = res.toEntity();
       return ApiResult.success(paymentCollection);
     } catch (e) {
-      return ApiResult.failure(ServerFailure());
+      return ApiResult.failure(ErrorHandler.handle(e));
     }
   }
 }

@@ -1,5 +1,5 @@
-import '../../../core/error/failures.dart';
 import '../../../core/network/api_result.dart';
+import '../../../core/error/error_handler.dart';
 import '../../cart/domain/entities/cart_item.dart';
 import '../../cart/domain/mappers/cart_item_mapper.dart';
 import '../domain/entities/shipping_entites.dart';
@@ -19,8 +19,8 @@ class ShippingRepositoryImpl implements ShippingRepository{
       final res = await _shippingRemoteDataSource.getShippingOptions(cartId);
       final shippingEntity = ShippingMapper.toEntity(res);
       return ApiResult.success(shippingEntity);
-    } catch (failure) {
-      return ApiResult.failure(ServerFailure());
+    } catch (e) {
+      return ApiResult.failure(ErrorHandler.handle(e));
     }
   }
 
@@ -29,8 +29,8 @@ class ShippingRepositoryImpl implements ShippingRepository{
     try {
       final res =await _shippingRemoteDataSource.addShippingOptions(params);
       return ApiResult.success(res);
-    } catch (failure) {
-      return ApiResult.failure(ServerFailure());
+    } catch (e) {
+      return ApiResult.failure(ErrorHandler.handle(e));
     }
   }
 
@@ -41,8 +41,8 @@ class ShippingRepositoryImpl implements ShippingRepository{
       final res = await _shippingRemoteDataSource.addShippingAddress( request);
       final cartResponseEntity = CartMapper.toResponseEntity(res);
       return ApiResult.success(cartResponseEntity);
-    } catch (failure) {
-      return ApiResult.failure(ServerFailure());
+    } catch (e) {
+      return ApiResult.failure(ErrorHandler.handle(e));
     }
   }
 }

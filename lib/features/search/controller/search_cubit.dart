@@ -33,7 +33,7 @@ class SearchCubit extends Cubit<SearchState> {
 
     result.result.fold(
           (failure) {
-        emit(SearchFailure(failure.toString()));
+        emit(SearchFailure(failure.message));
       },
           (data) {
         final searchProduct =

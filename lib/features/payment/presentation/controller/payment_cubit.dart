@@ -7,7 +7,6 @@ import '../../domain/entities/payment_collection.dart';
 import '../../domain/entities/payment_session_input.dart';
 import '../../domain/use_case/complete_order_use_case.dart';
 import '../../domain/use_case/payment_collection_use_case.dart';
-import '../../domain/use_case/payment_provider_use_case.dart';
 import '../../domain/use_case/payment_session_use_case.dart';
 
 class PaymentCubit extends Cubit<PaymentState> {
@@ -41,7 +40,7 @@ class PaymentCubit extends Cubit<PaymentState> {
     final result = await _paymentProviderUseCase(regionId!);
 
     result.result.fold(
-      (failure) => emit(PaymentProviderError(failure.toString())),
+      (failure) => emit(PaymentProviderError(failure.message)),
       (data) => emit(PaymentProviderSuccess(data)),
     );
   }
@@ -59,7 +58,7 @@ class PaymentCubit extends Cubit<PaymentState> {
     final result = await _createPaymentCollectionUseCase(cartId!);
 
     result.result.fold(
-      (failure) => emit(PaymentCollectionError(failure.toString())),
+      (failure) => emit(PaymentCollectionError(failure.message)),
       (data) {
         _paymentCollection = data.paymentCollection;
 
@@ -84,7 +83,7 @@ class PaymentCubit extends Cubit<PaymentState> {
     );
 
     result.result.fold(
-      (failure) => emit(PaymentSessionError(failure.toString())),
+      (failure) => emit(PaymentSessionError(failure.message)),
       (data) => emit(PaymentSessionSuccess(data)),
     );
   }
@@ -109,7 +108,7 @@ class PaymentCubit extends Cubit<PaymentState> {
 
       result.result.fold(
         (failure) {
-          emit(PaymentErrorState(failure.toString()));
+          emit(PaymentErrorState(failure.message));
         },
         (data) async {
           final orderId = data.id;

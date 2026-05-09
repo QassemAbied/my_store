@@ -54,7 +54,7 @@ class HomeCubit extends Cubit<HomeState> {
         query: null
     );
     final result = await _productUseCase(params);
-    result.result.fold((failure) => emit(ProductFailure(failure.toString())),
+    result.result.fold((failure) => emit(ProductFailure(failure.message)),
             (data) {
           final newProduct = data.products;
           if (newProduct?.isEmpty ?? false) {
