@@ -12,7 +12,7 @@ import 'package:my_store/features/auth/domain/usecases/get_profile_use_case.dart
 import 'package:my_store/features/auth/domain/usecases/login_user_use_case.dart';
 import 'package:my_store/features/auth/domain/usecases/register_auth_use_case.dart';
 import 'package:my_store/features/auth/presentation/cubit/auth_cubit.dart';
-import 'package:my_store/features/cart/data/data_source/cart_remote_data_source.dart';
+import 'package:my_store/features/cart/data/data_source/remote_data_source/cart_remote_data_source.dart';
 import 'package:my_store/features/cart/domain/repository.dart';
 import 'package:my_store/features/cart/domain/usecases/add_cart_use_case.dart';
 import 'package:my_store/features/cart/domain/usecases/cart_item_use_case.dart';
@@ -45,7 +45,9 @@ import 'features/address/data/data_source/remote_data_source_impl.dart';
 import 'features/address/data/repository_impl.dart';
 import 'features/auth/data/repository_impl.dart';
 import 'features/auth/domain/usecases/register_use_case.dart';
-import 'features/cart/data/data_source/cart_remote_data_source_impl.dart';
+import 'features/cart/data/data_source/local_data_source/cart_local_data_source.dart';
+import 'features/cart/data/data_source/local_data_source/cart_local_data_source_impl.dart';
+import 'features/cart/data/data_source/remote_data_source/cart_remote_data_source_impl.dart';
 import 'features/cart/data/repository_impl.dart';
 import 'features/address/domain/ues_case/add_address_use_case.dart';
 import 'features/category/data/category_repositories_impl.dart';
@@ -119,7 +121,10 @@ Future<void> init() async {
   sl.registerLazySingleton<CartRemoteDataSource>(
     () => CartRemoteDataSourceImpl(sl()),
   );
-  sl.registerLazySingleton<CartRepository>(() => CartRepositoryImpl(sl()));
+  sl.registerLazySingleton<CartLocalDataSource>(
+        () => CartLocalDataSourceImpl(),
+  );
+  sl.registerLazySingleton<CartRepository>(() => CartRepositoryImpl(sl(),sl()));
   sl.registerLazySingleton<CreateCartUseCase>(() => CreateCartUseCase(sl()));
   sl.registerLazySingleton<CartItemUseCase>(() => CartItemUseCase(sl()));
   sl.registerLazySingleton<RegionsUseCase>(() => RegionsUseCase(sl()));
@@ -127,7 +132,7 @@ Future<void> init() async {
   sl.registerLazySingleton<DeleteCartUseCase>(() => DeleteCartUseCase(sl()));
   sl.registerLazySingleton<UpdateCartUseCase>(() => UpdateCartUseCase(sl()));
 
-  sl.registerFactory(() => CartCubit(sl(), sl(), sl(), sl(), sl(), sl()));
+  sl.registerFactory(() => CartCubit(sl(), sl(), sl(), sl(), sl(),sl(), sl(),sl()));
 
   sl.registerLazySingleton<AuthRemoteDataSource>(
     () => AuthRemoteDataSourceImpl(sl()),
