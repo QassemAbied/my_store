@@ -7,5 +7,6 @@ class AppConstants {
   static const String categoryLocalKey='categorys';
   static const String productLocalKey='productes';
   static const String cartLocalKey='cart';
+  static const String profileLocalKey='profile';
 
 }
