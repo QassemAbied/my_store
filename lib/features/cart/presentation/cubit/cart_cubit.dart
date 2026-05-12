@@ -1,9 +1,13 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_store/core/network/network_info.dart';
 import 'package:my_store/core/services/shared_pref.dart';
 import 'package:my_store/features/cart/domain/usecases/update_cart_use_case.dart';
 import '../../../../core/network/use_case.dart';
+import '../../data/data_source/local_data_source/cart_local_data_source.dart';
 import '../../domain/entities/cart_item.dart';
 import '../../domain/entities/params.dart';
+import '../../domain/mappers/cart_local_mapper.dart';
 import '../../domain/usecases/add_cart_use_case.dart';
 import '../../domain/usecases/cart_item_use_case.dart';
 import '../../domain/usecases/create_cart_use_case.dart';
@@ -18,6 +22,8 @@ class CartCubit extends Cubit<CartState> {
   final AddCartUseCase addCartUseCase;
   final DeleteCartUseCase deleteCartUseCase;
   final UpdateCartUseCase updateCartUseCase;
+  final CartLocalDataSource localDataSource;
+  final NetworkInfo _networkInfo;
 
   CartCubit(
     this.regionsUseCase,
@@ -26,11 +32,17 @@ class CartCubit extends Cubit<CartState> {
     this.addCartUseCase,
     this.deleteCartUseCase,
     this.updateCartUseCase,
+    this.localDataSource,
+      this._networkInfo
   ) : super(CartInitial());
 
   String? cartId;
   String? regionId;
   CartResponseEntity? items;
+
+
+
+  bool isOfflineMode= false;
   Future<void> ensureCartId() async {
     cartId ??= SharedPrefHelper.getString(key: 'cartId');
 
@@ -72,6 +84,11 @@ class CartCubit extends Cubit<CartState> {
       emit(CartItemsError("Cart Id is null"));
       return;
     }
+    final isOnline =
+    await _networkInfo
+        .isServerAlive;
+
+    isOfflineMode = !isOnline;
     final result = await cartItemUseCase(cartId!);
     result.result.fold((failure) => emit(CartItemsError("Get Cart Error")), (
       cartData,
@@ -87,24 +104,34 @@ class CartCubit extends Cubit<CartState> {
     required CartItemEntity cartItem,
   }) async {
     regionId ??= SharedPrefHelper.getString(key: 'region');
-
     await ensureCartId();
     if (cartId == null) return;
 
     items ??= CartResponseEntity(
       cart: CartEntity(items: [], total: 0, id: cartId!, regionId: regionId!),
     );
+
     final index = items!.cart.items.indexWhere((e) => e.variantId == variantId);
+
     if (index != -1) {
       items!.cart.items[index].quantity += quantity;
     } else {
       items!.cart.items.insert(0, cartItem);
     }
+
     items!.cart.total = items!.cart.items.fold<int>(
       0,
       (sum, item) => sum + (item.price * item.quantity),
     );
+
     emit(CartItemsSuccess(items!));
+
+    await localDataSource.cacheCartItemsLocal(
+      CartLocalMapper.toLocalEntityModel(items!),
+
+      cartId!,
+    );
+
     try {
       await addCartUseCase(
         AddCartRequest(cartId!, {
@@ -112,49 +139,37 @@ class CartCubit extends Cubit<CartState> {
           "quantity": quantity,
         }),
       );
-      await getCartItems();
     } catch (e) {
-      if (index != -1) {
-        items!.cart.items[index].quantity -= quantity;
-      } else {
-        items!.cart.items.removeWhere((e) => e.variantId == variantId);
+      if (kDebugMode) {
+        print(e);
       }
-      items!.cart.total = items!.cart.items.fold<int>(
-        0,
-        (sum, item) => sum + (item.price * item.quantity),
-      );
-      emit(CartItemsSuccess(items!));
     }
   }
 
   Future<void> deleteCart({
     required String lineId,
     required String variantId,
-  }) async {
+  })
+  async {
     if (items == null) return;
-
-    final removedItem = items!.cart.items.firstWhere((e) => e.id == lineId);
-
     items!.cart.items.removeWhere((e) => e.id == lineId);
-
     items!.cart.total = items!.cart.items.fold<int>(
       0,
       (sum, item) => sum + (item.price * item.quantity),
     );
 
     emit(CartItemsSuccess(items!));
+    await localDataSource.cacheCartItemsLocal(
+      CartLocalMapper.toLocalEntityModel(items!),
 
+      cartId!,
+    );
     try {
       await deleteCartUseCase(DeleteCartParams(cartId!, lineId));
     } catch (e) {
-      items!.cart.items.insert(0, removedItem);
-
-      items!.cart.total = items!.cart.items.fold<int>(
-        0,
-        (sum, item) => sum + (item.price * item.quantity),
-      );
-
-      emit(CartItemsSuccess(items!));
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 
@@ -166,7 +181,6 @@ class CartCubit extends Cubit<CartState> {
 
     final item = items!.cart.items.firstWhere((e) => e.id == lineId);
 
-    final oldQuantity = item.quantity;
 
     item.quantity = quantity;
 
@@ -176,20 +190,19 @@ class CartCubit extends Cubit<CartState> {
     );
 
     emit(CartItemsSuccess(items!));
+    await localDataSource.cacheCartItemsLocal(
+      CartLocalMapper.toLocalEntityModel(items!),
 
+      cartId!,
+    );
     try {
       await updateCartUseCase(
         UpdateCartParams(cartId!, lineId, {"quantity": quantity}),
       );
     } catch (e) {
-      item.quantity = oldQuantity;
-
-      items!.cart.total = items!.cart.items.fold<int>(
-        0,
-        (sum, item) => sum + (item.price * item.quantity),
-      );
-
-      emit(CartItemsSuccess(items!));
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 
