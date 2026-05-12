@@ -33,7 +33,7 @@ class CategoryHomeWidget extends StatelessWidget {
               state.isLoadingProducts
                   ? const ProductCategoryShimmer()
                   : state.products.isEmpty
-                  ? EmptyCategoryScreen(categoryName: state.selectedCategoryId!)
+                  ? EmptyCategoryScreen(categoryName: state.selectedCategoryId??'')
                   : ListProductOfCategoryWidget(products: state.products),
             ],
           ),
