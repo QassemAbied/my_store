@@ -6,5 +6,6 @@ class AppConstants {
   static String? token=SharedPrefHelper.getString(key: tokenKey);
   static const String categoryLocalKey='categorys';
   static const String productLocalKey='productes';
+  static const String cartLocalKey='cart';
 
 }
