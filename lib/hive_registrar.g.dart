@@ -4,11 +4,16 @@
 
 import 'package:hive_ce/hive_ce.dart';
 import 'package:my_store/core/common_models/models/product_response_local_model.dart';
+import 'package:my_store/features/cart/data/models/cart_local_model.dart';
 import 'package:my_store/features/category/data/models/category_local_model.dart';
 
 extension HiveRegistrar on HiveInterface {
   void registerAdapters() {
+    registerAdapter(AddressLocalModelAdapter());
     registerAdapter(CalculatedPriceModelAdapter());
+    registerAdapter(CartItemLocalModelAdapter());
+    registerAdapter(CartLocalModelAdapter());
+    registerAdapter(CartResponseLocalModelAdapter());
     registerAdapter(CategoryLocalModelAdapter());
     registerAdapter(CategoryResponseLocalModelAdapter());
     registerAdapter(ProductItemModelsAdapter());
@@ -19,7 +24,11 @@ extension HiveRegistrar on HiveInterface {
 
 extension IsolatedHiveRegistrar on IsolatedHiveInterface {
   void registerAdapters() {
+    registerAdapter(AddressLocalModelAdapter());
     registerAdapter(CalculatedPriceModelAdapter());
+    registerAdapter(CartItemLocalModelAdapter());
+    registerAdapter(CartLocalModelAdapter());
+    registerAdapter(CartResponseLocalModelAdapter());
     registerAdapter(CategoryLocalModelAdapter());
     registerAdapter(CategoryResponseLocalModelAdapter());
     registerAdapter(ProductItemModelsAdapter());
