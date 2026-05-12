@@ -2,72 +2,145 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_store/core/common_models/entities/product_entities.dart';
 import 'package:my_store/features/home/domain/entities/product_param.dart';
+
 import '../../../../core/services/shared_pref.dart';
 import '../../domain/usecases/product_usecase.dart';
 import 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
+
   final ProductUseCase _productUseCase;
 
-  ScrollController scrollController = ScrollController();
+  ScrollController scrollController =
+  ScrollController();
 
-  HomeCubit(this._productUseCase) : super(HomeInitial()) {
+  HomeCubit(this._productUseCase)
+      : super(HomeInitial()) {
+
     scrollController.addListener(_onScroll);
   }
 
   void _onScroll() {
+
     if (scrollController.position.pixels >=
         scrollController.position.maxScrollExtent - 300) {
+
       getProduct(isLoadMore: true);
     }
   }
 
   int limit = 5;
   int offset = 0;
+
   bool hasMore = true;
   bool isLoading = false;
 
-
   List<ProductItemEntity> productList = [];
 
+  Future getProduct({
+    bool isLoadMore = false,
+  })
+  async {
 
-  Future getProduct({ bool isLoadMore = false}) async {
     if (isLoading || !hasMore) return;
+
     isLoading = true;
+
     if (!isLoadMore) {
+
       offset = 0;
+
       hasMore = true;
+
       productList.clear();
+
       emit(ProductLoading());
     }
+
     final regionId =
-    SharedPrefHelper.getString(key: 'region');
+    SharedPrefHelper.getString(
+        key: 'region');
+
     if (regionId == null) {
-      emit(ProductFailure("Region Id is null"));
+
+      emit(
+        ProductFailure(
+          "Region Id is null",
+        ),
+      );
+
+      isLoading = false;
+
       return;
     }
+
     final params = ProductParams(
-        limit: limit,
-        offset: offset,
-        fields: "id,title,description,thumbnail,*variants.calculated_price",
-        reginId: regionId,
-        query: null
+
+      limit: limit,
+
+      offset: offset,
+
+      fields:
+      "id,title,description,thumbnail,*variants.calculated_price",
+
+      reginId: regionId,
+
+      query: null,
     );
-    final result = await _productUseCase(params);
-    result.result.fold((failure) => emit(ProductFailure(failure.message)),
-            (data) {
-          final newProduct = data.products;
-          if (newProduct?.isEmpty ?? false) {
-            hasMore = false;
-          } else {
-            productList.addAll(newProduct!);
-            offset += limit;
+
+    final result =
+    await _productUseCase(params);
+
+    result.result.fold(
+          (failure) {
+        emit(ProductFailure(
+            failure.message,
+          ),);
+      },
+
+          (data) {
+
+        final newProducts =
+            data.products ?? [];
+
+        for (final item in newProducts) {
+
+          final exists =
+          productList.any(
+                (e) => e.id == item.id,
+          );
+
+          if (!exists) {
+
+            productList.add(item);
           }
-          emit(ProductSuccess(product: productList, isSearch: false,));
-        });
+        }
+
+        offset += limit;
+
+        if (productList.length >=
+            (data.count ?? 0)) {
+
+          hasMore = false;
+        }
+
+        emit(
+          ProductSuccess(
+            product: productList,
+            isSearch: false,
+          ),
+        );
+      },
+    );
+
     isLoading = false;
   }
+
+  @override
+  Future<void> close() {
+
+    scrollController.dispose();
+
+    return super.close();
+  }
 }
-
-
-
