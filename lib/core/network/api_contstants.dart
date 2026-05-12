@@ -1,7 +1,7 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ApiConstants {
-  static const Duration timeout = Duration(seconds: 10);
+  static const Duration timeout = Duration(seconds: 20);
   //static const String baseUrl = "http://192.168.1.2:9000";
   static const String baseUrl = "http://10.0.2.2:9000";
   static const String health = "$baseUrl/health";
