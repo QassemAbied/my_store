@@ -1,5 +1,5 @@
-import '../models/address_model.dart';
-import '../../domain/entities/address_request.dart';
+import '../../models/address_model.dart';
+import '../../../domain/entities/address_request.dart';
 
 abstract class AddressRemoteDataSource {
   Future<AddressResponseModel> getAddresses();
