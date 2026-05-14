@@ -2,7 +2,7 @@ import 'package:hive_ce_flutter/adapters.dart';
 
 part 'address_local_model.g.dart';
 
-@HiveType(typeId: 45)
+@HiveType(typeId: 12)
 class AddressResponseLocalModel extends HiveObject {
 
   @HiveField(0)
@@ -13,7 +13,7 @@ class AddressResponseLocalModel extends HiveObject {
   });
 }
 
-@HiveType(typeId: 46)
+@HiveType(typeId: 13)
 class AddressItemLocalModel extends HiveObject {
 
   @HiveField(0)

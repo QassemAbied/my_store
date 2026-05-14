@@ -9,7 +9,7 @@ part of 'address_local_model.dart';
 class AddressResponseLocalModelAdapter
     extends TypeAdapter<AddressResponseLocalModel> {
   @override
-  final typeId = 45;
+  final typeId = 12;
 
   @override
   AddressResponseLocalModel read(BinaryReader reader) {
@@ -43,7 +43,7 @@ class AddressResponseLocalModelAdapter
 
 class AddressItemLocalModelAdapter extends TypeAdapter<AddressItemLocalModel> {
   @override
-  final typeId = 46;
+  final typeId = 13;
 
   @override
   AddressItemLocalModel read(BinaryReader reader) {
