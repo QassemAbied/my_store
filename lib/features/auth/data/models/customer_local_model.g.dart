@@ -9,7 +9,7 @@ part of 'customer_local_model.dart';
 class CustomerResponseLocalModelAdapter
     extends TypeAdapter<CustomerResponseLocalModel> {
   @override
-  final typeId = 30;
+  final typeId = 10;
 
   @override
   CustomerResponseLocalModel read(BinaryReader reader) {
@@ -43,7 +43,7 @@ class CustomerResponseLocalModelAdapter
 
 class CustomerLocalModelAdapter extends TypeAdapter<CustomerLocalModel> {
   @override
-  final typeId = 31;
+  final typeId = 11;
 
   @override
   CustomerLocalModel read(BinaryReader reader) {

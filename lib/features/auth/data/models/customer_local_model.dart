@@ -2,7 +2,7 @@ import 'package:hive_ce_flutter/adapters.dart';
 
 part 'customer_local_model.g.dart';
 
-@HiveType(typeId: 30)
+@HiveType(typeId: 10)
 class CustomerResponseLocalModel extends HiveObject {
 
   @HiveField(0)
@@ -13,7 +13,7 @@ class CustomerResponseLocalModel extends HiveObject {
   });
 }
 
-@HiveType(typeId: 31)
+@HiveType(typeId: 11)
 class CustomerLocalModel extends HiveObject {
 
   @HiveField(0)
