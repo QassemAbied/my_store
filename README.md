@@ -1,6 +1,6 @@
 # 🛍️ My Store App
 
-Modern E-Commerce Flutter Application built with Clean Architecture, BLoC, and REST APIs.
+Modern E-Commerce Flutter Application built with Clean Architecture, BLoC, REST APIs, and Offline Local Storage.
 
 ---
 
@@ -21,6 +21,9 @@ Modern E-Commerce Flutter Application built with Clean Architecture, BLoC, and R
 ✅ Shimmer Loading
 ✅ Responsive UI
 ✅ Carousel Slider
+✅ Offline Support
+✅ Local Caching with Hive
+✅ Optimistic UI Updates
 ✅ Clean Architecture
 
 ---
@@ -33,6 +36,7 @@ The project follows:
 * Feature-Based Structure
 * BLoC State Management
 * Repository Pattern
+* Offline-First Approach
 
 ---
 
@@ -80,6 +84,9 @@ feature/
 │
 ├── data
 │   ├── data_source
+│   │   ├── remote_data_source
+│   │   └── local_data_source
+│   │
 │   ├── models
 │   └── repository_impl
 │
@@ -104,6 +111,14 @@ The project uses:
 flutter_bloc
 ```
 
+Architecture flow:
+
+```txt
+UI → Cubit → UseCase → Repository → Data Source
+```
+
+---
+
 # 🌐 Networking
 
 The app uses:
@@ -124,6 +139,56 @@ Includes:
 * rest_client.dart
 * api_constants.dart
 * api_result.dart
+* network_info.dart
+
+---
+
+# 💾 Offline Storage
+
+The project supports Offline-First Architecture using:
+
+```yaml
+hive_ce
+hive_ce_flutter
+```
+
+Features:
+
+✅ Local Caching
+✅ Offline Cart
+✅ Offline Addresses
+✅ Offline Orders
+✅ Cached Products
+✅ Cached Categories
+✅ Optimistic UI Updates
+✅ Server Sync Support
+
+---
+
+# 🔄 Offline & Sync Flow
+
+The app supports:
+
+```txt
+Remote First + Local Fallback
+```
+
+Flow:
+
+```txt
+Server Available:
+Remote → Cache Local → UI
+
+Server Offline:
+Local Cache → UI
+```
+
+Includes:
+
+* Local Data Sources
+* Hive Adapters
+* Repository Cache Handling
+* Offline Persistence
 
 ---
 
@@ -153,6 +218,7 @@ Features:
 ✅ Modern UI
 ✅ Image Caching
 ✅ Smooth Animations
+✅ Optimistic UI
 
 ---
 
@@ -167,19 +233,34 @@ dependencies:
   flutter_bloc: ^9.1.1
   equatable: ^2.0.5
   get_it: ^7.6.0
+
   dio: ^5.9.2
-  pretty_dio_logger: ^1.4.0
-  dartz: ^0.10.1
-  go_router: ^13.0.0
-  cached_network_image: ^3.3.0
-  shared_preferences: ^2.5.4
   retrofit: ^4.9.2
+  pretty_dio_logger: ^1.4.0
+
+  dartz: ^0.10.1
+
+  go_router: ^13.0.0
+
+  cached_network_image: ^3.3.0
+
+  shared_preferences: ^2.5.4
+
   json_annotation: ^4.11.0
+
+  hive_ce: ^2.13.0
+  hive_ce_flutter: ^2.3.1
+
   shimmer: ^3.0.0
+
   flutter_stripe: ^12.6.0
+
   confetti: ^0.8.0
+
   flutter_dotenv: ^5.0.2
+
   carousel_slider: ^5.1.2
+
   smooth_page_indicator: ^2.0.1
 ```
 
@@ -226,6 +307,7 @@ flutter run
 * Product Reviews
 * Search Suggestions
 * Advanced Filtering
+* Order Tracking Improvements
 
 ---
 
@@ -237,6 +319,8 @@ flutter run
 * Clean Architecture
 * Dio
 * Retrofit
+* Hive
+* Offline Storage
 * Stripe API
 * Shared Preferences
 * REST API
@@ -247,66 +331,76 @@ flutter run
 
 ## 🔐 Authentication
 
-| Register | Create Profile |
-|----------|----------------|
+| Register                                                 | Create Profile                                                 |
+| -------------------------------------------------------- | -------------------------------------------------------------- |
 | <img src="assets/screenshots/register.png" width="250"/> | <img src="assets/screenshots/profile_create.png" width="250"/> |
 
 ---
 
 ## 🏠 Home & Products
 
-| Home | Products |
-|------|----------|
+| Home                                                 | Products                                                 |
+| ---------------------------------------------------- | -------------------------------------------------------- |
 | <img src="assets/screenshots/home.png" width="250"/> | <img src="assets/screenshots/products.png" width="250"/> |
 
 ---
 
 ## 🔎 Search & Categories
 
-| Search | Categories |
-|---------|------------|
+| Search                                                 | Categories                                               |
+| ------------------------------------------------------ | -------------------------------------------------------- |
 | <img src="assets/screenshots/search.png" width="250"/> | <img src="assets/screenshots/category.png" width="250"/> |
 
 ---
 
 ## 📦 Product Details
 
-| Product Details |
-|-----------------|
+| Product Details                                                 |
+| --------------------------------------------------------------- |
 | <img src="assets/screenshots/product_details.png" width="250"/> |
 
 ---
 
 ## 🛒 Cart & Checkout
 
-| Cart | Addresses | Shipping |
-|------|------------|-----------|
+| Cart                                                 | Addresses                                               | Shipping                                                 |
+| ---------------------------------------------------- | ------------------------------------------------------- | -------------------------------------------------------- |
 | <img src="assets/screenshots/cart.png" width="250"/> | <img src="assets/screenshots/address.png" width="250"/> | <img src="assets/screenshots/shipping.png" width="250"/> |
 
-| Payment | Stripe |
-|----------|---------|
+| Payment                                                 | Stripe                                                 |
+| ------------------------------------------------------- | ------------------------------------------------------ |
 | <img src="assets/screenshots/payment.png" width="250"/> | <img src="assets/screenshots/stripe.png" width="250"/> |
 
 ---
 
 ## ✅ Orders
 
-| Order Success | Order Tracking |
-|---------------|----------------|
+| Order Success                                                 | Order Tracking                                                 |
+| ------------------------------------------------------------- | -------------------------------------------------------------- |
 | <img src="assets/screenshots/order_success.png" width="250"/> | <img src="assets/screenshots/order_tracking.png" width="250"/> |
 
-| My Orders |
-|------------|
+| My Orders                                              |
+| ------------------------------------------------------ |
 | <img src="assets/screenshots/orders.png" width="250"/> |
 
 ---
 
 ## ⚙️ Settings & Address
 
-| Settings | 
-|-----------|
-| <img src="assets/screenshots/settings.png" width="250"/> | 
+| Settings                                                 |
+| -------------------------------------------------------- |
+| <img src="assets/screenshots/settings.png" width="250"/> |
+
+---
+
+# 🎥 Demo Video
+
+Check out the full app demo on LinkedIn:
+
+[▶ Watch Demo Video](https://www.linkedin.com/posts/qassem-abied-14bb14233_flutter-dart-mobiledevelopment-ugcPost-7458859294504034304-MAef?utm_source=share&utm_medium=member_desktop&rcm=ACoAADpdIMsBtPN6QCl-iVM4mutff80uowntTto)
+
+---
 
 # 👨‍💻 Developer
 
-Built with ❤️ using Flutter.
+Built with ❤️ using Flutter & Clean Architecture.
