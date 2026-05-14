@@ -1,17 +1,18 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:my_store/core/network/dio_client.dart';
-import 'package:my_store/features/address/data/data_source/remote_data_source.dart';
+import 'package:my_store/core/network/network_info.dart';
+import 'package:my_store/features/address/data/data_source/remote_data_source/remote_data_source.dart';
 import 'package:my_store/features/address/domain/repository.dart';
 import 'package:my_store/features/address/presentation/controller/address_cubit.dart';
-import 'package:my_store/features/auth/data/data_source/auth_remote_data_source.dart';
-import 'package:my_store/features/auth/data/data_source/auth_remote_data_source_impl.dart';
+import 'package:my_store/features/auth/data/data_source/remote_data_source/auth_remote_data_source.dart';
+import 'package:my_store/features/auth/data/data_source/remote_data_source/auth_remote_data_source_impl.dart';
 import 'package:my_store/features/auth/domain/repository.dart';
 import 'package:my_store/features/auth/domain/usecases/get_profile_use_case.dart';
 import 'package:my_store/features/auth/domain/usecases/login_user_use_case.dart';
 import 'package:my_store/features/auth/domain/usecases/register_auth_use_case.dart';
 import 'package:my_store/features/auth/presentation/cubit/auth_cubit.dart';
-import 'package:my_store/features/cart/data/data_source/cart_remote_data_source.dart';
+import 'package:my_store/features/cart/data/data_source/remote_data_source/cart_remote_data_source.dart';
 import 'package:my_store/features/cart/domain/repository.dart';
 import 'package:my_store/features/cart/domain/usecases/add_cart_use_case.dart';
 import 'package:my_store/features/cart/domain/usecases/cart_item_use_case.dart';
@@ -19,17 +20,17 @@ import 'package:my_store/features/cart/domain/usecases/create_cart_use_case.dart
 import 'package:my_store/features/cart/domain/usecases/regions_use_case.dart';
 import 'package:my_store/features/cart/domain/usecases/update_cart_use_case.dart';
 import 'package:my_store/features/cart/presentation/cubit/cart_cubit.dart';
-import 'package:my_store/features/category/data/data_source/category_remote_data_source.dart';
+import 'package:my_store/features/category/data/data_source/remote_data_source/category_remote_data_source.dart';
 import 'package:my_store/features/category/domain/category_repositories.dart';
 import 'package:my_store/features/category/domain/usecases/get_category_use_case.dart';
 import 'package:my_store/features/category/presentation/controller/category_cubit.dart';
-import 'package:my_store/features/home/data/data_source/remote_data_source.dart';
-import 'package:my_store/features/home/data/data_source/remote_data_source_impl.dart';
+import 'package:my_store/features/home/data/data_source/remote_data_source/remote_data_source.dart';
+import 'package:my_store/features/home/data/data_source/remote_data_source/remote_data_source_impl.dart';
 import 'package:my_store/features/home/domain/repositories/home_repositories.dart';
 import 'package:my_store/features/home/domain/usecases/product_usecase.dart';
 import 'package:my_store/features/home/domain/usecases/search_use_case.dart';
 import 'package:my_store/features/home/presentation/cubit/home_cubit.dart';
-import 'package:my_store/features/orders/data/data_source/order_remote_data_source.dart';
+import 'package:my_store/features/orders/data/data_source/remoter_data_source/order_remote_data_source.dart';
 import 'package:my_store/features/orders/domain/repository.dart';
 import 'package:my_store/features/orders/domain/use_case/order_list_use_case.dart';
 import 'package:my_store/features/orders/presentation/controller/order_cubit.dart';
@@ -40,17 +41,29 @@ import 'package:my_store/features/search/controller/search_cubit.dart';
 import 'package:my_store/features/shipping/data/data_source/remote_data_source.dart';
 import 'core/network/rest_client.dart';
 import 'core/services/stripe_service.dart';
-import 'features/address/data/data_source/remote_data_source_impl.dart';
+import 'features/address/data/data_source/local_data_source/address_local_data_source.dart';
+import 'features/address/data/data_source/local_data_source/address_local_data_source_impl.dart';
+import 'features/address/data/data_source/remote_data_source/remote_data_source_impl.dart';
 import 'features/address/data/repository_impl.dart';
+import 'features/auth/data/data_source/local_data_source/auth_local_data_source.dart';
+import 'features/auth/data/data_source/local_data_source/auth_local_data_source_impl.dart';
 import 'features/auth/data/repository_impl.dart';
 import 'features/auth/domain/usecases/register_use_case.dart';
-import 'features/cart/data/data_source/cart_remote_data_source_impl.dart';
+import 'features/cart/data/data_source/local_data_source/cart_local_data_source.dart';
+import 'features/cart/data/data_source/local_data_source/cart_local_data_source_impl.dart';
+import 'features/cart/data/data_source/remote_data_source/cart_remote_data_source_impl.dart';
 import 'features/cart/data/repository_impl.dart';
 import 'features/address/domain/ues_case/add_address_use_case.dart';
 import 'features/category/data/category_repositories_impl.dart';
-import 'features/category/data/data_source/category_remote_data_source_imp.dart';
+import 'features/category/data/data_source/local_data_source/category_local_data_source.dart';
+import 'features/category/data/data_source/local_data_source/category_local_data_source_impl.dart';
+import 'features/category/data/data_source/remote_data_source/category_remote_data_source_imp.dart';
 import 'features/category/domain/usecases/get_product_by_category_use_case.dart';
-import 'features/orders/data/data_source/order_remote_data_source_impl.dart';
+import 'features/home/data/data_source/local_data_sourece/local_data_source.dart';
+import 'features/home/data/data_source/local_data_sourece/local_data_source_impl.dart';
+import 'features/orders/data/data_source/local_data_source/order_local_data_source.dart';
+import 'features/orders/data/data_source/local_data_source/order_local_data_source_impl.dart';
+import 'features/orders/data/data_source/remoter_data_source/order_remote_data_source_impl.dart';
 import 'features/orders/data/repository_imp.dart';
 import 'features/orders/domain/use_case/order_review_use_case.dart';
 import 'features/payment/data/data_source/remote_payment_data_source.dart';
@@ -82,17 +95,20 @@ final sl = GetIt.instance;
 Future<void> init() async {
   sl.registerLazySingleton<Dio>(() => DioClient.getDio());
   sl.registerLazySingleton<RestClient>(() => RestClient(sl()));
+  sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
 
   sl.registerLazySingleton<RemoteDataSource>(
     () => RemoteDataSourceImpl(restClient: sl()),
   );
-  sl.registerLazySingleton<HomeRepositories>(() => HomeRepositoriesImpl(sl()));
+  sl.registerLazySingleton<LocalDataSource>(() => LocalDataSourceImpl());
+  sl.registerLazySingleton<HomeRepositories>(
+    () => HomeRepositoriesImpl(sl(), sl(), sl()),
+  );
   sl.registerLazySingleton<ProductUseCase>(() => ProductUseCase(sl()));
   sl.registerLazySingleton<SearchUseCase>(() => SearchUseCase(sl()));
 
-  sl.registerFactory(() => HomeCubit(sl(), ));
-  sl.registerFactory(() => SearchCubit(sl(), ));
-
+  sl.registerFactory(() => HomeCubit(sl()));
+  sl.registerFactory(() => SearchCubit(sl()));
 
   sl.registerLazySingleton<ProductDetailsRemoteDataSource>(
     () => ProductDetailsRemoteDataSourceImpl(sl()),
@@ -108,7 +124,12 @@ Future<void> init() async {
   sl.registerLazySingleton<CartRemoteDataSource>(
     () => CartRemoteDataSourceImpl(sl()),
   );
-  sl.registerLazySingleton<CartRepository>(() => CartRepositoryImpl(sl()));
+  sl.registerLazySingleton<CartLocalDataSource>(
+    () => CartLocalDataSourceImpl(),
+  );
+  sl.registerLazySingleton<CartRepository>(
+    () => CartRepositoryImpl(sl(), sl()),
+  );
   sl.registerLazySingleton<CreateCartUseCase>(() => CreateCartUseCase(sl()));
   sl.registerLazySingleton<CartItemUseCase>(() => CartItemUseCase(sl()));
   sl.registerLazySingleton<RegionsUseCase>(() => RegionsUseCase(sl()));
@@ -116,13 +137,18 @@ Future<void> init() async {
   sl.registerLazySingleton<DeleteCartUseCase>(() => DeleteCartUseCase(sl()));
   sl.registerLazySingleton<UpdateCartUseCase>(() => UpdateCartUseCase(sl()));
 
-  sl.registerFactory(() => CartCubit(sl(), sl(), sl(), sl(), sl(), sl()));
+  sl.registerFactory(
+    () => CartCubit(sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl()),
+  );
 
   sl.registerLazySingleton<AuthRemoteDataSource>(
     () => AuthRemoteDataSourceImpl(sl()),
   );
+  sl.registerLazySingleton<AuthLocalDataSource>(
+    () => AuthLocalDataSourceImpl(),
+  );
   sl.registerLazySingleton<AuthRepository>(
-    () => AuthRepositoryImpl(remoteDataSource: sl()),
+    () => AuthRepositoryImpl(sl(), sl(), sl()),
   );
   sl.registerLazySingleton<RegisterAuthUseCase>(
     () => RegisterAuthUseCase(sl()),
@@ -136,8 +162,11 @@ Future<void> init() async {
   sl.registerLazySingleton<AddressRemoteDataSource>(
     () => AddressRemoteDataSourceImpl(sl()),
   );
+  sl.registerLazySingleton<AddressLocalDataSource>(
+    () => AddressLocalDataSourceImpl(),
+  );
   sl.registerLazySingleton<AddressRepository>(
-    () => AddressRepositoryImpl(sl()),
+    () => AddressRepositoryImpl(sl(), sl(), sl()),
   );
   sl.registerLazySingleton<GetAddressUseCase>(() => GetAddressUseCase(sl()));
   sl.registerLazySingleton<DeleteAddressUseCase>(
@@ -177,22 +206,28 @@ Future<void> init() async {
   sl.registerLazySingleton<OrderRemoteDataSource>(
     () => OrderRemoteDataSourceImpl(sl()),
   );
-  sl.registerLazySingleton<OrderRepository>(() => OrderRepositoryImpl(sl()));
+  sl.registerLazySingleton<OrderLocalDataSource>(
+    () => OrderLocalDataSourceImpl(),
+  );
+  sl.registerLazySingleton<OrderRepository>(
+    () => OrderRepositoryImpl(sl(), sl(), sl()),
+  );
   sl.registerLazySingleton<OrderReviewUseCase>(() => OrderReviewUseCase(sl()));
   sl.registerLazySingleton<OrderListUseCase>(() => OrderListUseCase(sl()));
 
   sl.registerFactory(() => OrderCubit(sl(), sl()));
 
-
-
   sl.registerLazySingleton<CategoryRemoteDataSource>(
-        () => CategoryRemoteDataSourceImpl(sl()),
+    () => CategoryRemoteDataSourceImpl(sl()),
+  );
+  sl.registerLazySingleton<CategoryLocalDataSource>(
+    () => CategoryLocalDataSourceImpl(),
   );
 
   sl.registerLazySingleton<CategoryRepositories>(
-        () => CategoryRepositoriesImpl(sl()),
+    () => CategoryRepositoriesImpl(sl(), sl(), sl()),
   );
   sl.registerLazySingleton(() => GetCategoryUseCase(sl()));
   sl.registerLazySingleton(() => GetProductsByCategoryUseCase(sl()));
-  sl.registerFactory(() => CategoryCubit(sl(),sl(),));
+  sl.registerFactory(() => CategoryCubit(sl(), sl()));
 }

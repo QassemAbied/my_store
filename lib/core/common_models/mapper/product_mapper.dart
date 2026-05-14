@@ -22,7 +22,8 @@ class ProductMapper {
   }
 
   static entity.ProductItemEntity productItemEntity(
-      model.ProductItemModels modelData) {
+      model.ProductItemModels modelData)
+  {
     return entity.ProductItemEntity(
       id: modelData.id,
       title: modelData.title,

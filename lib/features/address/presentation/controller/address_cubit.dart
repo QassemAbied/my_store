@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/network/use_case.dart';
 import '../../domain/entities/address_entities.dart';
@@ -36,24 +37,46 @@ class AddressCubit extends Cubit<AddressState> {
       },
       (data) {
         addresses = data;
-        selectedIndex=0;
+        selectedIndex = 0;
         emit(AddressSuccess(data));
       },
     );
   }
 
   Future<void> addAddress(CreateAddressParams params) async {
-    emit(AddAddressLoading());
+    addresses ??= AddressResponseEntity(addresses: []);
+    final tempAddress = AddressEntity(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+
+      firstName: params.firstName,
+
+      lastName: params.lastName,
+
+      phone: params.phone,
+
+      address1: params.address1,
+
+      address2: params.address2,
+
+      city: params.city,
+
+      countryCode: params.countryCode,
+    );
+
+    addresses?.addresses.insert(0, tempAddress);
+    emit(AddressSuccess(addresses!));
 
     final result = await _addAddressUseCase.call(params);
 
     result.result.fold(
       (error) {
-        emit(AddAddressError(error.message));
+        if (kDebugMode) {
+          print(error.message);
+        }
       },
-      (_) {
-        emit(AddAddressSuccess());
-        getAddresses();
+
+      (_) async {
+        // await getAddresses();
       },
     );
   }
@@ -61,6 +84,19 @@ class AddressCubit extends Cubit<AddressState> {
   Future<void> deleteAddress(String id) async {
     addresses?.addresses.removeWhere((e) => e.id == id);
     emit(AddressSuccess(addresses!));
-    await _deleteAddressUseCase.call(id);
+
+    final result = await _deleteAddressUseCase.call(id);
+
+    result.result.fold(
+      (error) {
+        if (kDebugMode) {
+          print(error.message);
+        }
+      },
+
+      (_) async {
+        // await getAddresses();
+      },
+    );
   }
 }

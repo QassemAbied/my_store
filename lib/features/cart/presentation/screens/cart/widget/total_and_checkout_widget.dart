@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_store/core/utils/routing/routers.dart';
 import 'package:my_store/core/utils/spacing.dart';
 import '../../../../../../core/theme/color_extension.dart';
 import '../../../../../../core/utils/app_text_style.dart';
 import '../../../../../../core/utils/extension.dart';
 import '../../../../domain/entities/cart_item.dart';
+import '../../../cubit/cart_cubit.dart';
 
 class TotalAndCheckoutWidget extends StatelessWidget {
   const TotalAndCheckoutWidget({super.key, required this.cartResponseEntity});
@@ -43,11 +45,21 @@ class TotalAndCheckoutWidget extends StatelessWidget {
 
           verticalSpace(12),
 
+
+
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
-                context.pushNamed(Routers.address);
+                context.read<CartCubit>().isOfflineMode?
+                    showDialog(context: context,
+                        builder: (context){
+                      return AlertDialog(
+                        title:  Text("Please Check Your Internet Connection",
+                          style: AppTextStyle.semiBold(fontSize: 16, color: context.textPrimary),) ,
+                      );
+                        })
+                :context.pushNamed(Routers.address);
               },
               child: const Text("Checkout"),
             ),

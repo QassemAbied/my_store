@@ -9,7 +9,7 @@ part of 'category_local_model.dart';
 class CategoryResponseLocalModelAdapter
     extends TypeAdapter<CategoryResponseLocalModel> {
   @override
-  final typeId = 10;
+  final typeId = 4;
 
   @override
   CategoryResponseLocalModel read(BinaryReader reader) {
@@ -43,7 +43,7 @@ class CategoryResponseLocalModelAdapter
 
 class CategoryLocalModelAdapter extends TypeAdapter<CategoryLocalModel> {
   @override
-  final typeId = 11;
+  final typeId = 5;
 
   @override
   CategoryLocalModel read(BinaryReader reader) {

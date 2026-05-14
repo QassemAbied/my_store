@@ -1,7 +1,7 @@
-import 'package:my_store/features/address/data/data_source/remote_data_source.dart';
-import '../../../../core/network/rest_client.dart';
-import '../models/address_model.dart';
-import '../../domain/entities/address_request.dart';
+import 'package:my_store/features/address/data/data_source/remote_data_source/remote_data_source.dart';
+import '../../../../../core/network/rest_client.dart';
+import '../../models/address_model.dart';
+import '../../../domain/entities/address_request.dart';
 
 class AddressRemoteDataSourceImpl implements AddressRemoteDataSource{
   final RestClient _restClient;

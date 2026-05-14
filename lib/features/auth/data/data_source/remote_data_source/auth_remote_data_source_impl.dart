@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 import 'package:my_store/core/services/shared_pref.dart';
-import 'package:my_store/features/auth/data/data_source/auth_remote_data_source.dart';
+import 'package:my_store/features/auth/data/data_source/remote_data_source/auth_remote_data_source.dart';
 import 'package:my_store/features/auth/data/models/auth_model.dart';
 import 'package:my_store/features/auth/data/models/customer_model.dart';
 import 'package:my_store/features/auth/domain/entities/requests.dart';
 
-import '../../../../core/network/rest_client.dart';
-import '../../../../core/utils/constants.dart';
+import '../../../../../core/network/rest_client.dart';
+import '../../../../../core/utils/constants.dart';
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource{
   final RestClient _restClient;

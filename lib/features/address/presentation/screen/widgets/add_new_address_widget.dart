@@ -6,7 +6,6 @@ import 'package:my_store/core/theme/app_colors.dart';
 import 'package:my_store/core/theme/color_extension.dart';
 import 'package:my_store/core/utils/extension.dart';
 import 'package:my_store/core/utils/spacing.dart';
-import 'package:my_store/features/address/presentation/screen/widgets/add_address_listener.dart';
 import '../../../../../core/utils/app_text_style.dart';
 import '../../../domain/entities/address_request.dart';
 import '../../controller/address_cubit.dart';
@@ -54,8 +53,7 @@ Future<void> showAddAddressSheet(BuildContext context) async {
     builder: (_) {
       return BlocProvider.value(
         value: cubit,
-        child: AddAddressListener(
-          child: DraggableScrollableSheet(
+        child: DraggableScrollableSheet(
             initialChildSize: 0.8,
             maxChildSize: 0.9,
             expand: false,
@@ -128,6 +126,7 @@ Future<void> showAddAddressSheet(BuildContext context) async {
                                 ),
                               );
                             }
+                            context.pop();
                           },
                           text: "Save Address",
                         ),
@@ -139,7 +138,7 @@ Future<void> showAddAddressSheet(BuildContext context) async {
               );
             },
           ),
-        ),
+
       );
     },
   );

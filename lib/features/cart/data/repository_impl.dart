@@ -1,20 +1,26 @@
 import 'dart:convert';
 import 'package:my_store/core/services/shared_pref.dart';
+import 'package:my_store/features/cart/data/data_source/local_data_source/cart_local_data_source.dart';
 import 'package:my_store/features/cart/domain/entities/cart_item.dart';
 import 'package:my_store/features/cart/domain/entities/params.dart';
+import 'package:my_store/features/cart/domain/mappers/cart_local_mapper.dart';
 import 'package:my_store/features/payment/domain/entities/payment_provider_entities.dart';
 import 'package:my_store/features/cart/domain/repository.dart';
 import '../../../core/error/error_handler.dart';
 import '../../../core/network/api_result.dart';
 import '../domain/mappers/cart_item_mapper.dart';
 import '../../payment/domain/mappers/payment_provider_mapper.dart';
-import 'data_source/cart_remote_data_source.dart';
+import 'data_source/remote_data_source/cart_remote_data_source.dart';
 import 'models/cart_id_model.dart';
 import 'models/regions_model.dart';
 
 class CartRepositoryImpl implements CartRepository {
   final CartRemoteDataSource _cartRemoteDataSource;
-  CartRepositoryImpl(this._cartRemoteDataSource);
+  final CartLocalDataSource _localDataSource;
+  CartRepositoryImpl(
+      this._cartRemoteDataSource,
+      this._localDataSource,
+      );
   @override
   Future<ApiResult<String>> getRegions() async {
     try {
@@ -45,20 +51,53 @@ class CartRepositoryImpl implements CartRepository {
       return ApiResult.failure(ErrorHandler.handle(e));
     }
   }
-
   @override
-  Future<ApiResult<CartResponseEntity>> getCartItems(String id) async {
+  Future<ApiResult<CartResponseEntity>>
+  getCartItems(String id) async {
     try {
-      final res = await _cartRemoteDataSource.getCartItems(id);
-      final cartResponseEntity = CartMapper.toResponseEntity(res);
-      return ApiResult.success(cartResponseEntity);
+      final cachedCart =
+      await _localDataSource
+          .getCartItemsLocal(id);
+      final localEntity =
+      CartLocalMapper
+          .toLocalEntity(cachedCart);
+      return ApiResult.success(localEntity);
+
+    } catch (_) {}
+
+    try {
+
+      final res =
+      await _cartRemoteDataSource
+          .getCartItems(id);
+
+      final cartResponseEntity =
+      CartMapper.toResponseEntity(res);
+
+      final cartEntityLocal =
+      CartLocalMapper
+          .toLocalModel(res);
+
+      await _localDataSource
+          .cacheCartItemsLocal(
+        cartEntityLocal,
+        id,
+      );
+
+      return ApiResult.success(
+          cartResponseEntity);
+
     } catch (e) {
-      return ApiResult.failure(ErrorHandler.handle(e));
+
+      return ApiResult.failure(
+        ErrorHandler.handle(e),
+      );
     }
   }
 
   @override
   Future<ApiResult<void>> addToCart(AddCartRequest request) async {
+
     try {
       final res = await _cartRemoteDataSource.addToCart(request);
       return ApiResult.success(res);
