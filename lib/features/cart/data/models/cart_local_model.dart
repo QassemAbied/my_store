@@ -2,7 +2,7 @@ import 'package:hive_ce_flutter/adapters.dart';
 
 part 'cart_local_model.g.dart';
 
-@HiveType(typeId: 20)
+@HiveType(typeId: 6)
 class CartResponseLocalModel extends HiveObject {
 
   @HiveField(0)
@@ -13,7 +13,7 @@ class CartResponseLocalModel extends HiveObject {
   });
 }
 
-@HiveType(typeId: 21)
+@HiveType(typeId: 7)
 class CartLocalModel extends HiveObject {
 
   @HiveField(0)
@@ -60,7 +60,7 @@ class CartLocalModel extends HiveObject {
   });
 }
 
-@HiveType(typeId: 22)
+@HiveType(typeId: 8)
 class CartItemLocalModel extends HiveObject {
 
   @HiveField(0)
@@ -95,7 +95,7 @@ class CartItemLocalModel extends HiveObject {
   });
 }
 
-@HiveType(typeId: 23)
+@HiveType(typeId: 9)
 class AddressLocalModel extends HiveObject {
 
   @HiveField(0)

@@ -9,7 +9,7 @@ part of 'cart_local_model.dart';
 class CartResponseLocalModelAdapter
     extends TypeAdapter<CartResponseLocalModel> {
   @override
-  final typeId = 20;
+  final typeId = 6;
 
   @override
   CartResponseLocalModel read(BinaryReader reader) {
@@ -41,7 +41,7 @@ class CartResponseLocalModelAdapter
 
 class CartLocalModelAdapter extends TypeAdapter<CartLocalModel> {
   @override
-  final typeId = 21;
+  final typeId = 7;
 
   @override
   CartLocalModel read(BinaryReader reader) {
@@ -102,7 +102,7 @@ class CartLocalModelAdapter extends TypeAdapter<CartLocalModel> {
 
 class CartItemLocalModelAdapter extends TypeAdapter<CartItemLocalModel> {
   @override
-  final typeId = 22;
+  final typeId = 8;
 
   @override
   CartItemLocalModel read(BinaryReader reader) {
@@ -154,7 +154,7 @@ class CartItemLocalModelAdapter extends TypeAdapter<CartItemLocalModel> {
 
 class AddressLocalModelAdapter extends TypeAdapter<AddressLocalModel> {
   @override
-  final typeId = 23;
+  final typeId = 9;
 
   @override
   AddressLocalModel read(BinaryReader reader) {
