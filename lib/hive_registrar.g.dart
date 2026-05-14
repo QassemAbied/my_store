@@ -4,13 +4,18 @@
 
 import 'package:hive_ce/hive_ce.dart';
 import 'package:my_store/core/common_models/models/product_response_local_model.dart';
+import 'package:my_store/features/address/data/models/address_local_model.dart';
 import 'package:my_store/features/auth/data/models/customer_local_model.dart';
 import 'package:my_store/features/cart/data/models/cart_local_model.dart';
 import 'package:my_store/features/category/data/models/category_local_model.dart';
+import 'package:my_store/features/orders/data/models/order_list_local_mode.dart';
+import 'package:my_store/features/orders/data/models/order_review_local_model.dart';
 
 extension HiveRegistrar on HiveInterface {
   void registerAdapters() {
+    registerAdapter(AddressItemLocalModelAdapter());
     registerAdapter(AddressLocalModelAdapter());
+    registerAdapter(AddressResponseLocalModelAdapter());
     registerAdapter(CalculatedPriceModelAdapter());
     registerAdapter(CartItemLocalModelAdapter());
     registerAdapter(CartLocalModelAdapter());
@@ -18,16 +23,26 @@ extension HiveRegistrar on HiveInterface {
     registerAdapter(CategoryLocalModelAdapter());
     registerAdapter(CategoryResponseLocalModelAdapter());
     registerAdapter(CustomerLocalModelAdapter());
+    registerAdapter(CustomerOrderLocalModelAdapter());
     registerAdapter(CustomerResponseLocalModelAdapter());
+    registerAdapter(OrderItemLocalModelAdapter());
+    registerAdapter(OrderLocalModelAdapter());
+    registerAdapter(OrderReviewItemLocalModelAdapter());
+    registerAdapter(OrderReviewLocalModelAdapter());
+    registerAdapter(OrderReviewResponseLocalModelAdapter());
+    registerAdapter(OrdersResponseLocalModelAdapter());
     registerAdapter(ProductItemModelsAdapter());
     registerAdapter(ProductResponseLocalModelAdapter());
+    registerAdapter(ShippingAddressLocalModelAdapter());
     registerAdapter(VariantModelAdapter());
   }
 }
 
 extension IsolatedHiveRegistrar on IsolatedHiveInterface {
   void registerAdapters() {
+    registerAdapter(AddressItemLocalModelAdapter());
     registerAdapter(AddressLocalModelAdapter());
+    registerAdapter(AddressResponseLocalModelAdapter());
     registerAdapter(CalculatedPriceModelAdapter());
     registerAdapter(CartItemLocalModelAdapter());
     registerAdapter(CartLocalModelAdapter());
@@ -35,9 +50,17 @@ extension IsolatedHiveRegistrar on IsolatedHiveInterface {
     registerAdapter(CategoryLocalModelAdapter());
     registerAdapter(CategoryResponseLocalModelAdapter());
     registerAdapter(CustomerLocalModelAdapter());
+    registerAdapter(CustomerOrderLocalModelAdapter());
     registerAdapter(CustomerResponseLocalModelAdapter());
+    registerAdapter(OrderItemLocalModelAdapter());
+    registerAdapter(OrderLocalModelAdapter());
+    registerAdapter(OrderReviewItemLocalModelAdapter());
+    registerAdapter(OrderReviewLocalModelAdapter());
+    registerAdapter(OrderReviewResponseLocalModelAdapter());
+    registerAdapter(OrdersResponseLocalModelAdapter());
     registerAdapter(ProductItemModelsAdapter());
     registerAdapter(ProductResponseLocalModelAdapter());
+    registerAdapter(ShippingAddressLocalModelAdapter());
     registerAdapter(VariantModelAdapter());
   }
 }
