@@ -8,5 +8,8 @@ class AppConstants {
   static const String productLocalKey='productes';
   static const String cartLocalKey='cart';
   static const String profileLocalKey='profile';
+  static const String addressLocalKey='addresses';
+  static const String orderLocalKey='order';
+  static const String orderReviewLocalKey='orderReview';
 
 }
