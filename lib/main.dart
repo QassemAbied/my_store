@@ -12,6 +12,7 @@ import 'my_app.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await OpenBoxesHive.hiveRegister();
   Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await init();
