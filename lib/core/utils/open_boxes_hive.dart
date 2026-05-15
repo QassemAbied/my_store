@@ -45,5 +45,9 @@ class OpenBoxesHive {
     await Hive.openBox<OrdersResponseLocalModel>(AppConstants.orderLocalKey);
 
 
+    await Hive.openBox<List>(
+      AppConstants.deleteAddressLocalKey,
+    );
+
   }
 }
