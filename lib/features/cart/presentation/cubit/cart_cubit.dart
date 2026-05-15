@@ -102,7 +102,8 @@ class CartCubit extends Cubit<CartState> {
     required String variantId,
     required int quantity,
     required CartItemEntity cartItem,
-  }) async {
+  })
+  async {
     regionId ??= SharedPrefHelper.getString(key: 'region');
     await ensureCartId();
     if (cartId == null) return;
@@ -176,7 +177,8 @@ class CartCubit extends Cubit<CartState> {
   Future<void> updateCart({
     required String lineId,
     required int quantity,
-  }) async {
+  })
+  async {
     if (items == null) return;
 
     final item = items!.cart.items.firstWhere((e) => e.id == lineId);
