@@ -11,5 +11,6 @@ class AppConstants {
   static const String addressLocalKey='addresses';
   static const String orderLocalKey='order';
   static const String orderReviewLocalKey='orderReview';
+  static const String deleteAddressLocalKey='deleted_addresses';
 
 }
