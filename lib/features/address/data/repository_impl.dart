@@ -1,4 +1,6 @@
+import 'package:hive_ce_flutter/adapters.dart';
 import 'package:my_store/core/network/network_info.dart';
+import 'package:my_store/core/utils/constants.dart';
 import 'package:my_store/features/address/data/data_source/local_data_source/address_local_data_source.dart';
 import 'package:my_store/features/address/domain/mapper/address_local_mapper.dart';
 
@@ -20,6 +22,7 @@ class AddressRepositoryImpl implements AddressRepository {
     this._localDataSource,
     this._networkInfo,
   );
+  final deletedBox = Hive.box<List>(AppConstants.deleteAddressLocalKey);
   @override
   Future<ApiResult<void>> addAddress(CreateAddressParams body) async {
     try {
@@ -78,8 +81,14 @@ class AddressRepositoryImpl implements AddressRepository {
 
       await _localDataSource.cacheAddresses(localModel);
 
-      if (await _networkInfo.isServerAlive && addressId.startsWith("addr_")) {
+      if (await _networkInfo.isServerAlive) {
         await _addressRemoteDataSource.deleteAddress(addressId);
+      } else {
+        final ids = deletedBox.get('ids', defaultValue: []);
+
+        ids?.add(addressId);
+
+        await deletedBox.put('ids', ids!);
       }
 
       return ApiResult.success(null);
@@ -92,10 +101,16 @@ class AddressRepositoryImpl implements AddressRepository {
   Future<ApiResult<AddressResponseEntity>> getAddresses() async {
     if (await _networkInfo.isServerAlive) {
       try {
-        final res = await _addressRemoteDataSource.getAddresses();
-        final serverEntity = res.toEntity();
 
+        final ids = deletedBox.get('ids', defaultValue: []);
+
+        for (final id in ids!) {
+          await _addressRemoteDataSource.deleteAddress(id);
+        }
+
+        await deletedBox.put('ids', []);
         AddressResponseEntity localEntity;
+
         try {
           final localCached = await _localDataSource.getAddressesLocal();
           localEntity = AddressLocalMapper.toLocalEntity(localCached);
@@ -103,29 +118,48 @@ class AddressRepositoryImpl implements AddressRepository {
           localEntity = AddressResponseEntity(addresses: []);
         }
 
-        final merged = [...localEntity.addresses, ...serverEntity.addresses];
-        final unique = merged.fold<List<AddressEntity>>([], (list, item) {
-          final exists = list.any(
+        var res = await _addressRemoteDataSource.getAddresses();
+
+        var serverEntity = res.toEntity();
+
+        for (final address in localEntity.addresses) {
+          final exists = serverEntity.addresses.any(
             (e) =>
-                e.address1 == item.address1 &&
-                e.city == item.city &&
-                e.phone == item.phone,
+                e.address1 == address.address1 &&
+                e.city == address.city &&
+                e.phone == address.phone,
           );
 
           if (!exists) {
-            list.add(item);
+            await _addressRemoteDataSource.addAddress(
+              CreateAddressParams(
+                firstName: address.firstName ?? '',
+
+                lastName: address.lastName ?? '',
+
+                phone: address.phone,
+
+                address1: address.address1,
+
+                address2: address.address2,
+
+                city: address.city,
+
+                countryCode: address.countryCode,
+              ),
+            );
           }
+        }
 
-          return list;
-        });
+        res = await _addressRemoteDataSource.getAddresses();
 
-        final finalEntity = AddressResponseEntity(addresses: unique);
+        serverEntity = res.toEntity();
 
-        final localModel = AddressLocalMapper.toLocalEntityModel(finalEntity);
+        final localModel = AddressLocalMapper.toLocalEntityModel(serverEntity);
 
         await _localDataSource.cacheAddresses(localModel);
 
-        return ApiResult.success(finalEntity);
+        return ApiResult.success(serverEntity);
       } catch (e) {
         try {
           final addressCached = await _localDataSource.getAddressesLocal();
