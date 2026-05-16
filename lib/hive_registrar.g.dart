@@ -5,6 +5,8 @@
 import 'package:hive_ce/hive_ce.dart';
 import 'package:my_store/core/common_models/models/product_response_local_model.dart';
 import 'package:my_store/features/address/data/models/address_local_model.dart';
+import 'package:my_store/features/ai/data/model/ai_message_local_entity.dart';
+import 'package:my_store/features/ai/data/model/conversation_local_model.dart';
 import 'package:my_store/features/auth/data/models/customer_local_model.dart';
 import 'package:my_store/features/cart/data/models/cart_local_model.dart';
 import 'package:my_store/features/category/data/models/category_local_model.dart';
@@ -16,12 +18,14 @@ extension HiveRegistrar on HiveInterface {
     registerAdapter(AddressItemLocalModelAdapter());
     registerAdapter(AddressLocalModelAdapter());
     registerAdapter(AddressResponseLocalModelAdapter());
+    registerAdapter(AiMessageLocalModelAdapter());
     registerAdapter(CalculatedPriceModelAdapter());
     registerAdapter(CartItemLocalModelAdapter());
     registerAdapter(CartLocalModelAdapter());
     registerAdapter(CartResponseLocalModelAdapter());
     registerAdapter(CategoryLocalModelAdapter());
     registerAdapter(CategoryResponseLocalModelAdapter());
+    registerAdapter(ConversationLocalModelAdapter());
     registerAdapter(CustomerLocalModelAdapter());
     registerAdapter(CustomerOrderLocalModelAdapter());
     registerAdapter(CustomerResponseLocalModelAdapter());
@@ -43,12 +47,14 @@ extension IsolatedHiveRegistrar on IsolatedHiveInterface {
     registerAdapter(AddressItemLocalModelAdapter());
     registerAdapter(AddressLocalModelAdapter());
     registerAdapter(AddressResponseLocalModelAdapter());
+    registerAdapter(AiMessageLocalModelAdapter());
     registerAdapter(CalculatedPriceModelAdapter());
     registerAdapter(CartItemLocalModelAdapter());
     registerAdapter(CartLocalModelAdapter());
     registerAdapter(CartResponseLocalModelAdapter());
     registerAdapter(CategoryLocalModelAdapter());
     registerAdapter(CategoryResponseLocalModelAdapter());
+    registerAdapter(ConversationLocalModelAdapter());
     registerAdapter(CustomerLocalModelAdapter());
     registerAdapter(CustomerOrderLocalModelAdapter());
     registerAdapter(CustomerResponseLocalModelAdapter());

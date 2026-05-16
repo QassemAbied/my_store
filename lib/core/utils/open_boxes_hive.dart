@@ -1,6 +1,8 @@
 import 'package:hive_ce_flutter/adapters.dart';
 
 import '../../features/address/data/models/address_local_model.dart';
+import '../../features/ai/data/model/ai_message_local_entity.dart';
+import '../../features/ai/data/model/conversation_local_model.dart';
 import '../../features/auth/data/models/customer_local_model.dart';
 import '../../features/cart/data/models/cart_local_model.dart';
 import '../../features/category/data/models/category_local_model.dart';
@@ -47,6 +49,17 @@ class OpenBoxesHive {
 
     await Hive.openBox<List>(
       AppConstants.deleteAddressLocalKey,
+    );
+    Hive.registerAdapter(
+      AiMessageLocalModelAdapter(),
+    );
+
+    Hive.registerAdapter(
+      ConversationLocalModelAdapter(),
+    );
+
+    await Hive.openBox(
+      AppConstants.conversationsLocalKey,
     );
 
   }
