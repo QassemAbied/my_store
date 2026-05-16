@@ -12,5 +12,6 @@ class AppConstants {
   static const String orderLocalKey='order';
   static const String orderReviewLocalKey='orderReview';
   static const String deleteAddressLocalKey='deleted_addresses';
-
+  //static const String askAiLocalKey='askAi';
+  static const String conversationsLocalKey='conversations_box';
 }
