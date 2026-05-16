@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../theme/color_extension.dart';
 
 class CommonWidget {
+ static final ScrollController scrollController = ScrollController();
   static Widget selectedItem(bool selected, BuildContext context) {
     return Icon(
       selected ? Icons.check_box : Icons.check_box_outline_blank,
@@ -67,5 +68,13 @@ class CommonWidget {
       default:
         return status;
     }
+  }
+
+  static void scrollToBottom() {
+    Future.delayed(const Duration(milliseconds: 300), () {
+      if (scrollController.hasClients) {
+        scrollController.jumpTo(scrollController.position.maxScrollExtent);
+      }
+    });
   }
 }
