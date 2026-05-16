@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_store/features/ai/presentation/controller/ai_cubit.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/theme_controller/theme_cubit.dart';
 import 'core/theme/theme_controller/theme_state.dart';
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => ThemeCubit()..init()),
         BlocProvider(create: (context) => sl<HomeCubit>()..getProduct()),
         BlocProvider(create: (context) => sl<AuthCubit>()..getProfile()),
+        BlocProvider(create: (context) => sl<AiCubit>()),
         BlocProvider(
           create: (context) => sl<CategoryCubit>()..getCategories(context),
         ),
