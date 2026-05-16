@@ -4,6 +4,7 @@ import 'package:my_store/core/utils/routing/routers.dart';
 import '../../../features/address/presentation/controller/address_cubit.dart';
 import '../../../features/address/presentation/screen/address_screen.dart';
 import '../../../features/address/presentation/screen/address_settings/address_setting_screen.dart';
+import '../../../features/ai/presentation/screen/ai_screen.dart';
 import '../../../features/auth/presentation/screens/create_user_profile/create_user_profile_screen.dart';
 import '../../../features/auth/presentation/screens/login/login_screen.dart';
 import '../../../features/auth/presentation/screens/profile/profile_screen.dart';
@@ -40,7 +41,12 @@ class AppRoute {
             builder: (_) => const CreateUserProfileScreen(),
           );
         }
-
+      case Routers.ai:
+        {
+          return MaterialPageRoute(
+            builder: (_) => const AiScreen(),
+          );
+        }
       case Routers.bottomNav:
         {
           return MaterialPageRoute(
