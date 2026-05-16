@@ -5,6 +5,10 @@ import 'package:my_store/core/network/network_info.dart';
 import 'package:my_store/features/address/data/data_source/remote_data_source/remote_data_source.dart';
 import 'package:my_store/features/address/domain/repository.dart';
 import 'package:my_store/features/address/presentation/controller/address_cubit.dart';
+import 'package:my_store/features/ai/data/data_source/remote_data_source/remote_data_source.dart';
+import 'package:my_store/features/ai/domain/repository.dart';
+import 'package:my_store/features/ai/domain/use_case/ask_ai_usecase.dart';
+import 'package:my_store/features/ai/presentation/controller/ai_cubit.dart';
 import 'package:my_store/features/auth/data/data_source/remote_data_source/auth_remote_data_source.dart';
 import 'package:my_store/features/auth/data/data_source/remote_data_source/auth_remote_data_source_impl.dart';
 import 'package:my_store/features/auth/domain/repository.dart';
@@ -40,11 +44,20 @@ import 'package:my_store/features/products/presentation/cubit/product_details_cu
 import 'package:my_store/features/search/controller/search_cubit.dart';
 import 'package:my_store/features/shipping/data/data_source/remote_data_source.dart';
 import 'core/network/rest_client.dart';
+import 'core/services/open_ai_service.dart';
 import 'core/services/stripe_service.dart';
 import 'features/address/data/data_source/local_data_source/address_local_data_source.dart';
 import 'features/address/data/data_source/local_data_source/address_local_data_source_impl.dart';
 import 'features/address/data/data_source/remote_data_source/remote_data_source_impl.dart';
 import 'features/address/data/repository_impl.dart';
+import 'features/ai/data/data_source/local_data_source/local_data_source.dart';
+import 'features/ai/data/data_source/local_data_source/local_data_source_impl.dart';
+import 'features/ai/data/data_source/remote_data_source/remote_data_source_impl.dart';
+import 'features/ai/data/repository_impl.dart';
+import 'features/ai/domain/use_case/ask_vision_ai_use_case.dart';
+import 'features/ai/domain/use_case/delete_conversation_use_case.dart';
+import 'features/ai/domain/use_case/get_conversations_use_case.dart';
+import 'features/ai/domain/use_case/save_conversation_use_case.dart';
 import 'features/auth/data/data_source/local_data_source/auth_local_data_source.dart';
 import 'features/auth/data/data_source/local_data_source/auth_local_data_source_impl.dart';
 import 'features/auth/data/repository_impl.dart';
@@ -230,4 +243,28 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetCategoryUseCase(sl()));
   sl.registerLazySingleton(() => GetProductsByCategoryUseCase(sl()));
   sl.registerFactory(() => CategoryCubit(sl(), sl()));
+
+  sl.registerLazySingleton<AiService>(() => AiService());
+  sl.registerLazySingleton<AiRemoteDataSource>(
+    () => AiRemoteDataSourceImpl(sl()),
+  );
+  sl.registerLazySingleton<AiLocalDataSource>(() => AiLocalDataSourceImpl());
+
+  sl.registerLazySingleton<AiRepository>(() => AiRepositoryImpl(sl(), sl()));
+  sl.registerLazySingleton<AskAiUseCase>(() => AskAiUseCase(sl()));
+  sl.registerLazySingleton<DeleteConversationUseCase>(
+        () => DeleteConversationUseCase(sl()),
+  );
+  sl.registerLazySingleton<SaveConversationUseCase>(
+        () => SaveConversationUseCase(sl()),
+  );
+  sl.registerLazySingleton<GetConversationsUseCase>(
+        () => GetConversationsUseCase(sl()),
+  );
+  sl.registerLazySingleton<AskVisionAiUseCase>(
+        () => AskVisionAiUseCase(sl()),
+  );
+
+
+  sl.registerFactory(() => AiCubit(sl(), sl(), sl(), sl(), sl()));
 }
