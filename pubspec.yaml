@@ -61,6 +61,8 @@ dependencies:
   image_picker: ^1.2.2
   mime: ^2.0.0
   path_provider: ^2.1.5
+  flutter_highlight: ^0.7.0
+  highlight: ^0.7.0
 
 dev_dependencies:
   flutter_test:
