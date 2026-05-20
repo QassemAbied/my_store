@@ -20,7 +20,7 @@ class CartListWidget extends StatelessWidget {
 
           return GestureDetector(
             onTap: () {
-              context.pushNamed(Routers.productDetails, arguments: item.productId);
+              context.pushNamed(Routers.productDetails, arguments: item);
             },
             child: CartItemWidget(
                 key: ValueKey(item.id),
