@@ -29,14 +29,13 @@ class _SearchBodyState extends State<SearchBody> {
 
   void _onSearchChanged(String value) {
     if (_debounce?.isActive ?? false) _debounce!.cancel();
-    _debounce = Timer(const Duration(milliseconds: 400), () {
+    _debounce = Timer(const Duration(seconds: 5), () {
       final cubit = context.read<SearchCubit>();
       cubit.search(query: value);
     });
   }
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<SearchCubit>();
     return Column(
       children: [
         Padding(
