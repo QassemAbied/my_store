@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:my_store/core/common_widgets/widgets.dart';
 
 import '../../../../../core/theme/color_extension.dart';
 import '../../../../../core/utils/app_text_style.dart';
 import '../../controller/ai_cubit.dart';
+import 'code_element_builder_widget.dart';
 
 class ListItemChatWidget extends StatelessWidget {
   const ListItemChatWidget({super.key});
@@ -72,44 +74,53 @@ class ListItemChatWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
 
                 children: [
-                  if (message.message.trim().isNotEmpty)
-                    MarkdownBody(
-                      data: message.message,
+                  if (message.message.isEmpty && message.imagePath == null)
+                    LoadingAnimationWidget.staggeredDotsWave(
+                      color: context.primaryColor,
 
-                      selectable: true,
+                      size: 36,
+                    )
+                  else ...[
+                    if (message.message.trim().isNotEmpty)
+                      MarkdownBody(
+                        data: message.message,
 
-                      styleSheet: MarkdownStyleSheet(
-                        p: AppTextStyle.medium(
-                          fontSize: 16,
+                        builders: {'code': CodeElementBuilder()},
 
-                          color: message.isUser
-                              ? context.onPrimaryColor
-                              : context.textPrimary,
+                        selectable: true,
+
+                        styleSheet: MarkdownStyleSheet(
+                          p: AppTextStyle.medium(
+                            fontSize: 16,
+
+                            color: message.isUser
+                                ? context.onPrimaryColor
+                                : context.textPrimary,
+                          ),
                         ),
                       ),
-                    ),
 
-                  if (message.imagePath != null)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10),
+                    if (message.imagePath != null)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
 
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(18),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(18),
 
-                        child: Image.file(
-                          File(message.imagePath!),
+                          child: Image.file(
+                            File(message.imagePath!),
 
-                          height: 220,
+                            height: 220,
 
-                          width: 220,
+                            width: 220,
 
-                          fit: BoxFit.cover,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
-                    ),
+                  ],
                 ],
               ),
-
             ),
           ),
         ).animate().fadeIn(duration: 300.ms).slideY(begin: 0.2, end: 0);
