@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_store/core/utils/routing/routers.dart';
+import 'package:my_store/features/products/presentation/cubit/recommenation_cubit.dart';
 import '../../../features/address/presentation/controller/address_cubit.dart';
 import '../../../features/address/presentation/screen/address_screen.dart';
 import '../../../features/address/presentation/screen/address_settings/address_setting_screen.dart';
@@ -43,9 +44,7 @@ class AppRoute {
         }
       case Routers.ai:
         {
-          return MaterialPageRoute(
-            builder: (_) => const AiScreen(),
-          );
+          return MaterialPageRoute(builder: (_) => const AiScreen());
         }
       case Routers.bottomNav:
         {
@@ -106,12 +105,27 @@ class AppRoute {
         }
       case Routers.productDetails:
         {
-          final prodId = settings.arguments as String;
+          final args = settings.arguments as Map<String, dynamic>;
+          final prodId = args["productId"];
+          final prodTitle = args["productTitle"];
+          final prodDes = args["productDes"];
           return MaterialPageRoute(
-            builder: (_) => BlocProvider(
-              create: (context) =>
-                  sl<ProductDetailsCubit>()..getProductDetails(prodId),
-              child: ProductDetailsScreen(productId: prodId),
+            builder: (_) => MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: (context) => sl<ProductDetailsCubit>()
+                    ..getProductDetails(prodId),
+                ),
+                BlocProvider(
+                  create: (context) => sl<RecommendationCubit>()
+                    ..recommendedProducts(prodTitle, prodDes),
+                ),
+              ],
+              child: ProductDetailsScreen(
+                productId: prodId,
+                productTitle: prodTitle,
+                productDes: prodDes,
+              ),
             ),
           );
         }
