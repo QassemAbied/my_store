@@ -179,6 +179,30 @@ class _TextFiledChatWidgetState extends State<TextFiledChatWidget> {
                   ),
 
                   child: IconButton(
+                    // onPressed: () async {
+                    //   if (controller.text.trim().isEmpty &&
+                    //       selectedImage == null) {
+                    //     return;
+                    //   }
+                    //
+                    //
+                    //   final text = controller.text;
+                    //   if (selectedImage != null) {
+                    //
+                    //     await context.read<AiCubit>().askVisionAi(
+                    //       text: text,
+                    //       image: selectedImage!,
+                    //     );
+                    //
+                    //   } else {
+                    //     await context.read<AiCubit>().askAi(text);
+                    //   }
+                    //   controller.clear();
+                    //   selectedImage == null;
+                    //   selectedImage?.path.isEmpty;
+                    //   CommonWidget.scrollToBottom();
+                    //   setState(() {});
+                    // },
                     onPressed: () async {
                       if (controller.text.trim().isEmpty &&
                           selectedImage == null) {
@@ -187,19 +211,24 @@ class _TextFiledChatWidgetState extends State<TextFiledChatWidget> {
 
                       final text = controller.text;
 
-                      if (selectedImage != null) {
+                      final image = selectedImage;
+
+                      controller.clear();
+
+                      selectedImage = null;
+
+                      setState(() {});
+
+                      CommonWidget.scrollToBottom();
+
+                      if (image != null) {
                         await context.read<AiCubit>().askVisionAi(
                           text: text,
-                          image: selectedImage!,
+                          image: image,
                         );
                       } else {
                         await context.read<AiCubit>().askAi(text);
                       }
-                      controller.clear();
-                      selectedImage == null;
-                      selectedImage?.path.isEmpty;
-                      CommonWidget.scrollToBottom();
-                      setState(() {});
                     },
 
                     icon: Icon(Icons.send, color: context.onPrimaryColor),
