@@ -9,8 +9,10 @@ import '../cubit/product_details_state.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
   final String productId;
+  final String productTitle;
+  final String productDes;
 
-  const ProductDetailsScreen({super.key, required this.productId});
+  const ProductDetailsScreen({super.key, required this.productId, required this.productTitle, required this.productDes});
 
   @override
   Widget build(BuildContext context) {
