@@ -47,7 +47,11 @@ class ModernProductCard extends StatelessWidget {
       ),
       child: GestureDetector(
         onTap: () {
-          context.pushNamed(Routers.productDetails, arguments: product.id);
+          context.pushNamed(Routers.productDetails, arguments: {
+            "productId": product.id,
+            "productTitle": product.title,
+            "productDes": product.description,
+          });
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
