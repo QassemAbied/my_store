@@ -1,30 +1,42 @@
 # 🛍️ My Store App
 
-Modern E-Commerce Flutter Application built with Clean Architecture, BLoC, REST APIs, and Offline Local Storage.
+Modern AI-Powered E-Commerce Flutter Application built with Clean Architecture, BLoC, REST APIs, Offline Storage, and AI Features.
 
 ---
 
 # 📱 Features
 
-✅ Authentication
-✅ Products Listing
-✅ Categories
-✅ Product Details
-✅ Shopping Cart
-✅ Favorites
-✅ Orders
-✅ Address Management
-✅ Payment Integration (Stripe)
-✅ Search
-✅ Dark / Light Theme
-✅ Pagination
-✅ Shimmer Loading
-✅ Responsive UI
-✅ Carousel Slider
-✅ Offline Support
-✅ Local Caching with Hive
-✅ Optimistic UI Updates
-✅ Clean Architecture
+✅ Authentication  
+✅ Products Listing  
+✅ Categories  
+✅ Product Details  
+✅ Shopping Cart  
+✅ Favorites  
+✅ Orders  
+✅ Address Management  
+✅ Payment Integration (Stripe)  
+✅ Search  
+✅ Dark / Light Theme  
+✅ Pagination  
+✅ Shimmer Loading  
+✅ Responsive UI  
+✅ Carousel Slider  
+✅ Offline Support  
+✅ Local Caching with Hive  
+✅ Optimistic UI Updates  
+✅ Clean Architecture  
+
+---
+
+# 🤖 AI Features
+
+✅ AI Smart Chat  
+✅ AI Vision Chat (Image + Text Understanding)  
+✅ AI Product Recommendations  
+✅ AI Smart Product Search  
+✅ Real-Time Streaming AI Responses  
+✅ Markdown Rendering  
+✅ Syntax Highlighted AI Messages  
 
 ---
 
@@ -35,8 +47,11 @@ The project follows:
 * Clean Architecture
 * Feature-Based Structure
 * BLoC State Management
+* SOLID Principles
 * Repository Pattern
-* Offline-First Approach
+* Dependency Injection (GetIt)
+* Offline-First Architecture
+* Scalable & Maintainable Codebase
 
 ---
 
@@ -56,6 +71,7 @@ lib
 │
 ├── features
 │   ├── address
+│   ├── ai
 │   ├── auth
 │   ├── bottom_nav_bar
 │   ├── cart
@@ -71,7 +87,7 @@ lib
 │
 ├── injection_container.dart
 └── main.dart
-```
+````
 
 ---
 
@@ -210,6 +226,8 @@ Packages used:
 * carousel_slider
 * smooth_page_indicator
 * cached_network_image
+* flutter_markdown_plus
+* syntax_highlight
 
 Features:
 
@@ -219,6 +237,30 @@ Features:
 ✅ Image Caching
 ✅ Smooth Animations
 ✅ Optimistic UI
+✅ Markdown Rendering
+✅ Syntax Highlighting
+
+---
+
+# 🤖 AI System
+
+The application integrates AI-powered features using OpenAI APIs.
+
+Includes:
+
+* AI Smart Chat
+* AI Vision Chat
+* AI Search
+* AI Product Recommendations
+* Streaming AI Responses
+
+AI Features Support:
+
+✅ Real-Time Streaming
+✅ Image + Text Understanding
+✅ Markdown Responses
+✅ Syntax Highlighted Code Blocks
+✅ AI Recommendation Engine
 
 ---
 
@@ -262,6 +304,10 @@ dependencies:
   carousel_slider: ^5.1.2
 
   smooth_page_indicator: ^2.0.1
+
+  flutter_markdown_plus: ^1.0.7
+
+  syntax_highlight: ^0.5.0
 ```
 
 ---
@@ -308,6 +354,7 @@ flutter run
 * Search Suggestions
 * Advanced Filtering
 * Order Tracking Improvements
+* Voice AI Assistant
 
 ---
 
@@ -323,7 +370,9 @@ flutter run
 * Offline Storage
 * Stripe API
 * Shared Preferences
-* REST API
+* OpenAI API
+* Markdown Rendering
+* Syntax Highlighting
 
 ---
 
@@ -350,6 +399,18 @@ flutter run
 | Search                                                 | Categories                                               |
 | ------------------------------------------------------ | -------------------------------------------------------- |
 | <img src="assets/screenshots/search.png" width="250"/> | <img src="assets/screenshots/category.png" width="250"/> |
+
+---
+
+## 🤖 AI Features
+
+| AI Chat                                                 | AI Vision                                                 |
+| ------------------------------------------------------- | --------------------------------------------------------- |
+| <img src="assets/screenshots/ai_chat.png" width="250"/> | <img src="assets/screenshots/ai_vision.png" width="250"/> |
+
+| AI Search                                                 | AI Recommendation                                                 |
+| --------------------------------------------------------- | ----------------------------------------------------------------- |
+| <img src="assets/screenshots/ai_search.png" width="250"/> | <img src="assets/screenshots/ai_recommendation.png" width="250"/> |
 
 ---
 
@@ -385,7 +446,7 @@ flutter run
 
 ---
 
-## ⚙️ Settings & Address
+## ⚙️ Settings
 
 | Settings                                                 |
 | -------------------------------------------------------- |
@@ -397,10 +458,12 @@ flutter run
 
 Check out the full app demo on LinkedIn:
 
-[▶ Watch Demo Video](https://www.linkedin.com/posts/qassem-abied-14bb14233_flutter-dart-mobiledevelopment-ugcPost-7458859294504034304-MAef?utm_source=share&utm_medium=member_desktop&rcm=ACoAADpdIMsBtPN6QCl-iVM4mutff80uowntTto)
+[▶ Watch Demo Video](https://www.linkedin.com/posts/qassem-abied-14bb14233_flutter-dart-mobiledevelopment-ugcPost-7458859294504034304-MAef)
 
 ---
 
 # 👨‍💻 Developer
 
-Built with ❤️ using Flutter & Clean Architecture.
+Built with ❤️ using Flutter, AI, and Clean Architecture.
+
+
