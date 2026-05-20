@@ -8,12 +8,14 @@ import '../../domain/usecases/get_products_details.dart';
 class ProductDetailsCubit extends Cubit<ProductDetailsState> {
   final GetProductsDetailsUseCase getProductsDetailsUseCase;
 
-  ProductDetailsCubit(this.getProductsDetailsUseCase)
+
+  ProductDetailsCubit(this.getProductsDetailsUseCase,)
     : super(ProductDetailsInitial());
 
   String? selectedSize;
   String? selectedColor;
   ProductVariantEntities? selectedVariant;
+
   void selectSize(String size, ProductDetailsEntities product) {
     selectedSize = size;
     _updateVariant(product);
@@ -44,13 +46,7 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
       } catch (_) {
         selectedVariant = null;
       }
-    }
-
-
-
-
-
-    else {
+    } else {
       if (selectedSize == null) {
         selectedVariant = null;
         emit(ProductDetailsSuccess(product));
@@ -68,6 +64,7 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
 
     emit(ProductDetailsSuccess(product));
   }
+
   void initSelectedVariant(ProductDetailsEntities product, CartCubit cart) {
     final cartItems = cart.items?.cart.items ?? [];
 
@@ -86,6 +83,7 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
       }
     }
   }
+
   Future<void> getProductDetails(String id) async {
     emit(ProductDetailsLoading());
     final result = await getProductsDetailsUseCase.call(
@@ -96,7 +94,12 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
     );
     result.result.fold(
       (failure) => emit(ProductDetailsFailure(failure.message)),
-      (data) => emit(ProductDetailsSuccess(data)),
+      (data) {
+        emit(ProductDetailsSuccess(data));
+      },
     );
   }
+
+
+
 }

@@ -1,5 +1,6 @@
 import 'package:my_store/features/products/domain/entities/product_details_entities.dart';
 
+
 class ProductDetailsState {}
 
 final class ProductDetailsInitial extends ProductDetailsState {}
@@ -17,3 +18,5 @@ final class ProductDetailsFailure extends ProductDetailsState {
 
   ProductDetailsFailure(this.message);
 }
+
+
