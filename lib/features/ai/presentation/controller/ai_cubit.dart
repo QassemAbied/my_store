@@ -38,7 +38,8 @@ class AiCubit extends Cubit<AiState> {
       bool added = false;
       await for (final chunk in askAiUseCase(text)) {
         if (!added) {
-          messages.add(AiMessageEntity(message: "", isUser: false));
+          messages.add(AiMessageEntity(message: "Thinking...", isUser: false));
+          emit(AiSuccess(List.from(messages)));
 
           added = true;
         }
@@ -98,9 +99,8 @@ class AiCubit extends Cubit<AiState> {
         image: image,
       )) {
         if (!added) {
-          messages.add(
-            AiMessageEntity(message: "", isUser: false, imagePath: image.path),
-          );
+          messages.add(AiMessageEntity(message: "Thinking...", isUser: false));
+          emit(AiSuccess(List.from(messages)));
           added = true;
         }
         for (final char in chunk.split("")) {
@@ -108,7 +108,6 @@ class AiCubit extends Cubit<AiState> {
           messages[messages.length - 1] = AiMessageEntity(
             message: "$temp▋",
             isUser: false,
-            imagePath: image.path,
           );
           emit(AiSuccess(List.from(messages)));
 
@@ -119,7 +118,6 @@ class AiCubit extends Cubit<AiState> {
         messages[messages.length - 1] = AiMessageEntity(
           message: temp,
           isUser: false,
-          imagePath: image.path,
         );
         emit(AiSuccess(List.from(messages)));
         await saveConversationUseCase(
