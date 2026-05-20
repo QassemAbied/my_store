@@ -41,6 +41,7 @@ import 'package:my_store/features/orders/presentation/controller/order_cubit.dar
 import 'package:my_store/features/products/domain/repository.dart';
 import 'package:my_store/features/products/domain/usecases/get_products_details.dart';
 import 'package:my_store/features/products/presentation/cubit/product_details_cubit.dart';
+import 'package:my_store/features/products/presentation/cubit/recommenation_cubit.dart';
 import 'package:my_store/features/search/controller/search_cubit.dart';
 import 'package:my_store/features/shipping/data/data_source/remote_data_source.dart';
 import 'core/network/rest_client.dart';
@@ -121,7 +122,7 @@ Future<void> init() async {
   sl.registerLazySingleton<SearchUseCase>(() => SearchUseCase(sl()));
 
   sl.registerFactory(() => HomeCubit(sl()));
-  sl.registerFactory(() => SearchCubit(sl()));
+  sl.registerFactory(() => SearchCubit(sl(), sl()));
 
   sl.registerLazySingleton<ProductDetailsRemoteDataSource>(
     () => ProductDetailsRemoteDataSourceImpl(sl()),
@@ -132,7 +133,8 @@ Future<void> init() async {
   sl.registerLazySingleton<GetProductsDetailsUseCase>(
     () => GetProductsDetailsUseCase(sl()),
   );
-  sl.registerFactory(() => ProductDetailsCubit(sl()));
+  sl.registerFactory(() => ProductDetailsCubit(sl(), ));
+  sl.registerFactory(() => RecommendationCubit(sl(),sl() ));
 
   sl.registerLazySingleton<CartRemoteDataSource>(
     () => CartRemoteDataSourceImpl(sl()),
