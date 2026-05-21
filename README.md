@@ -462,13 +462,13 @@ flutter run
 
 Check out the full app demo on LinkedIn:
 
-[▶ Watch Demo Video](https://www.linkedin.com/posts/qassem-abied-14bb14233_flutter-dart-mobiledevelopment-ugcPost-7458859294504034304-MAef)
+https://www.linkedin.com/posts/qassem-abied-14bb14233_flutter-dart-mobiledevelopment-ugcPost-7458859294504034304-MAef
 
----
+
 
 # 👨‍💻 Developer
 
 Built with ❤️ using Flutter, AI, and Clean Architecture.
-```
+
 
 
