@@ -469,5 +469,6 @@ Check out the full app demo on LinkedIn:
 # 👨‍💻 Developer
 
 Built with ❤️ using Flutter, AI, and Clean Architecture.
+```
 
 
