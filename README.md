@@ -375,84 +375,88 @@ flutter run
 * Syntax Highlighting
 
 ---
-
 # 📸 App Screens
 
 ## 🔐 Authentication
 
-| Register                                                 | Create Profile                                                 |
-| -------------------------------------------------------- | -------------------------------------------------------------- |
+| Register | Create Profile |
+|----------|----------------|
 | <img src="assets/screenshots/register.png" width="250"/> | <img src="assets/screenshots/profile_create.png" width="250"/> |
 
 ---
 
 ## 🏠 Home & Products
 
-| Home                                                 | Products                                                 |
-| ---------------------------------------------------- | -------------------------------------------------------- |
+| Home | Products |
+|------|----------|
 | <img src="assets/screenshots/home.png" width="250"/> | <img src="assets/screenshots/products.png" width="250"/> |
+
+| Product Details |
+|-----------------|
+| <img src="assets/screenshots/product_details.png" width="250"/> |
 
 ---
 
 ## 🔎 Search & Categories
 
-| Search                                                 | Categories                                               |
-| ------------------------------------------------------ | -------------------------------------------------------- |
+| Search | Categories |
+|--------|------------|
 | <img src="assets/screenshots/search.png" width="250"/> | <img src="assets/screenshots/category.png" width="250"/> |
 
 ---
 
 ## 🤖 AI Features
 
-| AI Chat                                                 | AI Vision                                                 |
-| ------------------------------------------------------- | --------------------------------------------------------- |
-| <img src="assets/screenshots/ai_chat.png" width="250"/> | <img src="assets/screenshots/ai_vision.png" width="250"/> |
+| AI Chat | AI Collection |
+|---------|---------------|
+| <img src="assets/screenshots/ai_chat.png" width="250"/> | <img src="assets/screenshots/ai_collection.png" width="250"/> |
 
-| AI Search                                                 | AI Recommendation                                                 |
-| --------------------------------------------------------- | ----------------------------------------------------------------- |
-| <img src="assets/screenshots/ai_search.png" width="250"/> | <img src="assets/screenshots/ai_recommendation.png" width="250"/> |
+| AI Screen | AI Recommendation |
+|------------|------------------|
+| <img src="assets/screenshots/ai.png" width="250"/> | <img src="assets/screenshots/ai_recommandtion.png" width="250"/> |
 
----
-
-## 📦 Product Details
-
-| Product Details                                                 |
-| --------------------------------------------------------------- |
-| <img src="assets/screenshots/product_details.png" width="250"/> |
+| Product Details + AI |
+|----------------------|
+| <img src="assets/screenshots/details_ai.png" width="250"/> |
 
 ---
 
 ## 🛒 Cart & Checkout
 
-| Cart                                                 | Addresses                                               | Shipping                                                 |
-| ---------------------------------------------------- | ------------------------------------------------------- | -------------------------------------------------------- |
-| <img src="assets/screenshots/cart.png" width="250"/> | <img src="assets/screenshots/address.png" width="250"/> | <img src="assets/screenshots/shipping.png" width="250"/> |
+| Cart | Address |
+|------|----------|
+| <img src="assets/screenshots/cart.png" width="250"/> | <img src="assets/screenshots/address.png" width="250"/> |
 
-| Payment                                                 | Stripe                                                 |
-| ------------------------------------------------------- | ------------------------------------------------------ |
-| <img src="assets/screenshots/payment.png" width="250"/> | <img src="assets/screenshots/stripe.png" width="250"/> |
+| Shipping | Payment |
+|-----------|----------|
+| <img src="assets/screenshots/shipping.png" width="250"/> | <img src="assets/screenshots/payment.png" width="250"/> |
+
+| Stripe |
+|---------|
+| <img src="assets/screenshots/stripe.png" width="250"/> |
 
 ---
 
-## ✅ Orders
+## 📦 Orders
 
-| Order Success                                                 | Order Tracking                                                 |
-| ------------------------------------------------------------- | -------------------------------------------------------------- |
-| <img src="assets/screenshots/order_success.png" width="250"/> | <img src="assets/screenshots/order_tracking.png" width="250"/> |
+| Orders | Order Success |
+|--------|----------------|
+| <img src="assets/screenshots/orders.png" width="250"/> | <img src="assets/screenshots/order_success.png" width="250"/> |
 
-| My Orders                                              |
-| ------------------------------------------------------ |
-| <img src="assets/screenshots/orders.png" width="250"/> |
+| Order Tracking |
+|----------------|
+| <img src="assets/screenshots/order_tracking.png" width="250"/> |
 
 ---
 
 ## ⚙️ Settings
 
-| Settings                                                 |
-| -------------------------------------------------------- |
+| Settings |
+|-----------|
 | <img src="assets/screenshots/settings.png" width="250"/> |
+```
 
----
+
 
 # 🎥 Demo Video
 

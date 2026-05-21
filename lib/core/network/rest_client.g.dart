@@ -12,7 +12,7 @@ part of 'rest_client.dart';
 
 class _RestClient implements RestClient {
   _RestClient(this._dio, {this.baseUrl, this.errorLogger}) {
-    baseUrl ??= 'http://10.0.2.2:9000';
+    baseUrl ??= 'http://192.168.1.3:9000';
   }
 
   final Dio _dio;
